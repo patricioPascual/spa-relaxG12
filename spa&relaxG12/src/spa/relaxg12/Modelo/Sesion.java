@@ -4,9 +4,8 @@
  */
 package spa.relaxg12.Modelo;
 
-
 import java.time.LocalDateTime;
-import java.util.ArrayList;
+
 import java.util.List;
 
 /**
@@ -16,9 +15,9 @@ import java.util.List;
 public class Sesion {
 
     private int idSesion;
-    private int idMasajista;
-    private int idConsultorio;
-    private Tratamiento tratamiento;
+    private Profesional profesional;
+    private Consultorio consultorio;
+    private List<Tratamiento> tratamientos;
     private List<Instalacion> instalacion;
     private LocalDateTime fechaHoraInicio;
     private LocalDateTime fechaHoraFin;
@@ -27,10 +26,12 @@ public class Sesion {
     public Sesion() {
     }
 
-    public Sesion(int idSesion, int idMasajista, int idConsultorio, LocalDateTime fechaHoraInicio, LocalDateTime fechaHoraFin, boolean estado) {
+    public Sesion(int idSesion, Profesional profesional, Consultorio consultorio, List<Tratamiento> tratamientos, List<Instalacion> instalacion, LocalDateTime fechaHoraInicio, LocalDateTime fechaHoraFin, boolean estado) {
         this.idSesion = idSesion;
-        this.idMasajista = idMasajista;
-        this.idConsultorio = idConsultorio;
+        this.profesional = profesional;
+        this.consultorio = consultorio;
+        this.tratamientos = tratamientos;
+        this.instalacion = instalacion;
         this.fechaHoraInicio = fechaHoraInicio;
         this.fechaHoraFin = fechaHoraFin;
         this.estado = estado;
@@ -44,28 +45,28 @@ public class Sesion {
         this.idSesion = idSesion;
     }
 
-    public int getIdMasajista() {
-        return idMasajista;
+    public Profesional getProfesional() {
+        return profesional;
     }
 
-    public void setIdMasajista(int idMasajista) {
-        this.idMasajista = idMasajista;
+    public void setProfesional(Profesional profesional) {
+        this.profesional = profesional;
     }
 
-    public int getIdConsultorio() {
-        return idConsultorio;
+    public Consultorio getConsultorio() {
+        return consultorio;
     }
 
-    public void setIdConsultorio(int idConsultorio) {
-        this.idConsultorio = idConsultorio;
+    public void setConsultorio(Consultorio consultorio) {
+        this.consultorio = consultorio;
     }
 
-    public Tratamiento getTratamiento() {
-        return tratamiento;
+    public List<Tratamiento> getTratamientos() {
+        return tratamientos;
     }
 
-    public void setTratamiento(Tratamiento tratamiento) {
-        this.tratamiento = tratamiento;
+    public void setTratamientos(List<Tratamiento> tratamientos) {
+        this.tratamientos = tratamientos;
     }
 
     public List<Instalacion> getInstalacion() {
@@ -75,7 +76,6 @@ public class Sesion {
     public void setInstalacion(List<Instalacion> instalacion) {
         this.instalacion = instalacion;
     }
-    
 
     public LocalDateTime getFechaHoraInicio() {
         return fechaHoraInicio;
@@ -103,7 +103,7 @@ public class Sesion {
 
     @Override
     public String toString() {
-        return "Sesion{" + "idSesion=" + idSesion + ", idMasajista=" + idMasajista + ", idConsultorio=" + idConsultorio + ", fechaHoraInicio=" + fechaHoraInicio + ", fechaHoraFin=" + fechaHoraFin + ", estado=" + estado + '}';
+        return "Sesion{" + "idSesion=" + idSesion + ", profesional=" + profesional + ", consultorio=" + consultorio + ", tratamientos=" + tratamientos + ", instalacion=" + instalacion + ", fechaHoraInicio=" + fechaHoraInicio + ", fechaHoraFin=" + fechaHoraFin + ", estado=" + estado + '}';
     }
 
 }

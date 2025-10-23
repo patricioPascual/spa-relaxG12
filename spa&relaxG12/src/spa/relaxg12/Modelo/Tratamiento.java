@@ -16,7 +16,7 @@ public class Tratamiento {
     private String nombre;
     private String especialidad;
     private String detalle;
-    private List<Producto> producto;
+    private List<Producto> productos;
     private Integer duracion;
     private Double costo;
     private boolean activo;
@@ -24,11 +24,12 @@ public class Tratamiento {
     public Tratamiento() {
     }
 
-    public Tratamiento(int idTratamiento, String nombre, String especialidad, String detalle, Integer duracion, Double costo, boolean activo) {
+    public Tratamiento(int idTratamiento, String nombre, String especialidad, String detalle, List<Producto> productos, Integer duracion, Double costo, boolean activo) {
         this.idTratamiento = idTratamiento;
         this.nombre = nombre;
         this.especialidad = especialidad;
         this.detalle = detalle;
+        this.productos = productos;
         this.duracion = duracion;
         this.costo = costo;
         this.activo = activo;
@@ -66,6 +67,14 @@ public class Tratamiento {
         this.detalle = detalle;
     }
 
+    public List<Producto> getProductos() {
+        return productos;
+    }
+
+    public void setProductos(List<Producto> productos) {
+        this.productos = productos;
+    }
+
     public Integer getDuracion() {
         return duracion;
     }
@@ -94,6 +103,5 @@ public class Tratamiento {
     public String toString() {
         return "Tratamiento{" + "idTratamiento=" + idTratamiento + ", nombre=" + nombre + ", especialidad=" + especialidad + ", detalle=" + detalle + ", duracion=" + duracion + ", costo=" + costo + ", activo=" + activo + '}';
     }
-    
-    
+
 }
