@@ -28,7 +28,7 @@ public class ClienteData {
     }
 
     public void crearCliente(Cliente cliente) {
-        String query = "INSERT INTO clientes (dni,nombre,apellido,edad,telefono,afecciones,estado) VALUES (?,?,?,?,?,?,?) ";
+        String query = "INSERT INTO cliente (dni,nombre,apellido,edad,telefono,afecciones,estado) VALUES (?,?,?,?,?,?,?) ";
         try {
             PreparedStatement ps = con.prepareStatement(query);
             ps.setInt(1, cliente.getDni());
@@ -40,18 +40,18 @@ public class ClienteData {
             ps.setBoolean(7, true);
             int exito = ps.executeUpdate();
             if (exito == 1) {
-                JOptionPane.showMessageDialog(null, "Alumno agregado con exito");
+                JOptionPane.showMessageDialog(null, "Cliente agregado con exito");
             }
 
             ps.close();
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Error al guardar Alumno");
+            JOptionPane.showMessageDialog(null, "Error al guardar Cliente");
         }
 
     }
 
     public void modificarCliente(Cliente c) {
-        String query = "UPDATE clientes SET  dni=?,nombre=?,apellido=?,edad=?,telefono=?,afecciones=?  WHERE dni=?  ";
+        String query = "UPDATE cliente SET  dni=?,nombre=?,apellido=?,edad=?,telefono=?,afecciones=?  WHERE dni=?  ";
         try {
             PreparedStatement ps = con.prepareStatement(query);
             ps.setInt(1, c.getDni());
@@ -74,7 +74,7 @@ public class ClienteData {
     public Cliente buscarClienteDni(int dni) {
         Cliente cliente = null;
         try {
-            String sql = "SELECT * FROM clientes WHERE dni=?";
+            String sql = "SELECT * FROM cliente WHERE dni=?";
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setInt(1, dni);
             ResultSet rs = ps.executeQuery();
@@ -110,7 +110,7 @@ public class ClienteData {
     public void darBajaCliente(int dni) {
 
         try {
-            String sql = "UPDATE  clientes SET  estado = 0 WHERE dni = ?";
+            String sql = "UPDATE  cliente SET  estado = 0 WHERE dni = ?";
 
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setInt(1, dni);
@@ -126,7 +126,7 @@ public class ClienteData {
     public void darAltaCliente(int dni) {
 
         try {
-            String sql = "UPDATE  clientes SET  estado = 1 WHERE dni = ?";
+            String sql = "UPDATE  cliente SET  estado = 1 WHERE dni = ?";
 
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setInt(1, dni);
@@ -142,7 +142,7 @@ public class ClienteData {
     public ArrayList listarClientes() {
         ArrayList<Cliente> listado = new ArrayList();
         try {
-            String query = "SELECT * FROM clientes";
+            String query = "SELECT * FROM cliente";
             PreparedStatement ps = con.prepareStatement(query);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {

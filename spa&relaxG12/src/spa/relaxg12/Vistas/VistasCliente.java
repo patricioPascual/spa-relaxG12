@@ -5,6 +5,7 @@
 package spa.relaxg12.Vistas;
 
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import spa.relaxg12.Modelo.Cliente;
 import spa.relaxg12.Persistencia.ClienteData;
@@ -224,13 +225,14 @@ public class VistasCliente extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addComponent(jLabel5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnBuscar)
-                    .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel7)
-                    .addComponent(btnActualizar))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnActualizar, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel1)
+                        .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnBuscar)
+                        .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel7)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(16, 16, 16)
@@ -313,7 +315,7 @@ public class VistasCliente extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnSalirActionPerformed
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
-
+       try{
         int dni = Integer.parseInt(txtDni.getText());
         String nombre = txtNombre.getText();
         String apellido = txtApellido.getText();
@@ -323,7 +325,9 @@ public class VistasCliente extends javax.swing.JInternalFrame {
         Cliente cliente = new Cliente(dni, nombre, apellido, edad, telefono, afecciones, true);
 
         clienteData.crearCliente(cliente);
-
+       }catch(NumberFormatException e){
+           JOptionPane.showMessageDialog(this, "Debe llenar los campos");
+       }
     }//GEN-LAST:event_btnAgregarActionPerformed
 
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
@@ -331,29 +335,23 @@ public class VistasCliente extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnActualizarActionPerformed
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-        Cliente cliente = null;
+       
         int dniNum = Integer.parseInt(txtBuscar.getText());
         for (int i = 0; i < tblClientes.getRowCount(); i++) {
             String dni = txtBuscar.getText();
             String valorDni = tblClientes.getValueAt(i, 0).toString();
             if (valorDni.equalsIgnoreCase(dni)) {
-                tblClientes.setRowSelectionInterval(i, i); // Selecciona la fila
-                tblClientes.scrollRectToVisible(tblClientes.getCellRect(i, 0, true)); // Hace scroll hasta ella
+                tblClientes.setRowSelectionInterval(i, i); 
+                tblClientes.scrollRectToVisible(tblClientes.getCellRect(i, 0, true)); 
                 return;
             }
 
-            cliente = clienteData.buscarClienteDni(dniNum);
-            txtDni.setText(String.valueOf(cliente.getDni()));
-            txtNombre.setText(cliente.getNombre());
-            txtApellido.setText(cliente.getApellido());
-            txtEdad.setText(String.valueOf(cliente.getEdad()));
-            txtTelefono.setText(String.valueOf(cliente.getTelefono()));
-            txtAfecciones.setText(cliente.getAfecciones());
         }
     }//GEN-LAST:event_btnBuscarActionPerformed
 
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
+       try{
         int dni = Integer.parseInt(txtDni.getText());
         String nombre = txtNombre.getText();
         String apellido = txtApellido.getText();
@@ -361,8 +359,12 @@ public class VistasCliente extends javax.swing.JInternalFrame {
         long telefono = Long.parseLong(txtTelefono.getText());
         String afecciones = txtAfecciones.getText();
         Cliente cliente = new Cliente(dni, nombre, apellido, edad, telefono, afecciones, true);
-
+        
         clienteData.modificarCliente(cliente);
+       }catch(NumberFormatException e){
+           JOptionPane.showMessageDialog(this, "Debe Cargar un Cliente o seleccionarlo de la tabla");
+       }
+        
     }//GEN-LAST:event_btnModificarActionPerformed
 
     private void btnAltaBajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAltaBajaActionPerformed
@@ -372,11 +374,13 @@ public class VistasCliente extends javax.swing.JInternalFrame {
             int dni = (Integer) modelo.getValueAt(fila, 0);
             cliente = clienteData.buscarClienteDni(dni);
             boolean estado = cliente.isEstado();
-            if (estado = true) {
+            if (estado == true) {
                 clienteData.darBajaCliente(dni);
             } else {
                 clienteData.darAltaCliente(dni);
             }
+        }else{
+            JOptionPane.showMessageDialog(this, "Debe seleccionar un cliente de la tabla");
         }
     }//GEN-LAST:event_btnAltaBajaActionPerformed
 
