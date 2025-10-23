@@ -4,6 +4,8 @@
  */
 package spa.relaxg12.Modelo;
 
+import java.util.List;
+
 /**
  *
  * @author Luza
@@ -14,6 +16,7 @@ public class Tratamiento {
     private String nombre;
     private String especialidad;
     private String detalle;
+    private List<Producto> producto;
     private Integer duracion;
     private Double costo;
     private boolean activo;

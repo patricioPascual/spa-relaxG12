@@ -8,17 +8,17 @@ package spa.relaxg12.Modelo;
  *
  * @author Luza
  */
-public class Instalaciones {
+public class Instalacion {
     private int idInstalacion;
     private String nombre;
     private String detalleUso;
     private Double precioPor30min;
     private boolean estado;
 
-    public Instalaciones() {
+    public Instalacion() {
     }
 
-    public Instalaciones(int idInstalacion, String nombre, String detalleUso, Double precioPor30min, boolean estado) {
+    public Instalacion(int idInstalacion, String nombre, String detalleUso, Double precioPor30min, boolean estado) {
         this.idInstalacion = idInstalacion;
         this.nombre = nombre;
         this.detalleUso = detalleUso;

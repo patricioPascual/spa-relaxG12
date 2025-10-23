@@ -19,7 +19,7 @@ public class Sesion {
     private int idMasajista;
     private int idConsultorio;
     private Tratamiento tratamiento;
-    private List<Instalaciones> instalacion;
+    private List<Instalacion> instalacion;
     private LocalDateTime fechaHoraInicio;
     private LocalDateTime fechaHoraFin;
     private boolean estado;
@@ -68,11 +68,11 @@ public class Sesion {
         this.tratamiento = tratamiento;
     }
 
-    public List<Instalaciones> getInstalacion() {
+    public List<Instalacion> getInstalacion() {
         return instalacion;
     }
 
-    public void setInstalacion(List<Instalaciones> instalacion) {
+    public void setInstalacion(List<Instalacion> instalacion) {
         this.instalacion = instalacion;
     }
     

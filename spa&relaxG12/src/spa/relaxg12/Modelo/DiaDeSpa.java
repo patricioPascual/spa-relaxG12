@@ -5,6 +5,7 @@
 package spa.relaxg12.Modelo;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  *
@@ -12,9 +13,10 @@ import java.time.LocalDateTime;
  */
 public class DiaDeSpa {
   private int idDiaDeSpa;
-  private int idCliente;  
-  private LocalDateTime fechaHoraCreacion;  
-  private String preferencias;  
+  private Cliente cliente;  
+  private LocalDateTime fechaHoraCreacion; /* Podemos usar ZonedDataTime*/
+  private List<Sesion> sesiones;
+  private String preferencias;
   private Double montoTotal;  
   private boolean estado;
 
@@ -23,7 +25,7 @@ public class DiaDeSpa {
 
     public DiaDeSpa(int idDiaDeSpa, int idCliente, LocalDateTime fechaHoraCreacion, String preferencias, Double montoTotal, boolean estado) {
         this.idDiaDeSpa = idDiaDeSpa;
-        this.idCliente = idCliente;
+        this.cliente = cliente;
         this.fechaHoraCreacion = fechaHoraCreacion;
         this.preferencias = preferencias;
         this.montoTotal = montoTotal;
@@ -38,13 +40,23 @@ public class DiaDeSpa {
         this.idDiaDeSpa = idDiaDeSpa;
     }
 
-    public int getIdCliente() {
-        return idCliente;
+    public Cliente getCliente() {
+        return cliente;
     }
 
-    public void setIdCliente(int idCliente) {
-        this.idCliente = idCliente;
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
     }
+
+    public List<Sesion> getSesiones() {
+        return sesiones;
+    }
+
+    public void setSesiones(List<Sesion> sesiones) {
+        this.sesiones = sesiones;
+    }
+
+
 
     public LocalDateTime getFechaHoraCreacion() {
         return fechaHoraCreacion;
@@ -80,7 +92,7 @@ public class DiaDeSpa {
 
     @Override
     public String toString() {
-        return "DiaDeSpa{" + "idDiaDeSpa=" + idDiaDeSpa + ", idCliente=" + idCliente + ", fechaHoraCreacion=" + fechaHoraCreacion + ", preferencias=" + preferencias + ", montoTotal=" + montoTotal + ", estado=" + estado + '}';
+        return "DiaDeSpa{" + "idDiaDeSpa=" + idDiaDeSpa + ", cliente=" + cliente + ", fechaHoraCreacion=" + fechaHoraCreacion + ", sesiones=" + sesiones + ", preferencias=" + preferencias + ", montoTotal=" + montoTotal + ", estado=" + estado + '}';
     }
-  
+
 }
