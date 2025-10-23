@@ -39,7 +39,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jMenu3 = new javax.swing.JMenu();
-        jMenu4 = new javax.swing.JMenu();
+        mnSalir = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -47,11 +47,11 @@ public class MenuPrincipal extends javax.swing.JFrame {
         escritorio.setLayout(escritorioLayout);
         escritorioLayout.setHorizontalGroup(
             escritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 388, Short.MAX_VALUE)
+            .addGap(0, 869, Short.MAX_VALUE)
         );
         escritorioLayout.setVerticalGroup(
             escritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 271, Short.MAX_VALUE)
+            .addGap(0, 482, Short.MAX_VALUE)
         );
 
         jMenu1.setText("Cliente");
@@ -72,8 +72,8 @@ public class MenuPrincipal extends javax.swing.JFrame {
         jMenu3.setText("Turnos");
         jMenuBar1.add(jMenu3);
 
-        jMenu4.setText("jMenu4");
-        jMenuBar1.add(jMenu4);
+        mnSalir.setText("Salir");
+        jMenuBar1.add(mnSalir);
 
         setJMenuBar(jMenuBar1);
 
@@ -90,7 +90,8 @@ public class MenuPrincipal extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(escritorio))
+                .addComponent(escritorio)
+                .addContainerGap())
         );
 
         pack();
@@ -142,8 +143,8 @@ public class MenuPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
-    private javax.swing.JMenu jMenu4;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenu mnSalir;
     // End of variables declaration//GEN-END:variables
 }

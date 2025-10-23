@@ -14,6 +14,7 @@ public class Cliente {
     private int dni;
     private String nombre;
     private String apellido;
+    private int edad;
     private long telefono;
     private String afecciones;
     private boolean estado;
@@ -21,15 +22,27 @@ public class Cliente {
     public Cliente() {
     }
 
-    public Cliente(int dni, String nombre, String apellido, long telefono, String afecciones, boolean estado) {
+    public Cliente(int dni, String nombre, String apellido, int edad, long telefono, String afecciones, boolean estado) {
         this.dni = dni;
         this.nombre = nombre;
         this.apellido = apellido;
+        this.edad = edad;
         this.telefono = telefono;
         this.afecciones = afecciones;
         this.estado = estado;
     }
 
+    public Cliente(int idCliente, int dni, String nombre, String apellido, int edad, long telefono, String afecciones, boolean estado) {
+        this.idCliente = idCliente;
+        this.dni = dni;
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.edad = edad;
+        this.telefono = telefono;
+        this.afecciones = afecciones;
+        this.estado = estado;
+    }
+   
     public int getIdCliente() {
         return idCliente;
     }
@@ -86,9 +99,16 @@ public class Cliente {
         this.estado = estado;
     }
 
-    @Override
-    public String toString() {
-        return "Cliente{" + "idCliente=" + idCliente + ", dni=" + dni + ", nombre=" + nombre + ", apellido=" + apellido + ", telefono=" + telefono + ", afecciones=" + afecciones + ", estado=" + estado + '}';
+    public int getEdad() {
+        return edad;
     }
 
+    public void setEdad(int edad) {
+        this.edad = edad;
+    }
+
+    @Override
+    public String toString() {
+        return "Cliente{" + "idCliente=" + idCliente + ", dni=" + dni + ", nombre=" + nombre + ", apellido=" + apellido + ", edad=" + edad + ", telefono=" + telefono + ", afecciones=" + afecciones + ", estado=" + estado + '}';
+    }
 }
