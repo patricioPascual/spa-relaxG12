@@ -81,5 +81,31 @@ public class TratamientoData {
         
     }
     
-   
+   public  ArrayList listarTratamientos(String tipo) {
+        ArrayList<Tratamiento> listado = new ArrayList();
+        try {
+            String query = "SELECT * FROM tratamiento WHERE tipo=? AND activo=1";
+            PreparedStatement ps = con.prepareStatement(query);
+            ps.setString(1, tipo);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Tratamiento tratamiento = new Tratamiento();
+                tratamiento.setIdTratamiento(rs.getInt("id_producto"));
+                tratamiento.setNombre(rs.getString("nombre"));
+                tratamiento.setEspecialidad(rs.getString("especialidad"));
+                tratamiento.setDetalle(rs.getString("detalle"));
+                tratamiento.setDuracion(30);
+                tratamiento.setCosto((Double)rs.getDouble("costo"));
+                
+                tratamiento.setActivo(true);
+                listado.add(tratamiento);
+                ps.close();
+            }
+
+        } catch (SQLException | NullPointerException e) {
+            JOptionPane.showMessageDialog(null, "Error al acceder a la base de datos");
+        }
+
+        return listado;
+    }
 }
