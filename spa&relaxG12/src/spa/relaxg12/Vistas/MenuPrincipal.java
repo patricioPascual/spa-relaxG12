@@ -6,6 +6,7 @@ package spa.relaxg12.Vistas;
 
 import spa.relaxg12.Persistencia.ClienteData;
 import spa.relaxg12.Persistencia.Conexion;
+import spa.relaxg12.Persistencia.InstalacionData;
 
 /**
  *
@@ -15,6 +16,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
        
      private Conexion miConexion;
      private   ClienteData clienteData;
+     private InstalacionData instalacionData;
     /**
      * Creates new form MenuPrincipal
      */
@@ -22,6 +24,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
         initComponents();
         this.miConexion= new Conexion("jdbc:mariadb://localhost:3306/spaentrededos","root","");
         this.clienteData = new ClienteData(miConexion);
+        this.instalacionData = new InstalacionData(miConexion); 
     }
 
     /**
@@ -92,6 +95,11 @@ public class MenuPrincipal extends javax.swing.JFrame {
         jMenu2.add(jMenuItem3);
 
         jMenuItem4.setText("Gestionar Instalaciones");
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem4ActionPerformed(evt);
+            }
+        });
         jMenu2.add(jMenuItem4);
 
         jMenuItem5.setText("Gestionar Tratamientos");
@@ -145,6 +153,12 @@ public class MenuPrincipal extends javax.swing.JFrame {
     private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jMenuItem6ActionPerformed
+
+    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+        VistasInstalacion vistasInstalacion=new VistasInstalacion();
+        escritorio.add(vistasInstalacion);
+        vistasInstalacion.setVisible(true);
+    }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     /**
      * @param args the command line arguments
