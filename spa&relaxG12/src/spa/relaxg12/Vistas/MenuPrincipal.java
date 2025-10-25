@@ -103,6 +103,11 @@ public class MenuPrincipal extends javax.swing.JFrame {
         jMenu2.add(jMenuItem4);
 
         jMenuItem5.setText("Gestionar Tratamientos");
+        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem5ActionPerformed(evt);
+            }
+        });
         jMenu2.add(jMenuItem5);
 
         jMenuItem6.setText("Gestionar Consultorios");
@@ -159,6 +164,12 @@ public class MenuPrincipal extends javax.swing.JFrame {
         escritorio.add(vistasInstalacion);
         vistasInstalacion.setVisible(true);
     }//GEN-LAST:event_jMenuItem4ActionPerformed
+
+    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+        VistasTratamiento vistasTratamiento = new VistasTratamiento();
+        escritorio.add(vistasTratamiento);
+        vistasTratamiento.setVisible(true);
+    }//GEN-LAST:event_jMenuItem5ActionPerformed
 
     /**
      * @param args the command line arguments

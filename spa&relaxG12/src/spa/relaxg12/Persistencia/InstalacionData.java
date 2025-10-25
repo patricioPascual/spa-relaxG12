@@ -22,7 +22,7 @@ public class InstalacionData {
     }
     
     public void guardarInstalacion(Instalacion instalacion) {
-        String query = "INSERT INTO instalaciones (nombre, detalleUso, precioPor30min, estado) VALUES (?, ?, ?, ?)";
+        String query = "INSERT INTO instalacion (nombre, detalleUso, precioPor30min, estado) VALUES (?, ?, ?, ?)";
         try (PreparedStatement ps = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             ps.setString(1, instalacion.getNombre());
             ps.setString(2, instalacion.getDetalleUso());
@@ -45,7 +45,7 @@ public class InstalacionData {
     }
 
     public void actualizarInstalacion(Instalacion instalacion) {
-        String query = "UPDATE instalaciones SET nombre = ?, detalleUso = ?, precioPor30min = ?, estado = ? WHERE idInstalacion = ?";
+        String query = "UPDATE instalacion SET nombre = ?, detalleUso = ?, precioPor30min = ?, estado = ? WHERE idInstalacion = ?";
         try (PreparedStatement ps = con.prepareStatement(query)) {
             ps.setString(1, instalacion.getNombre());
             ps.setString(2, instalacion.getDetalleUso());
@@ -65,7 +65,7 @@ public class InstalacionData {
     }
 
     public void eliminarInstalacion(int id) {
-        String query = "UPDATE instalaciones SET estado = 0 WHERE idInstalacion = ?";
+        String query = "UPDATE instalacion SET estado = 0 WHERE idInstalacion = ?";
         try (PreparedStatement ps = con.prepareStatement(query)) {
             ps.setInt(1, id);
             int filas = ps.executeUpdate();
@@ -80,7 +80,7 @@ public class InstalacionData {
     }
 
     public Instalacion buscarInstalacionPorId(int id) {
-        String query = "SELECT * FROM instalaciones WHERE idInstalacion = ?";
+        String query = "SELECT * FROM instalacion WHERE idInstalacion = ?";
         Instalacion inst = null;
         try (PreparedStatement ps = con.prepareStatement(query)) {
             ps.setInt(1, id);
@@ -101,7 +101,7 @@ public class InstalacionData {
     }
 
     public List<Instalacion> listarInstalaciones() {
-        String query = "SELECT * FROM instalaciones";
+        String query = "SELECT * FROM instalacion";
         List<Instalacion> lista = new ArrayList<>();
         try (PreparedStatement ps = con.prepareStatement(query);
              ResultSet rs = ps.executeQuery()) {
@@ -115,13 +115,13 @@ public class InstalacionData {
                 lista.add(inst);
             }
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Error al listar instalaciones: " + ex.getMessage());
+            JOptionPane.showMessageDialog(null, "Error al listar instalacion: " + ex.getMessage());
         }
         return lista;
     }
 
     public List<Instalacion> listarInstalacionesActivas() {
-        String query = "SELECT * FROM instalaciones WHERE estado = 1";
+        String query = "SELECT * FROM instalacion WHERE estado = 1";
         List<Instalacion> lista = new ArrayList<>();
         try (PreparedStatement ps = con.prepareStatement(query);
              ResultSet rs = ps.executeQuery()) {
