@@ -18,6 +18,13 @@ public class Instalacion {
     public Instalacion() {
     }
 
+    public Instalacion(String nombre, String detalleUso, Double precioPor30min, boolean estado) {
+        this.nombre = nombre;
+        this.detalleUso = detalleUso;
+        this.precioPor30min = precioPor30min;
+        this.estado = estado;
+    }
+
     public Instalacion(int idInstalacion, String nombre, String detalleUso, Double precioPor30min, boolean estado) {
         this.idInstalacion = idInstalacion;
         this.nombre = nombre;
