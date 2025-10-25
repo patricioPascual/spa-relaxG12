@@ -277,6 +277,7 @@ public class VistasTratamiento extends javax.swing.JInternalFrame {
               
                 for (Producto aux : lista){
                     tratamientoData.cargarTratamientoProducto(aux, tratamiento);
+                    System.out.println(aux.getNombre() + tratamiento.getNombre());
                 }
                 
     }//GEN-LAST:event_jButton3ActionPerformed

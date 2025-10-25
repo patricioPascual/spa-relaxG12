@@ -59,7 +59,7 @@ public class ProductoData {
                 producto = new Producto();
                
                
-                producto.setIdProducto(rs.getInt("idProducto"));
+                producto.setIdProducto(rs.getInt("id_producto"));
                 producto.setNombre(rs.getString("nombre"));
                 producto.setDetalle(rs.getString("detalle"));
                

@@ -46,9 +46,9 @@ public class TratamientoData {
             
             rs = ps.getGeneratedKeys();
         if (rs.next()) {
-            int idGenerado = rs.getInt(1); // El ID autogenerado está en la primera columna
+            int idGenerado = rs.getInt(1); 
             
-            // *** ACCIÓN CLAVE: Asignar el ID al objeto Tratamiento ***
+          
             tratamiento.setIdTratamiento(idGenerado); 
         }
             if (exito == 1) {
