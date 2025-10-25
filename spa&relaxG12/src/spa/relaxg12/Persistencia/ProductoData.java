@@ -40,7 +40,7 @@ public class ProductoData {
                 producto.setNombre(rs.getString("nombre"));
                 producto.setDetalle(rs.getString("detalle"));
                 producto.setStock(rs.getInt("stock"));
-               
+               listado.add(producto);
             }      
         } catch (SQLException | NullPointerException e) {
             JOptionPane.showMessageDialog(null, "Error al acceder a la base de datos");
@@ -48,6 +48,32 @@ public class ProductoData {
         return listado;
     }
 
-     
+     public Producto BuscarProducto(String nombre){
+          Producto producto = null;
+        try {
+            String query = "SELECT * FROM producto WHERE nombre = ? ";
+            PreparedStatement ps = con.prepareStatement(query);
+            ps.setString(1, nombre);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                producto = new Producto();
+               
+               
+                producto.setIdProducto(rs.getInt("idProducto"));
+                producto.setNombre(rs.getString("nombre"));
+                producto.setDetalle(rs.getString("detalle"));
+               
+
+                ps.close();
+            } else {
+                JOptionPane.showMessageDialog(null, "Producto no encontrado");
+            }
+
+        } catch (SQLException | NullPointerException e) {
+            JOptionPane.showMessageDialog(null, "Error Al acceder a la Base de Datos");
+        }
+        return producto;
+    }
+
      
 }

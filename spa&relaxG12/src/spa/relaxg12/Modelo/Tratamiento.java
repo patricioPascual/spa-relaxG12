@@ -35,6 +35,16 @@ public class Tratamiento {
         this.activo = activo;
     }
 
+    public Tratamiento(String nombre, String especialidad, String detalle, List<Producto> productos, Integer duracion, Double costo, boolean activo) {
+        this.nombre = nombre;
+        this.especialidad = especialidad;
+        this.detalle = detalle;
+        this.productos = productos;
+        this.duracion = duracion;
+        this.costo = costo;
+        this.activo = activo;
+    }
+
     public int getIdTratamiento() {
         return idTratamiento;
     }

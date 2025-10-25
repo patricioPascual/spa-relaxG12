@@ -7,6 +7,8 @@ package spa.relaxg12.Vistas;
 import spa.relaxg12.Persistencia.ClienteData;
 import spa.relaxg12.Persistencia.Conexion;
 import spa.relaxg12.Persistencia.InstalacionData;
+import spa.relaxg12.Persistencia.ProductoData;
+import spa.relaxg12.Persistencia.TratamientoData;
 
 /**
  *
@@ -17,6 +19,8 @@ public class MenuPrincipal extends javax.swing.JFrame {
      private Conexion miConexion;
      private   ClienteData clienteData;
      private InstalacionData instalacionData;
+     private TratamientoData tratamientoData;
+     private ProductoData productoData; 
     /**
      * Creates new form MenuPrincipal
      */
@@ -25,6 +29,8 @@ public class MenuPrincipal extends javax.swing.JFrame {
         this.miConexion= new Conexion("jdbc:mariadb://localhost:3306/spaentrededos","root","");
         this.clienteData = new ClienteData(miConexion);
         this.instalacionData = new InstalacionData(miConexion); 
+        this.tratamientoData= new TratamientoData(miConexion);
+        this.productoData= new ProductoData(miConexion);
     }
 
     /**
