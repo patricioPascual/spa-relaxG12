@@ -6,6 +6,7 @@ package spa.relaxg12.Vistas;
 
 import spa.relaxg12.Persistencia.ClienteData;
 import spa.relaxg12.Persistencia.Conexion;
+import spa.relaxg12.Persistencia.ConsultorioData;
 import spa.relaxg12.Persistencia.InstalacionData;
 import spa.relaxg12.Persistencia.ProductoData;
 import spa.relaxg12.Persistencia.ProfesionalData;
@@ -19,22 +20,25 @@ import spa.relaxg12.Vistas.VistasTratamiento;
 public class MenuPrincipal extends javax.swing.JFrame {
        
      private Conexion miConexion;
-     private   ClienteData clienteData;
+     private ClienteData clienteData;
      private InstalacionData instalacionData;
      private TratamientoData tratamientoData;
      private ProductoData productoData; 
      private ProfesionalData profesionalData;
+     private ConsultorioData consultorioData;
     /**
      * Creates new form MenuPrincipal
      */
     public MenuPrincipal() {
         initComponents();
-        this.miConexion= new Conexion("jdbc:mariadb://localhost:3306/spaentrededos","root","");
-        this.clienteData = new ClienteData(miConexion);
-        this.instalacionData = new InstalacionData(miConexion); 
-        this.tratamientoData= new TratamientoData(miConexion);
-        this.productoData= new ProductoData(miConexion);
-        this.profesionalData = new ProfesionalData(miConexion);
+        miConexion= new Conexion("jdbc:mariadb://localhost:3306/spaentrededos","root","");
+        clienteData = new ClienteData(miConexion);
+        instalacionData = new InstalacionData(miConexion); 
+        tratamientoData= new TratamientoData(miConexion);
+        productoData= new ProductoData(miConexion);
+        profesionalData = new ProfesionalData(miConexion);
+        consultorioData = new ConsultorioData(miConexion);
+        
     }
 
     /**
@@ -171,7 +175,9 @@ public class MenuPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_btnTurnosActionPerformed
 
     private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
-        // TODO add your handling code here:
+        VistasConsultorio vistasConsultorio =new VistasConsultorio();
+        escritorio.add(vistasConsultorio);
+        vistasConsultorio.setVisible(true);
     }//GEN-LAST:event_jMenuItem6ActionPerformed
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed

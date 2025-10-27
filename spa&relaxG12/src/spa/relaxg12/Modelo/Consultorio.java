@@ -9,19 +9,29 @@ package spa.relaxg12.Modelo;
  * @author Luza
  */
 public class Consultorio {
-   private int idConsultorio;
-   private String numeroConsultorio;
-   private String equipamiento;
-   private String aptoPara;
+
+    private int idConsultorio;
+    private String numeroConsultorio;
+    private String equipamiento;
+    private String aptoPara;
+    private boolean estado;
 
     public Consultorio() {
     }
 
-    public Consultorio(int idConsultorio, String numeroConsultorio, String equipamiento, String aptoPara) {
+    public Consultorio(String numeroConsultorio, String equipamiento, String aptoPara, boolean estado) {
+        this.numeroConsultorio = numeroConsultorio;
+        this.equipamiento = equipamiento;
+        this.aptoPara = aptoPara;
+        this.estado = estado;
+    }
+
+    public Consultorio(int idConsultorio, String numeroConsultorio, String equipamiento, String aptoPara, boolean estado) {
         this.idConsultorio = idConsultorio;
         this.numeroConsultorio = numeroConsultorio;
         this.equipamiento = equipamiento;
         this.aptoPara = aptoPara;
+        this.estado = estado;
     }
 
     public int getIdConsultorio() {
@@ -56,10 +66,17 @@ public class Consultorio {
         this.aptoPara = aptoPara;
     }
 
+    public boolean isEstado() {
+        return estado;
+    }
+
+    public void setEstado(boolean estado) {
+        this.estado = estado;
+    }
+
     @Override
     public String toString() {
-        return "Consultorios{" + "idConsultorio=" + idConsultorio + ", numeroConsultorio=" + numeroConsultorio + ", equipamiento=" + equipamiento + ", aptoPara=" + aptoPara + '}';
+        return "Consultorio{" + "idConsultorio=" + idConsultorio + ", numeroConsultorio=" + numeroConsultorio + ", equipamiento=" + equipamiento + ", aptoPara=" + aptoPara + ", estado=" + estado + '}';
     }
-   
-   
+
 }
