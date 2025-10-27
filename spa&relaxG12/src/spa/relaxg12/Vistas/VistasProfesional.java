@@ -5,24 +5,35 @@
 package spa.relaxg12.Vistas;
 
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import spa.relaxg12.Modelo.Profesional;
 import spa.relaxg12.Persistencia.ProfesionalData;
 
 /**
  *
- * @author Luza
+ * @author Leandro
  */
 public class VistasProfesional extends javax.swing.JInternalFrame {
 
+    private ProfesionalData profData;
     private DefaultTableModel modelo;
-    private ProfesionalData profesionalData;
+    private ArrayList<Profesional> listaProf;
 
+    /**
+     * Creates new form VistasProfesional
+     */
     public VistasProfesional() {
         initComponents();
 
-        profesionalData = new ProfesionalData();
+        profData = new ProfesionalData();
         modelo = new DefaultTableModel();
+        listaProf = new ArrayList<>();
+
+        armarCabecera();
+        armarCombo();
+        armarComboBuscar();
+        listarProfesionales();
     }
 
     /**
@@ -34,27 +45,59 @@ public class VistasProfesional extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        groupEstado = new javax.swing.ButtonGroup();
+        rbtnInactivo = new javax.swing.JRadioButton();
+        rbtnActivo = new javax.swing.JRadioButton();
+        btnAltaBaja = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tblProfesionales = new javax.swing.JTable();
+        jLabel7 = new javax.swing.JLabel();
+        cmbEspecialidadBuscar = new javax.swing.JComboBox<>();
+        btnBuscar = new javax.swing.JButton();
+        txtBuscar = new javax.swing.JTextField();
+        jLabel8 = new javax.swing.JLabel();
+        btnActualizar = new javax.swing.JButton();
+        btnSalir1 = new javax.swing.JButton();
+        jLabel10 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
+        jLabel14 = new javax.swing.JLabel();
+        btnAgregar = new javax.swing.JButton();
+        btnModificar = new javax.swing.JButton();
+        btnLimpiar = new javax.swing.JButton();
         txtMatricula = new javax.swing.JTextField();
         txtNombre = new javax.swing.JTextField();
+        txtApellido = new javax.swing.JTextField();
         txtTelefono = new javax.swing.JTextField();
+        cmbEspecialidad = new javax.swing.JComboBox<>();
         jLabel1 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        tblClientes = new javax.swing.JTable();
-        jPanel1 = new javax.swing.JPanel();
-        btnGuardarProfesional = new javax.swing.JButton();
-        btnSalir = new javax.swing.JButton();
-        jLabel2 = new javax.swing.JLabel();
-        comboEspecialidad = new javax.swing.JComboBox<>();
 
-        jLabel1.setText("Matricula");
+        groupEstado.add(rbtnInactivo);
+        rbtnInactivo.setText("Inactivos");
+        rbtnInactivo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rbtnInactivoActionPerformed(evt);
+            }
+        });
 
-        jLabel3.setText("Nombre");
+        groupEstado.add(rbtnActivo);
+        rbtnActivo.setSelected(true);
+        rbtnActivo.setText("Activos");
+        rbtnActivo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rbtnActivoActionPerformed(evt);
+            }
+        });
 
-        jLabel4.setText("Telefono");
+        btnAltaBaja.setText("Alta / Baja");
+        btnAltaBaja.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAltaBajaActionPerformed(evt);
+            }
+        });
 
-        tblClientes.setModel(new javax.swing.table.DefaultTableModel(
+        tblProfesionales.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -65,164 +108,397 @@ public class VistasProfesional extends javax.swing.JInternalFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        tblClientes.addMouseListener(new java.awt.event.MouseAdapter() {
+        tblProfesionales.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tblClientesMouseClicked(evt);
+                tblProfesionalesMouseClicked(evt);
             }
         });
-        jScrollPane2.setViewportView(tblClientes);
+        jScrollPane2.setViewportView(tblProfesionales);
 
-        btnGuardarProfesional.setText("Guardar");
-        btnGuardarProfesional.addActionListener(new java.awt.event.ActionListener() {
+        jLabel7.setText("Especialidad");
+
+        cmbEspecialidadBuscar.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cmbEspecialidadBuscar.setSelectedIndex(-1);
+
+        btnBuscar.setText("Buscar");
+        btnBuscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnGuardarProfesionalActionPerformed(evt);
+                btnBuscarActionPerformed(evt);
             }
         });
 
-        btnSalir.setText("Salir");
-        btnSalir.addActionListener(new java.awt.event.ActionListener() {
+        jLabel8.setText("Matricula");
+
+        btnActualizar.setText("Actualizar");
+        btnActualizar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSalirActionPerformed(evt);
+                btnActualizarActionPerformed(evt);
             }
         });
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(19, 19, 19)
-                .addComponent(btnGuardarProfesional, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 226, Short.MAX_VALUE)
-                .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(214, 214, 214))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnGuardarProfesional, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(23, Short.MAX_VALUE))
-        );
-
-        jLabel2.setText("Especialidad");
-
-        comboEspecialidad.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Facial", "Corporal", "Relajacion", "Estetico" }));
-        comboEspecialidad.addActionListener(new java.awt.event.ActionListener() {
+        btnSalir1.setText("Salir");
+        btnSalir1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                comboEspecialidadActionPerformed(evt);
+                btnSalir1ActionPerformed(evt);
             }
         });
+
+        jLabel10.setText("Nombre");
+
+        jLabel11.setText("Apellido");
+
+        jLabel12.setText("Telefono");
+
+        jLabel13.setText("Matricula");
+
+        jLabel14.setText("Especialidad");
+
+        btnAgregar.setText("Agregar");
+        btnAgregar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAgregarActionPerformed(evt);
+            }
+        });
+
+        btnModificar.setText("Modificar");
+        btnModificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnModificarActionPerformed(evt);
+            }
+        });
+
+        btnLimpiar.setText("Limpiar");
+        btnLimpiar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLimpiarActionPerformed(evt);
+            }
+        });
+
+        cmbEspecialidad.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel1.setText("Gestor de Profesionales");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
+            .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(22, 22, 22)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(11, 11, 11)
+                            .addComponent(btnAgregar)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(jLabel13)
+                                .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel12, javax.swing.GroupLayout.Alignment.LEADING))
+                            .addComponent(jLabel14))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
-                                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(0, 0, Short.MAX_VALUE)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(txtNombre, javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addComponent(txtMatricula, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGap(63, 63, 63))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(40, 40, 40)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(comboEspecialidad, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(txtTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 387, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addComponent(btnModificar)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btnLimpiar))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(cmbEspecialidad, javax.swing.GroupLayout.Alignment.LEADING, 0, 160, Short.MAX_VALUE)
+                                .addComponent(txtTelefono, javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(txtApellido, javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(txtNombre, javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(txtMatricula, javax.swing.GroupLayout.Alignment.LEADING))))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addGap(41, 41, 41))
+                        .addGap(58, 58, 58)
+                        .addComponent(jLabel1)))
+                .addGap(20, 20, 20)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(btnAltaBaja)
+                            .addGap(38, 38, 38)
+                            .addComponent(rbtnActivo)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(rbtnInactivo)
+                            .addGap(18, 18, 18)
+                            .addComponent(btnActualizar)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnSalir1))
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 546, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addComponent(jLabel7)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(cmbEspecialidadBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel8)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnBuscar)))
+                .addContainerGap(9, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(55, 55, 55)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(40, 40, 40)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txtMatricula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel1))
-                        .addGap(46, 46, 46)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel3))
-                        .addGap(58, 58, 58)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txtTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel4))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 55, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(comboEspecialidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel2))
-                        .addGap(42, 42, 42))
+                            .addComponent(jLabel7)
+                            .addComponent(cmbEspecialidadBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel8)
+                            .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnBuscar)))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(19, 19, 19))
+                        .addGap(30, 30, 30)
+                        .addComponent(jLabel1)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 274, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel13)
+                            .addComponent(txtMatricula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel10)
+                            .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel11)
+                            .addComponent(txtApellido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel12)
+                            .addComponent(txtTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel14)
+                            .addComponent(cmbEspecialidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(70, 70, 70)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnAltaBaja)
+                    .addComponent(rbtnActivo)
+                    .addComponent(rbtnInactivo)
+                    .addComponent(btnActualizar)
+                    .addComponent(btnSalir1)
+                    .addComponent(btnAgregar)
+                    .addComponent(btnModificar)
+                    .addComponent(btnLimpiar))
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void tblClientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblClientesMouseClicked
+    public void limpiarCampos() {
+        txtMatricula.setText("");
+        txtApellido.setText("");
+        txtNombre.setText("");
+        txtTelefono.setText("");
+        cmbEspecialidad.setSelectedIndex(-1);
+    }
 
-    }//GEN-LAST:event_tblClientesMouseClicked
+    public void armarCombo() { //Este combo se debe llenar con las especialidades requeridas que vaya a tener el spa
+        cmbEspecialidad.removeAllItems();
 
-    private void btnGuardarProfesionalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarProfesionalActionPerformed
-        ProfesionalData pfta = new ProfesionalData();
-        String matricula = txtMatricula.getText();
-        String nombreCompleto = txtNombre.getText();
-        String telefono = txtTelefono.getText();
-        String especialidad = comboEspecialidad.getSelectedItem().toString();
-        boolean estado = true;
+        cmbEspecialidad.addItem("Esteticista");
+        cmbEspecialidad.addItem("Masajista");
+        cmbEspecialidad.addItem("Cosmetólogo/a");
+        cmbEspecialidad.addItem("Manicurista");
+        cmbEspecialidad.addItem("Pedicurista");
+    }
 
-        Profesional profesional = new Profesional(matricula, nombreCompleto, telefono, especialidad, estado);
-        profesionalData.guardarProfesional(profesional);
+    public void armarComboBuscar() {
+        cmbEspecialidadBuscar.removeAllItems();
+               
+        ArrayList<String> listaEspecialidad = profData.listarEspecialidades();
+        for (String it : listaEspecialidad ) {
+            cmbEspecialidadBuscar.addItem(it);
+        }
 
+    }
 
-    }//GEN-LAST:event_btnGuardarProfesionalActionPerformed
+    public void armarCabecera() {
+        ArrayList<Object> filaCabecera = new ArrayList<>();
+        filaCabecera.add("Matricula");
+        filaCabecera.add("Nombre");
+        filaCabecera.add("Apellido");
+        filaCabecera.add("Telefono");
+        filaCabecera.add("Especialidad");
+        filaCabecera.add("Estado");
+        for (Object it : filaCabecera) {
+            modelo.addColumn(it);
+        }
+        tblProfesionales.setModel(modelo);
+    }
 
-    private void comboEspecialidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboEspecialidadActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_comboEspecialidadActionPerformed
+    public void listarProfesionales() {
+        modelo.setRowCount(0);
+        ArrayList<Profesional> listado = profData.listarProfesionales();
 
-    private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
-        this.dispose();        // TODO add your handling code here:
-    }//GEN-LAST:event_btnSalirActionPerformed
+        for (Profesional p : listado) {
+            Object[] row = {p.getMatricula(), p.getNombre(), p.getApellido(), p.getTelefono(), p.getEspecialidad(), p.isEstado()};
+            modelo.addRow(row);
+        }
+    }
+
+    public void borrarFila() {
+        int indice = modelo.getRowCount() - 1;
+
+        for (int i = indice; i >= 0; i--) {
+            modelo.removeRow(i);
+        }
+    }
+    
+     public void cargarInactivos() {
+        borrarFila();
+        listaProf = profData.listarProfesionalesInactivos();
+        for (Profesional p : listaProf) {
+            Object[] row = {p.getMatricula(), p.getNombre(), p.getApellido(), p.getTelefono(), p.getEspecialidad(), p.isEstado()};
+            modelo.addRow(row);
+        }
+    }
+
+    public void cargarActivos() {
+        borrarFila();
+        ArrayList<Profesional> lista = profData.listarProfesionalesActivos();
+         for (Profesional p : lista) {
+            Object[] row = {p.getMatricula(), p.getNombre(), p.getApellido(), p.getTelefono(), p.getEspecialidad(), p.isEstado()};
+            modelo.addRow(row);
+        }
+    }
+      
+    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+
+        for (int i = 0; i < tblProfesionales.getRowCount(); i++) {
+            String matricula = txtBuscar.getText().trim();
+            String valorMatricula = tblProfesionales.getValueAt(i, 0).toString();
+            if (valorMatricula.equalsIgnoreCase(matricula)) {
+                tblProfesionales.setRowSelectionInterval(i, i);
+                tblProfesionales.scrollRectToVisible(tblProfesionales.getCellRect(i, 0, true));
+                return;
+            }
+
+        }
+    }//GEN-LAST:event_btnBuscarActionPerformed
+
+    private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
+       if (rbtnActivo.isSelected()) {
+           cargarActivos();
+       } else {
+           cargarInactivos();
+       }
+    }//GEN-LAST:event_btnActualizarActionPerformed
+
+    private void btnSalir1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalir1ActionPerformed
+        dispose();
+    }//GEN-LAST:event_btnSalir1ActionPerformed
+
+    private void btnAltaBajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAltaBajaActionPerformed
+        Profesional prof = null;
+        int fila = tblProfesionales.getSelectedRow();
+        if (fila != -1) {
+            String matricula = (String) modelo.getValueAt(fila, 0);
+            prof = profData.buscarProfesionalPorMatricula(matricula);
+            boolean estado = prof.isEstado();
+            if (estado == true) {
+                profData.darBajaProfesional(matricula);
+            } else {
+                profData.darAltaProfesional(matricula);
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Debe seleccionar un profesional de la tabla");
+        }
+    }//GEN-LAST:event_btnAltaBajaActionPerformed
+
+    private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
+        try {
+            String matricula = txtMatricula.getText();
+            String nombre = txtNombre.getText();
+            String apellido = txtApellido.getText();
+            String telefono = txtTelefono.getText();
+            String especialidad = (String) cmbEspecialidad.getSelectedItem();
+            Profesional prof = new Profesional(matricula, nombre, apellido, telefono, especialidad, true);
+
+            profData.crearProfesional(prof);
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Debe llenar los campos");
+        }
+    }//GEN-LAST:event_btnAgregarActionPerformed
+
+    private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
+        try {
+            String matricula = txtMatricula.getText();
+            String nombre = txtNombre.getText();
+            String apellido = txtApellido.getText();
+            String telefono = txtTelefono.getText();
+            String especialidad = (String) cmbEspecialidad.getSelectedItem();
+            Profesional prof = new Profesional(matricula, nombre, apellido, telefono, especialidad, true);
+
+            profData.modificarProfesional(prof);
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Debe Cargar un Profesional o seleccionarlo de la tabla");
+        }
+    }//GEN-LAST:event_btnModificarActionPerformed
+
+    private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
+        limpiarCampos();
+    }//GEN-LAST:event_btnLimpiarActionPerformed
+
+    private void tblProfesionalesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblProfesionalesMouseClicked
+
+        Profesional p = null;
+        int fila = tblProfesionales.getSelectedRow();
+        if (fila != -1) {
+            String matricula = (String) modelo.getValueAt(fila, 0);
+            p = profData.buscarProfesionalPorMatricula(matricula);
+        }
+        txtMatricula.setText(p.getMatricula());
+        txtNombre.setText(p.getNombre());
+        txtApellido.setText(p.getApellido());
+        txtTelefono.setText(p.getTelefono());
+        cmbEspecialidad.setSelectedItem(p.getEspecialidad());
+
+    }//GEN-LAST:event_tblProfesionalesMouseClicked
+
+    private void rbtnActivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbtnActivoActionPerformed
+        cargarActivos();
+    }//GEN-LAST:event_rbtnActivoActionPerformed
+
+    private void rbtnInactivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbtnInactivoActionPerformed
+        cargarInactivos();
+    }//GEN-LAST:event_rbtnInactivoActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnGuardarProfesional;
-    private javax.swing.JButton btnSalir;
-    private javax.swing.JComboBox<String> comboEspecialidad;
+    private javax.swing.JButton btnActualizar;
+    private javax.swing.JButton btnAgregar;
+    private javax.swing.JButton btnAltaBaja;
+    private javax.swing.JButton btnBuscar;
+    private javax.swing.JButton btnLimpiar;
+    private javax.swing.JButton btnModificar;
+    private javax.swing.JButton btnSalir1;
+    private javax.swing.JComboBox<String> cmbEspecialidad;
+    private javax.swing.JComboBox<String> cmbEspecialidadBuscar;
+    private javax.swing.ButtonGroup groupEstado;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable tblClientes;
+    private javax.swing.JRadioButton rbtnActivo;
+    private javax.swing.JRadioButton rbtnInactivo;
+    private javax.swing.JTable tblProfesionales;
+    private javax.swing.JTextField txtApellido;
+    private javax.swing.JTextField txtBuscar;
     private javax.swing.JTextField txtMatricula;
     private javax.swing.JTextField txtNombre;
     private javax.swing.JTextField txtTelefono;

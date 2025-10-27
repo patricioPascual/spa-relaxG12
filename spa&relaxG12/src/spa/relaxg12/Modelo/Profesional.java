@@ -12,7 +12,8 @@ public class Profesional {
 
     private int idProfesional;
     private String matricula;
-    private String nombreCompleto;
+    private String nombre;
+    private String apellido;
     private String telefono;
     private String especialidad;
     private boolean estado;
@@ -20,18 +21,20 @@ public class Profesional {
     public Profesional() {
     }
 
-    public Profesional(String matricula, String nombreCompleto, String telefono, String especialidad, boolean estado) {
+    public Profesional(String matricula, String nombre, String apellido, String telefono, String especialidad, boolean estado) {
         this.matricula = matricula;
-        this.nombreCompleto = nombreCompleto;
+        this.nombre = nombre;
+        this.apellido = apellido;
         this.telefono = telefono;
         this.especialidad = especialidad;
         this.estado = estado;
     }
 
-    public Profesional(int idProfesional, String matricula, String nombreCompleto, String telefono, String especialidad, boolean estado) {
+    public Profesional(int idProfesional, String matricula, String nombre, String apellido, String telefono, String especialidad, boolean estado) {
         this.idProfesional = idProfesional;
         this.matricula = matricula;
-        this.nombreCompleto = nombreCompleto;
+        this.nombre = nombre;
+        this.apellido = apellido;
         this.telefono = telefono;
         this.especialidad = especialidad;
         this.estado = estado;
@@ -51,14 +54,6 @@ public class Profesional {
 
     public void setMatricula(String matricula) {
         this.matricula = matricula;
-    }
-
-    public String getNombreCompleto() {
-        return nombreCompleto;
-    }
-
-    public void setNombreCompleto(String nombreCompleto) {
-        this.nombreCompleto = nombreCompleto;
     }
 
     public String getTelefono() {
@@ -85,9 +80,25 @@ public class Profesional {
         this.estado = estado;
     }
 
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getApellido() {
+        return apellido;
+    }
+
+    public void setApellido(String apellido) {
+        this.apellido = apellido;
+    }
+
     @Override
     public String toString() {
-        return "Profesional{" + "idProfesional=" + idProfesional + ", matricula=" + matricula + ", nombreCompleto=" + nombreCompleto + ", telefono=" + telefono + ", especialidad=" + especialidad + ", estado=" + estado + '}';
+        return "Profesional{" + "idProfesional=" + idProfesional + ", matricula=" + matricula + ", nombre=" + nombre + ", apellido=" + apellido + ", telefono=" + telefono + ", especialidad=" + especialidad + ", estado=" + estado + '}';
     }
 
 }
