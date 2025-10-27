@@ -119,6 +119,11 @@ public class VistasProfesional extends javax.swing.JInternalFrame {
 
         cmbEspecialidadBuscar.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         cmbEspecialidadBuscar.setSelectedIndex(-1);
+        cmbEspecialidadBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbEspecialidadBuscarActionPerformed(evt);
+            }
+        });
 
         btnBuscar.setText("Buscar");
         btnBuscar.addActionListener(new java.awt.event.ActionListener() {
@@ -336,6 +341,16 @@ public class VistasProfesional extends javax.swing.JInternalFrame {
         tblProfesionales.setModel(modelo);
     }
 
+    public void listarPorEspecialidad(String especialidad) {
+        modelo.setRowCount(0);
+        ArrayList<Profesional> listado = profData.listarProfesionalesPorEspecialidad(especialidad);
+
+        for (Profesional p : listado) {
+            Object[] row = {p.getMatricula(), p.getNombre(), p.getApellido(), p.getTelefono(), p.getEspecialidad(), p.isEstado()};
+            modelo.addRow(row);
+        }
+    }
+    
     public void listarProfesionales() {
         modelo.setRowCount(0);
         ArrayList<Profesional> listado = profData.listarProfesionales();
@@ -472,6 +487,12 @@ public class VistasProfesional extends javax.swing.JInternalFrame {
     private void rbtnInactivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbtnInactivoActionPerformed
         cargarInactivos();
     }//GEN-LAST:event_rbtnInactivoActionPerformed
+
+    private void cmbEspecialidadBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbEspecialidadBuscarActionPerformed
+        String especialidad = (String) cmbEspecialidadBuscar.getSelectedItem();
+        
+        listarPorEspecialidad(especialidad);
+    }//GEN-LAST:event_cmbEspecialidadBuscarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
