@@ -21,7 +21,7 @@ public class InstalacionData {
     public InstalacionData() {
     }
     
-    public void guardarInstalacion(Instalacion instalacion) {
+    public boolean guardarInstalacion(Instalacion instalacion) {
         String query = "INSERT INTO instalacion (nombre, detalleUso, precioPor30min, estado) VALUES (?, ?, ?, ?)";
         try (PreparedStatement ps = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             ps.setString(1, instalacion.getNombre());
@@ -31,16 +31,9 @@ public class InstalacionData {
             ps.setBoolean(4, instalacion.isEstado());
 
             int filas = ps.executeUpdate();
-            if (filas > 0) {
-                try (ResultSet rs = ps.getGeneratedKeys()) {
-                    if (rs.next()) {
-                        instalacion.setIdInstalacion(rs.getInt(1));
-                    }
-                }
-                JOptionPane.showMessageDialog(null, "Instalación guardada con éxito. ID: " + instalacion.getIdInstalacion());
-            }
+            return filas > 0 ;
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Error al guardar la instalación: " + ex.getMessage());
+            return false;
         }
     }
 

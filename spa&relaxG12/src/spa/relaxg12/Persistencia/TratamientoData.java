@@ -31,7 +31,7 @@ public class TratamientoData {
     }
     
     
-    public void cargarTratamiento(Tratamiento tratamiento){
+    public void guardarTratamiento(Tratamiento tratamiento){
         String query = "INSERT INTO tratamiento (nombre,especialidad,detalle,duracion,costo,activo) VALUES (?,?,?,?,?,?) ";
         ResultSet rs = null;
         try {

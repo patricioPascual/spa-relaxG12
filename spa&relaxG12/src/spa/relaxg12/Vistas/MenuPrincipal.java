@@ -8,7 +8,9 @@ import spa.relaxg12.Persistencia.ClienteData;
 import spa.relaxg12.Persistencia.Conexion;
 import spa.relaxg12.Persistencia.InstalacionData;
 import spa.relaxg12.Persistencia.ProductoData;
+import spa.relaxg12.Persistencia.ProfesionalData;
 import spa.relaxg12.Persistencia.TratamientoData;
+import spa.relaxg12.Vistas.VistasTratamiento;
 
 /**
  *
@@ -21,6 +23,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
      private InstalacionData instalacionData;
      private TratamientoData tratamientoData;
      private ProductoData productoData; 
+     private ProfesionalData profesionalData;
     /**
      * Creates new form MenuPrincipal
      */
@@ -31,6 +34,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
         this.instalacionData = new InstalacionData(miConexion); 
         this.tratamientoData= new TratamientoData(miConexion);
         this.productoData= new ProductoData(miConexion);
+        this.profesionalData = new ProfesionalData(miConexion);
     }
 
     /**
@@ -98,6 +102,11 @@ public class MenuPrincipal extends javax.swing.JFrame {
         jMenu2.setText("Administracion");
 
         jMenuItem3.setText("Gestionar Profesionales");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
         jMenu2.add(jMenuItem3);
 
         jMenuItem4.setText("Gestionar Instalaciones");
@@ -176,6 +185,12 @@ public class MenuPrincipal extends javax.swing.JFrame {
         escritorio.add(vistasTratamiento);
         vistasTratamiento.setVisible(true);
     }//GEN-LAST:event_jMenuItem5ActionPerformed
+
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+       VistasProfesional vistasProfesional = new VistasProfesional();
+        escritorio.add(vistasProfesional);
+        vistasProfesional.setVisible(true);
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     /**
      * @param args the command line arguments

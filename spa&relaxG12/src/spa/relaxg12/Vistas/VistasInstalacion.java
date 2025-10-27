@@ -73,6 +73,7 @@ public class VistasInstalacion extends javax.swing.JInternalFrame {
         jBActualizar = new javax.swing.JButton();
         jBEliminar = new javax.swing.JButton();
         jBLimpiar = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(45, 45, 45));
         setForeground(new java.awt.Color(45, 45, 45));
@@ -80,7 +81,6 @@ public class VistasInstalacion extends javax.swing.JInternalFrame {
         jDesktopPane1.setBackground(new java.awt.Color(45, 45, 45));
         jDesktopPane1.setForeground(new java.awt.Color(234, 247, 246));
 
-        jPanel1.setBackground(new java.awt.Color(60, 63, 65));
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jPanel1.setForeground(new java.awt.Color(60, 63, 65));
 
@@ -178,7 +178,6 @@ public class VistasInstalacion extends javax.swing.JInternalFrame {
                 .addContainerGap(33, Short.MAX_VALUE))
         );
 
-        jPanel2.setBackground(new java.awt.Color(60, 63, 65));
         jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jPanel2.setForeground(new java.awt.Color(60, 63, 65));
 
@@ -211,7 +210,7 @@ public class VistasInstalacion extends javax.swing.JInternalFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 570, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 668, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -272,6 +271,13 @@ public class VistasInstalacion extends javax.swing.JInternalFrame {
             }
         });
 
+        jButton1.setText("SALIR");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         jDesktopPane1.setLayer(jPanel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jDesktopPane1.setLayer(jPanel2, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jDesktopPane1.setLayer(jBNuevo, javax.swing.JLayeredPane.DEFAULT_LAYER);
@@ -279,6 +285,7 @@ public class VistasInstalacion extends javax.swing.JInternalFrame {
         jDesktopPane1.setLayer(jBActualizar, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jDesktopPane1.setLayer(jBEliminar, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jDesktopPane1.setLayer(jBLimpiar, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jDesktopPane1.setLayer(jButton1, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout jDesktopPane1Layout = new javax.swing.GroupLayout(jDesktopPane1);
         jDesktopPane1.setLayout(jDesktopPane1Layout);
@@ -288,7 +295,10 @@ public class VistasInstalacion extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addGroup(jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jDesktopPane1Layout.createSequentialGroup()
+                        .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addContainerGap(84, Short.MAX_VALUE))
                     .addGroup(jDesktopPane1Layout.createSequentialGroup()
                         .addComponent(jBNuevo)
                         .addGap(18, 18, 18)
@@ -298,9 +308,10 @@ public class VistasInstalacion extends javax.swing.JInternalFrame {
                         .addGap(18, 18, 18)
                         .addComponent(jBEliminar)
                         .addGap(18, 18, 18)
-                        .addComponent(jBLimpiar))
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(61, Short.MAX_VALUE))
+                        .addComponent(jBLimpiar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         jDesktopPane1Layout.setVerticalGroup(
             jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -316,8 +327,9 @@ public class VistasInstalacion extends javax.swing.JInternalFrame {
                             .addComponent(jBGuardar)
                             .addComponent(jBActualizar)
                             .addComponent(jBEliminar)
-                            .addComponent(jBLimpiar))))
-                .addContainerGap(47, Short.MAX_VALUE))
+                            .addComponent(jBLimpiar)
+                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(45, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -365,8 +377,17 @@ public class VistasInstalacion extends javax.swing.JInternalFrame {
             }
 
             Instalacion nuevaInst = new Instalacion(nombre, detalle, precio, estado);
-            instalacionData.guardarInstalacion(nuevaInst);
-
+            
+            boolean guardadOk = instalacionData.guardarInstalacion(nuevaInst);
+            
+            if(guardadOk) {
+                JOptionPane.showMessageDialog(this, "Instalacion guardada con exito!");
+            } else {
+                JOptionPane.showMessageDialog(this, "No se pudo guardar la instalacion.");
+            }
+            
+            
+            
             limpiarCampos();
             cargarTabla(); // Recarga la tabla
 
@@ -493,6 +514,10 @@ public class VistasInstalacion extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_jTablaMousePressed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        this.dispose();    // TODO add your handling code here:
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     
 
     
@@ -503,6 +528,7 @@ public class VistasInstalacion extends javax.swing.JInternalFrame {
     private javax.swing.JButton jBGuardar;
     private javax.swing.JButton jBLimpiar;
     private javax.swing.JButton jBNuevo;
+    private javax.swing.JButton jButton1;
     private javax.swing.JComboBox<String> jCEstado;
     private javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JPanel jPanel1;

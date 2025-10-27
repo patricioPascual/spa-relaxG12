@@ -20,6 +20,14 @@ public class Profesional {
     public Profesional() {
     }
 
+    public Profesional(String matricula, String nombreCompleto, String telefono, String especialidad, boolean estado) {
+        this.matricula = matricula;
+        this.nombreCompleto = nombreCompleto;
+        this.telefono = telefono;
+        this.especialidad = especialidad;
+        this.estado = estado;
+    }
+
     public Profesional(int idProfesional, String matricula, String nombreCompleto, String telefono, String especialidad, boolean estado) {
         this.idProfesional = idProfesional;
         this.matricula = matricula;
@@ -81,6 +89,5 @@ public class Profesional {
     public String toString() {
         return "Profesional{" + "idProfesional=" + idProfesional + ", matricula=" + matricula + ", nombreCompleto=" + nombreCompleto + ", telefono=" + telefono + ", especialidad=" + especialidad + ", estado=" + estado + '}';
     }
-    
-    
+
 }

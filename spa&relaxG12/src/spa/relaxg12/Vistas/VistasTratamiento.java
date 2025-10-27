@@ -39,7 +39,7 @@ public class VistasTratamiento extends javax.swing.JInternalFrame {
         jLabel1 = new javax.swing.JLabel();
         txtNombre = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
-        comboTipo = new javax.swing.JComboBox<>();
+        comboEspecialidad = new javax.swing.JComboBox<>();
         jLabel3 = new javax.swing.JLabel();
         btnAgregar = new javax.swing.JButton();
         comboProducto = new javax.swing.JComboBox<>();
@@ -48,7 +48,7 @@ public class VistasTratamiento extends javax.swing.JInternalFrame {
         tblProducto = new javax.swing.JTable();
         jLabel4 = new javax.swing.JLabel();
         txtPrecio = new javax.swing.JTextField();
-        jButton3 = new javax.swing.JButton();
+        btnGuardarTrat = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
@@ -70,9 +70,14 @@ public class VistasTratamiento extends javax.swing.JInternalFrame {
             }
         });
 
-        jLabel2.setText("Tipo");
+        jLabel2.setText("Especialidad");
 
-        comboTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Facial", "Corporal", "Relajacion", "Estetico" }));
+        comboEspecialidad.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Facial", "Corporal", "Relajacion", "Estetico" }));
+        comboEspecialidad.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboEspecialidadActionPerformed(evt);
+            }
+        });
 
         jLabel3.setText("Productos");
 
@@ -123,10 +128,10 @@ public class VistasTratamiento extends javax.swing.JInternalFrame {
             }
         });
 
-        jButton3.setText("Guardar");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        btnGuardarTrat.setText("Guardar");
+        btnGuardarTrat.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                btnGuardarTratActionPerformed(evt);
             }
         });
 
@@ -160,7 +165,7 @@ public class VistasTratamiento extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(74, 74, 74)
-                        .addComponent(jButton3)
+                        .addComponent(btnGuardarTrat)
                         .addGap(101, 101, 101)
                         .addComponent(jButton4))
                     .addGroup(layout.createSequentialGroup()
@@ -178,7 +183,7 @@ public class VistasTratamiento extends javax.swing.JInternalFrame {
                                     .addComponent(txtDetalle, javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(comboProducto, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(txtNombre, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(comboTipo, javax.swing.GroupLayout.Alignment.LEADING, 0, 122, Short.MAX_VALUE))
+                                    .addComponent(comboEspecialidad, javax.swing.GroupLayout.Alignment.LEADING, 0, 122, Short.MAX_VALUE))
                                 .addGap(18, 18, 18)
                                 .addComponent(btnAgregar)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -196,7 +201,7 @@ public class VistasTratamiento extends javax.swing.JInternalFrame {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel2)
-                    .addComponent(comboTipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(comboEspecialidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtDetalle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -215,7 +220,7 @@ public class VistasTratamiento extends javax.swing.JInternalFrame {
                     .addComponent(jLabel4))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton3)
+                    .addComponent(btnGuardarTrat)
                     .addComponent(jButton4))
                 .addGap(18, 18, 18))
         );
@@ -257,7 +262,7 @@ public class VistasTratamiento extends javax.swing.JInternalFrame {
        }
     }//GEN-LAST:event_btnEliminarActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void btnGuardarTratActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarTratActionPerformed
              ProductoData pdta=  new ProductoData();
              ArrayList<Producto> lista= new ArrayList();
              DefaultTableModel modelo = (DefaultTableModel) tblProducto.getModel();
@@ -267,32 +272,36 @@ public class VistasTratamiento extends javax.swing.JInternalFrame {
              }
              
              String nombre= txtNombre.getText();
-             String especialidad= comboTipo.getSelectedItem().toString();
+             String especialidad= comboEspecialidad.getSelectedItem().toString();
              String detalle= txtDetalle.getText();
              int duracion= 30;
              double costo= Double.parseDouble(txtPrecio.getText());
                 Tratamiento tratamiento = new Tratamiento(nombre,especialidad,detalle,lista,duracion,costo,true);
                 TratamientoData tratamientoData= new TratamientoData();
-                tratamientoData.cargarTratamiento(tratamiento);
+                tratamientoData.guardarTratamiento(tratamiento);
               
                 for (Producto aux : lista){
                     tratamientoData.cargarTratamientoProducto(aux, tratamiento);
                     System.out.println(aux.getNombre() + tratamiento.getNombre());
                 }
                 
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_btnGuardarTratActionPerformed
 
     private void txtPrecioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPrecioActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtPrecioActionPerformed
 
+    private void comboEspecialidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboEspecialidadActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_comboEspecialidadActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregar;
     private javax.swing.JButton btnEliminar;
+    private javax.swing.JButton btnGuardarTrat;
+    private javax.swing.JComboBox<String> comboEspecialidad;
     private javax.swing.JComboBox<Producto> comboProducto;
-    private javax.swing.JComboBox<String> comboTipo;
-    private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
