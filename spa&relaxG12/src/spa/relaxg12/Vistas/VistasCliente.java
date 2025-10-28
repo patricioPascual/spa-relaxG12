@@ -29,7 +29,7 @@ public class VistasCliente extends javax.swing.JInternalFrame {
         modelo = new DefaultTableModel();
 
         armarCabecera();
-        listarClientes();
+        cargarClientesActivos();
     }
 
     /**
@@ -41,6 +41,7 @@ public class VistasCliente extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        groupEstado = new javax.swing.ButtonGroup();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -66,6 +67,8 @@ public class VistasCliente extends javax.swing.JInternalFrame {
         txtEdad = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
         btnLimpiarCampos = new javax.swing.JButton();
+        rbtnActivo = new javax.swing.JRadioButton();
+        rbtnInactivo = new javax.swing.JRadioButton();
 
         jLabel1.setText("Nombre");
 
@@ -155,6 +158,23 @@ public class VistasCliente extends javax.swing.JInternalFrame {
             }
         });
 
+        groupEstado.add(rbtnActivo);
+        rbtnActivo.setSelected(true);
+        rbtnActivo.setText("Activos");
+        rbtnActivo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rbtnActivoActionPerformed(evt);
+            }
+        });
+
+        groupEstado.add(rbtnInactivo);
+        rbtnInactivo.setText("Inactivos");
+        rbtnInactivo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rbtnInactivoActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -205,7 +225,11 @@ public class VistasCliente extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnAltaBaja)
-                        .addGap(284, 284, 284)
+                        .addGap(18, 18, 18)
+                        .addComponent(rbtnActivo)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(rbtnInactivo)
+                        .addGap(118, 118, 118)
                         .addComponent(btnSalir))
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 439, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -270,7 +294,10 @@ public class VistasCliente extends javax.swing.JInternalFrame {
                             .addComponent(btnAgregar)
                             .addComponent(btnModificar)
                             .addComponent(btnAltaBaja)
-                            .addComponent(btnLimpiarCampos))
+                            .addComponent(btnLimpiarCampos)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(rbtnActivo)
+                                .addComponent(rbtnInactivo)))
                         .addGap(14, 14, 14))))
         );
 
@@ -310,6 +337,26 @@ public class VistasCliente extends javax.swing.JInternalFrame {
         }
     }
 
+    public void cargarClientesInactivos() {
+        modelo.setRowCount(0);
+        ArrayList<Cliente> listado = clienteData.listarClientesInactivos();
+
+        for (Cliente c : listado) {
+            Object[] row = {c.getDni(), c.getNombre(), c.getApellido(), c.getEdad(), c.getTelefono(), c.isEstado()};
+            modelo.addRow(row);
+        }
+    }
+    
+    public void cargarClientesActivos() {
+        modelo.setRowCount(0);
+        ArrayList<Cliente> listado = clienteData.listarClientesActivos();
+
+        for (Cliente c : listado) {
+            Object[] row = {c.getDni(), c.getNombre(), c.getApellido(), c.getEdad(), c.getTelefono(), c.isEstado()};
+            modelo.addRow(row);
+        }
+    }
+    
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
         dispose();
     }//GEN-LAST:event_btnSalirActionPerformed
@@ -331,7 +378,11 @@ public class VistasCliente extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnAgregarActionPerformed
 
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
-        listarClientes();
+        if (rbtnActivo.isSelected()) {
+           cargarClientesActivos();
+        } else {
+            cargarClientesInactivos();
+        }
     }//GEN-LAST:event_btnActualizarActionPerformed
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
@@ -403,6 +454,14 @@ public class VistasCliente extends javax.swing.JInternalFrame {
         limpiarCampos();
     }//GEN-LAST:event_btnLimpiarCamposActionPerformed
 
+    private void rbtnActivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbtnActivoActionPerformed
+        cargarClientesActivos();
+    }//GEN-LAST:event_rbtnActivoActionPerformed
+
+    private void rbtnInactivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbtnInactivoActionPerformed
+        cargarClientesInactivos();
+    }//GEN-LAST:event_rbtnInactivoActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnActualizar;
@@ -412,6 +471,7 @@ public class VistasCliente extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnLimpiarCampos;
     private javax.swing.JButton btnModificar;
     private javax.swing.JButton btnSalir;
+    private javax.swing.ButtonGroup groupEstado;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -422,6 +482,8 @@ public class VistasCliente extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JRadioButton rbtnActivo;
+    private javax.swing.JRadioButton rbtnInactivo;
     private javax.swing.JTable tblClientes;
     private javax.swing.JTextArea txtAfecciones;
     private javax.swing.JTextField txtApellido;

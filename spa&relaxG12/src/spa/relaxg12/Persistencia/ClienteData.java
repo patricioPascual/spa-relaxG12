@@ -172,4 +172,70 @@ public class ClienteData {
         return listado;
     }
 
+    public ArrayList listarClientesActivos() {
+        ArrayList<Cliente> listado = new ArrayList();
+        try {
+            String query = "SELECT * FROM cliente WHERE estado=1";
+            PreparedStatement ps = con.prepareStatement(query);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Cliente cliente = new Cliente();
+                cliente.setIdCliente(rs.getInt("idCliente"));
+                cliente.setDni(rs.getInt("dni"));
+                cliente.setApellido(rs.getString("apellido"));
+                cliente.setNombre(rs.getString("nombre"));
+                cliente.setEdad(rs.getInt("edad"));
+                cliente.setTelefono(rs.getLong("telefono"));
+                cliente.setAfecciones(rs.getString("afecciones"));
+                int estadoInt = rs.getInt("estado");
+                boolean estado;
+                if (estadoInt == 1) {
+                    estado = true;
+                } else {
+                    estado = false;
+                }
+                cliente.setEstado(estado);
+                listado.add(cliente);
+                ps.close();
+            }
+
+        } catch (SQLException | NullPointerException e) {
+            JOptionPane.showMessageDialog(null, "Error al acceder a la base de datos");
+        }
+        return listado;
+    }
+    
+    public ArrayList listarClientesInactivos() {
+        ArrayList<Cliente> listado = new ArrayList();
+        try {
+            String query = "SELECT * FROM cliente WHERE estado=0";
+            PreparedStatement ps = con.prepareStatement(query);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Cliente cliente = new Cliente();
+                cliente.setIdCliente(rs.getInt("idCliente"));
+                cliente.setDni(rs.getInt("dni"));
+                cliente.setApellido(rs.getString("apellido"));
+                cliente.setNombre(rs.getString("nombre"));
+                cliente.setEdad(rs.getInt("edad"));
+                cliente.setTelefono(rs.getLong("telefono"));
+                cliente.setAfecciones(rs.getString("afecciones"));
+                int estadoInt = rs.getInt("estado");
+                boolean estado;
+                if (estadoInt == 1) {
+                    estado = true;
+                } else {
+                    estado = false;
+                }
+                cliente.setEstado(estado);
+                listado.add(cliente);
+                ps.close();
+            }
+
+        } catch (SQLException | NullPointerException e) {
+            JOptionPane.showMessageDialog(null, "Error al acceder a la base de datos");
+        }
+        return listado;
+    }
+    
 }
