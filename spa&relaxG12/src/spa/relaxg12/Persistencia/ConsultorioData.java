@@ -51,4 +51,33 @@ public class ConsultorioData {
             return false;
         }
     }
+    
+    public boolean altaConsultorio(String numeroConsultorio) {
+        String query = "UPDATE consultorio SET estado = 1 WHERE numeroConsultorio = ?";
+        try (PreparedStatement ps = con.prepareStatement(query)) {
+            ps.setString(1, numeroConsultorio);
+
+            int filas = ps.executeUpdate();
+            return filas > 0;
+        } catch (SQLException ex) {
+            return false;
+        }
+    }
+
+    public boolean modificarConsultorio(Consultorio consultorio) {
+        String query = "UPDATE consultorio SET  equipamiento=?,aptoPara=?,estado=? WHERE numeroConsultorio= ?";
+        try {
+            PreparedStatement ps = con.prepareStatement(query);
+            ps.setString(1, consultorio.getEquipamiento());
+            ps.setString(2, consultorio.getAptoPara());
+            ps.setBoolean(3, true);
+            ps.setString(4, consultorio.getNumeroConsultorio());
+            
+            int filas = ps.executeUpdate();
+            return filas > 0;
+        } catch (SQLException ex) {
+            return false;
+        }
+    }
+
 }

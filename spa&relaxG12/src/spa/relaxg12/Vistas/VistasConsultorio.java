@@ -7,6 +7,7 @@ package spa.relaxg12.Vistas;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 import spa.relaxg12.Modelo.Consultorio;
 import spa.relaxg12.Persistencia.ConsultorioData;
 
@@ -17,6 +18,7 @@ import spa.relaxg12.Persistencia.ConsultorioData;
 public class VistasConsultorio extends javax.swing.JInternalFrame {
 
     private ConsultorioData consultorioData;
+    private DefaultTableModel tableModel;
 
     /**
      * Creates new form VistasConsultorio
@@ -24,6 +26,7 @@ public class VistasConsultorio extends javax.swing.JInternalFrame {
     public VistasConsultorio() {
         initComponents();
         consultorioData = new ConsultorioData();
+        tableModel = new DefaultTableModel();
     }
 
     /**
@@ -44,8 +47,9 @@ public class VistasConsultorio extends javax.swing.JInternalFrame {
         jPanel1 = new javax.swing.JPanel();
         btnGuardar = new javax.swing.JButton();
         btnModificar = new javax.swing.JButton();
-        btnBaja = new javax.swing.JButton();
+        btnAlta = new javax.swing.JButton();
         btnSalir = new javax.swing.JButton();
+        btnBaja = new javax.swing.JButton();
 
         jLabel1.setText("N Consultorio");
 
@@ -71,6 +75,25 @@ public class VistasConsultorio extends javax.swing.JInternalFrame {
         });
 
         btnModificar.setText("Modificar");
+        btnModificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnModificarActionPerformed(evt);
+            }
+        });
+
+        btnAlta.setText("Alta");
+        btnAlta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAltaActionPerformed(evt);
+            }
+        });
+
+        btnSalir.setText("Salir");
+        btnSalir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSalirActionPerformed(evt);
+            }
+        });
 
         btnBaja.setText("Baja");
         btnBaja.addActionListener(new java.awt.event.ActionListener() {
@@ -79,8 +102,6 @@ public class VistasConsultorio extends javax.swing.JInternalFrame {
             }
         });
 
-        btnSalir.setText("Salir");
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -88,13 +109,15 @@ public class VistasConsultorio extends javax.swing.JInternalFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(19, 19, 19)
                 .addComponent(btnGuardar)
-                .addGap(38, 38, 38)
+                .addGap(18, 18, 18)
+                .addComponent(btnAlta)
+                .addGap(18, 18, 18)
                 .addComponent(btnBaja)
-                .addGap(34, 34, 34)
+                .addGap(18, 18, 18)
                 .addComponent(btnModificar)
-                .addGap(32, 32, 32)
+                .addGap(18, 18, 18)
                 .addComponent(btnSalir)
-                .addContainerGap(29, Short.MAX_VALUE))
+                .addContainerGap(21, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -103,8 +126,9 @@ public class VistasConsultorio extends javax.swing.JInternalFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnGuardar)
                     .addComponent(btnModificar)
-                    .addComponent(btnBaja)
-                    .addComponent(btnSalir))
+                    .addComponent(btnAlta)
+                    .addComponent(btnSalir)
+                    .addComponent(btnBaja))
                 .addContainerGap(23, Short.MAX_VALUE))
         );
 
@@ -113,26 +137,25 @@ public class VistasConsultorio extends javax.swing.JInternalFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(16, 16, 16)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(16, 16, 16)
+                        .addComponent(jLabel1)
+                        .addGap(18, 18, 18)
+                        .addComponent(txtNumConsultorio))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel3))
+                        .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addGap(18, 18, 18)
-                                .addComponent(txtNumConsultorio))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel2)
-                                    .addComponent(jLabel3))
-                                .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(txtEquipamiento)
-                                    .addComponent(cmbAptoPara, 0, 134, Short.MAX_VALUE)))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(46, 46, 46)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(43, Short.MAX_VALUE))
+                            .addComponent(txtEquipamiento)
+                            .addComponent(cmbAptoPara, 0, 134, Short.MAX_VALUE))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(77, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(35, 35, 35))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -149,9 +172,9 @@ public class VistasConsultorio extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(cmbAptoPara, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 100, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 82, Short.MAX_VALUE)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(22, 22, 22))
+                .addGap(40, 40, 40))
         );
 
         pack();
@@ -172,7 +195,7 @@ public class VistasConsultorio extends javax.swing.JInternalFrame {
                 JOptionPane.showMessageDialog(this, "Los campos no deben estar vacios");
                 return;
             }
-            
+
             Consultorio nuevoCons = new Consultorio(numConsultorio, equipamiento, aptoPara, estado);
 
             boolean guardadOk = consultorioData.guardarConsultorio(nuevoCons);
@@ -188,13 +211,79 @@ public class VistasConsultorio extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_btnGuardarActionPerformed
 
+    private void btnAltaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAltaActionPerformed
+        try {
+
+            String numConsultorio = txtNumConsultorio.getText();
+            if (numConsultorio.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Numero de consultorio no debe estar vacio");
+            }
+            boolean guardadOk = consultorioData.altaConsultorio(numConsultorio);
+            if (guardadOk) {
+                JOptionPane.showMessageDialog(this, "Alta Realizada");
+            } else {
+                JOptionPane.showMessageDialog(this, "No se pudo dar de Alta");
+            }
+
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Error al obtener datos de los campos: " + ex.getMessage());
+        }
+
+    }//GEN-LAST:event_btnAltaActionPerformed
+
+    private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
+        try {
+            String numConsultorio = txtNumConsultorio.getText();
+            String equipamiento = txtEquipamiento.getText();
+            String aptoPara = cmbAptoPara.getSelectedItem().toString();
+            boolean estado = true;
+
+            if (numConsultorio.isEmpty() || equipamiento.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Los campos no deben estar vacios");
+                return;
+            }
+
+            Consultorio nuevoCons = new Consultorio(numConsultorio, equipamiento, aptoPara, estado);
+
+            boolean guardadOk = consultorioData.modificarConsultorio(nuevoCons);
+
+            if (guardadOk) {
+                JOptionPane.showMessageDialog(this, "Consultorio modificado con exito!");
+            } else {
+                JOptionPane.showMessageDialog(this, "No se pudo modificar el consultorio.");
+            }
+
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Error al obtener datos de los campos: " + ex.getMessage());
+        }
+    }//GEN-LAST:event_btnModificarActionPerformed
+
     private void btnBajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBajaActionPerformed
-        String numConsultorio = txtNumConsultorio.getText();
-        consultorioData.bajaConsultorio(numConsultorio);
+        try {
+
+            String numConsultorio = txtNumConsultorio.getText();
+            if (numConsultorio.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Numero de consultorio no debe estar vacio");
+            }
+            boolean guardadOk = consultorioData.bajaConsultorio(numConsultorio);
+            if (guardadOk) {
+                JOptionPane.showMessageDialog(this, "Baja Realizada");
+            } else {
+                JOptionPane.showMessageDialog(this, "No se pudo dar de Baja");
+            }
+
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Error al obtener datos de los campos: " + ex.getMessage());
+        }
     }//GEN-LAST:event_btnBajaActionPerformed
+
+    private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_btnSalirActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAlta;
     private javax.swing.JButton btnBaja;
     private javax.swing.JButton btnGuardar;
     private javax.swing.JButton btnModificar;
