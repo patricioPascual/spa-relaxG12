@@ -10,6 +10,7 @@ import spa.relaxg12.Persistencia.ConsultorioData;
 import spa.relaxg12.Persistencia.InstalacionData;
 import spa.relaxg12.Persistencia.ProductoData;
 import spa.relaxg12.Persistencia.ProfesionalData;
+import spa.relaxg12.Persistencia.SesionData;
 import spa.relaxg12.Persistencia.TratamientoData;
 import spa.relaxg12.Vistas.VistasTratamiento;
 
@@ -26,6 +27,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
      private ProductoData productoData; 
      private ProfesionalData profesionalData;
      private ConsultorioData consultorioData;
+     private SesionData sesionData;
     /**
      * Creates new form MenuPrincipal
      */
@@ -38,7 +40,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
         productoData= new ProductoData(miConexion);
         profesionalData = new ProfesionalData(miConexion);
         consultorioData = new ConsultorioData(miConexion);
-        
+        sesionData= new SesionData(miConexion);
     }
 
     /**

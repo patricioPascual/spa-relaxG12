@@ -12,6 +12,7 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import spa.relaxg12.Modelo.Consultorio;
 import spa.relaxg12.Modelo.Instalacion;
 import spa.relaxg12.Modelo.Profesional;
 import spa.relaxg12.Modelo.Tratamiento;
@@ -402,6 +403,7 @@ public class VistasDiaDeSpa extends javax.swing.JInternalFrame {
         cmbProfesional.addItem(aux.getNombre()+aux.getApellido());  
          
      }
+     cargarComboConsultorios();
     }//GEN-LAST:event_cmbHoraActionPerformed
 
 
@@ -492,5 +494,15 @@ public class VistasDiaDeSpa extends javax.swing.JInternalFrame {
        for (Instalacion aux : listado){
            cmbInstalaciones.addItem(aux.getNombre());
        }
+    }
+    public void cargarComboConsultorios(){
+        SesionData sesionData= new SesionData();
+         LocalDate fecha= dateChooser.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+     String hora= cmbHora.getSelectedItem().toString(); 
+     String apto= cmbTipo.getSelectedItem().toString();
+        ArrayList<Consultorio> listado= sesionData.buscarConsultoriosDisponibles(fecha, hora, apto);
+        for(Consultorio aux :listado){
+            cmbConsultorio.addItem(aux.getNumeroConsultorio());
+        }
     }
 }

@@ -13,6 +13,7 @@ import java.sql.Date;
 import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
+import spa.relaxg12.Modelo.Consultorio;
 import spa.relaxg12.Modelo.Profesional;
 
 /**
@@ -36,10 +37,12 @@ public class SesionData {
  
        
         try {
-            String query = "SELECT * from profesional - (SELECT idProfesional FROM sesion AS S JOIN profesional AS P  WHERE S.fecha =? AND HoraInicio =?  P.especialidad =?)";
+            String query = "SELECT idProfesional,matricula,nombre,apellido,telefono,especialidad,estado FROM profesional AS P WHERE P.especialidad=? AND P.idProfesional NOT IN(SELECT P.idProfesional FROM profesional AS P JOIN sesion AS S ON S.idProfesional= P.idProfesional WHERE S.fecha =? AND HoraInicio =?  AND P.especialidad =?)";
             PreparedStatement ps = con.prepareStatement(query);
-            ps.setDate(1,Date.valueOf(fecha) );
-            ps.setString(2, especialidad);
+            ps.setString(1, especialidad);
+            ps.setDate(2,Date.valueOf(fecha) );
+            ps.setString(3, especialidad);
+            ps.setString(4, especialidad);
             ResultSet rs = ps.executeQuery();
             Profesional prof;
             while (rs.next()) {
@@ -59,7 +62,7 @@ public class SesionData {
                 }
                 prof.setEstado(estado);
                 listado.add(prof);
-                ps.close();
+               
             }
 
         } catch (SQLException ex) {
@@ -69,4 +72,43 @@ public class SesionData {
         return listado;
     }
     
-}
+    public ArrayList buscarConsultoriosDisponibles(LocalDate fecha ,String hora,String apto){
+         ArrayList<Consultorio> listado = new ArrayList();
+ 
+       
+        try {
+            String query = "SELECT idConsultorio,numeroConsultorio,equipamiento,aptoPara,estado FROM consultorio WHERE aptoPara=? AND idConsultorio NOT IN (SELECT C.idConsultorio FROM consultorio as C JOIN sesion as S  on C.idConsultorio = S.idConsultorio AND S.fecha=? AND S.HoraInicio=? AND C.aptoPara=?)";
+            PreparedStatement ps = con.prepareStatement(query);
+            ps.setString(1, apto);
+            ps.setDate(2,Date.valueOf(fecha) );
+            ps.setString(3, hora);
+            ps.setString(4, apto);
+            ResultSet rs = ps.executeQuery();
+            
+            while (rs.next()) {
+           Consultorio     consultorio = new Consultorio();
+                consultorio.setIdConsultorio(rs.getInt("idConsultorio"));
+                consultorio.setNumeroConsultorio(rs.getString("numeroConsultorio"));
+                consultorio.setAptoPara(rs.getString("aptoPara"));
+                consultorio.setEquipamiento(rs.getString("equipamiento"));
+               
+                int estadoInt = rs.getInt("estado");
+                boolean estado;
+                if (estadoInt == 1) {
+                    estado = true;
+                } else {
+                    estado = false;
+                }
+                consultorio.setEstado(estado);
+                listado.add(consultorio);
+               
+            }
+
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al guardar Listado");
+
+        }
+        return listado;
+    }
+    }
+
