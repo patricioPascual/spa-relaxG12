@@ -19,6 +19,8 @@ import java.sql.ResultSet;
  *
  * @author patri
  */
+
+ 
 public class TratamientoData {
 
      private static Connection con;
@@ -82,16 +84,16 @@ public class TratamientoData {
         
     }
     
-   public  ArrayList listarTratamientos(String tipo) {
+   public  ArrayList listarTratamientos(String especialidad) {
         ArrayList<Tratamiento> listado = new ArrayList();
         try {
-            String query = "SELECT * FROM tratamiento WHERE tipo=? AND activo=1";
+            String query = "SELECT * FROM tratamiento WHERE especialidad=? AND activo=1";
             PreparedStatement ps = con.prepareStatement(query);
-            ps.setString(1, tipo);
+            ps.setString(1, especialidad);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 Tratamiento tratamiento = new Tratamiento();
-                tratamiento.setIdTratamiento(rs.getInt("id_producto"));
+                tratamiento.setIdTratamiento(rs.getInt("idTratamiento"));
                 tratamiento.setNombre(rs.getString("nombre"));
                 tratamiento.setEspecialidad(rs.getString("especialidad"));
                 tratamiento.setDetalle(rs.getString("detalle"));
@@ -111,7 +113,7 @@ public class TratamientoData {
     }
      public  void modificarTratamiento(Tratamiento tratamiento) {
        
-        String query = "UPDATE  tratramiento SET  nombre=?, especialidad=?,detalle=?,duracion=?,costo=?,activo=?  WHERE nombre=?  ";
+        String query = "UPDATE  tratamiento SET  nombre=?, especialidad=?,detalle=?,duracion=?,costo=?,activo=?  WHERE nombre=?  ";
         try {
             PreparedStatement ps = con.prepareStatement(query);
             ps.setString(1, tratamiento.getNombre());
@@ -120,6 +122,7 @@ public class TratamientoData {
             ps.setInt(4, (tratamiento.getDuracion()));
             ps.setDouble(5, tratamiento.getCosto());
             ps.setBoolean(6, true);
+            ps.setString(7, tratamiento.getNombre());
             int exito = ps.executeUpdate();
             if (exito == 1) {
                 JOptionPane.showMessageDialog(null, "tratamiento modificado con exito");
@@ -197,5 +200,6 @@ public class TratamientoData {
         return tratamiento;
 
     }
+ 
     }
 

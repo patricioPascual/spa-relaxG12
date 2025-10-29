@@ -171,7 +171,9 @@ public class MenuPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void btnTurnosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTurnosActionPerformed
-        // TODO add your handling code here:
+        VistasDiaDeSpa vistSpa= new VistasDiaDeSpa();
+        escritorio.add(vistSpa);
+        vistSpa.setVisible(true);
     }//GEN-LAST:event_btnTurnosActionPerformed
 
     private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
