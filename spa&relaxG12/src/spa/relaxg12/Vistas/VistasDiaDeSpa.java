@@ -12,10 +12,12 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import spa.relaxg12.Modelo.Cliente;
 import spa.relaxg12.Modelo.Consultorio;
 import spa.relaxg12.Modelo.Instalacion;
 import spa.relaxg12.Modelo.Profesional;
 import spa.relaxg12.Modelo.Tratamiento;
+import spa.relaxg12.Persistencia.ClienteData;
 import spa.relaxg12.Persistencia.InstalacionData;
 import spa.relaxg12.Persistencia.ProfesionalData;
 import spa.relaxg12.Persistencia.SesionData;
@@ -33,6 +35,7 @@ public class VistasDiaDeSpa extends javax.swing.JInternalFrame {
     public VistasDiaDeSpa() {
         initComponents();
         cargarComboInstalacion();
+        txtNoEditables();
     }
 
     /**
@@ -49,15 +52,15 @@ public class VistasDiaDeSpa extends javax.swing.JInternalFrame {
         txtDni = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        btnBuscarCliente = new javax.swing.JButton();
         txtNombre = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         txtApellido = new javax.swing.JTextField();
         txtTelefono = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         listSesiones = new javax.swing.JList<>();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        btnReservar = new javax.swing.JButton();
+        btnSalir = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
@@ -71,13 +74,17 @@ public class VistasDiaDeSpa extends javax.swing.JInternalFrame {
         jLabel11 = new javax.swing.JLabel();
         cmbInstalaciones = new javax.swing.JComboBox<>();
         jLabel12 = new javax.swing.JLabel();
-        jButton2 = new javax.swing.JButton();
         jLabel13 = new javax.swing.JLabel();
         cmbTipo = new javax.swing.JComboBox<>();
         jLabel14 = new javax.swing.JLabel();
         cmbEspecialidad = new javax.swing.JComboBox<>();
         cmbHora = new javax.swing.JComboBox<>();
+        jLabel16 = new javax.swing.JLabel();
+        txtMontoSesion = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
+        btnAgregarSesion = new javax.swing.JButton();
+        jLabel15 = new javax.swing.JLabel();
+        txtMontoTotal = new javax.swing.JTextField();
 
         javax.swing.GroupLayout jDesktopPane2Layout = new javax.swing.GroupLayout(jDesktopPane2);
         jDesktopPane2.setLayout(jDesktopPane2Layout);
@@ -96,16 +103,10 @@ public class VistasDiaDeSpa extends javax.swing.JInternalFrame {
 
         jLabel3.setText("Apellido");
 
-        jButton1.setText("Buscar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnBuscarCliente.setText("Buscar");
+        btnBuscarCliente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-
-        txtNombre.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtNombreActionPerformed(evt);
+                btnBuscarClienteActionPerformed(evt);
             }
         });
 
@@ -113,12 +114,12 @@ public class VistasDiaDeSpa extends javax.swing.JInternalFrame {
 
         jScrollPane1.setViewportView(listSesiones);
 
-        jButton3.setText("Reservar");
+        btnReservar.setText("Reservar");
 
-        jButton4.setText("Salir");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
+        btnSalir.setText("Salir");
+        btnSalir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
+                btnSalirActionPerformed(evt);
             }
         });
 
@@ -130,36 +131,11 @@ public class VistasDiaDeSpa extends javax.swing.JInternalFrame {
 
         jLabel8.setText("Consultorio");
 
-        cmbTratamiento.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cmbTratamientoActionPerformed(evt);
-            }
-        });
-
-        cmbProfesional.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cmbProfesionalActionPerformed(evt);
-            }
-        });
-
-        cmbConsultorio.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cmbConsultorioActionPerformed(evt);
-            }
-        });
-
         jLabel10.setText("Hora");
 
         jLabel11.setText("Instalaciones");
 
         jLabel12.setText("Agregar Sesiones y/o Instalaciones a usar");
-
-        jButton2.setText("Agregar Sesion");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
 
         jLabel13.setText("Tipo de Tratamiento");
 
@@ -185,14 +161,12 @@ public class VistasDiaDeSpa extends javax.swing.JInternalFrame {
             }
         });
 
+        jLabel16.setText("Monto");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton2)
-                .addGap(64, 64, 64))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -209,28 +183,30 @@ public class VistasDiaDeSpa extends javax.swing.JInternalFrame {
                                     .addComponent(jLabel13)
                                     .addComponent(jLabel14)))
                             .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel8))
+                            .addComponent(jLabel8)
+                            .addComponent(jLabel16))
                         .addGap(39, 39, 39)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtMontoSesion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(cmbTipo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(cmbTratamiento, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(cmbProfesional, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(cmbEspecialidad, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(cmbInstalaciones, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(cmbConsultorio, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(dateChooser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(cmbHora, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addComponent(cmbHora, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(cmbConsultorio, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addGap(40, 40, 40))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -240,7 +216,7 @@ public class VistasDiaDeSpa extends javax.swing.JInternalFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel14)
                             .addComponent(cmbEspecialidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel6)
                             .addComponent(cmbTratamiento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -266,11 +242,22 @@ public class VistasDiaDeSpa extends javax.swing.JInternalFrame {
                         .addGap(18, 18, 18)
                         .addComponent(cmbConsultorio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jLabel8))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton2))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel16)
+                    .addComponent(txtMontoSesion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
         jLabel5.setText("SESIONES");
+
+        btnAgregarSesion.setText("Agregar Sesion");
+        btnAgregarSesion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAgregarSesionActionPerformed(evt);
+            }
+        });
+
+        jLabel15.setText("Monto Total");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -279,10 +266,7 @@ public class VistasDiaDeSpa extends javax.swing.JInternalFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(16, 16, 16)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(6, 6, 6)
-                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jButton3)
+                    .addComponent(btnReservar)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -297,17 +281,23 @@ public class VistasDiaDeSpa extends javax.swing.JInternalFrame {
                             .addComponent(txtApellido)
                             .addComponent(txtTelefono, javax.swing.GroupLayout.DEFAULT_SIZE, 98, Short.MAX_VALUE))
                         .addGap(26, 26, 26)
-                        .addComponent(jButton1))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(btnBuscarCliente))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel15)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(txtMontoTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton4)
-                        .addGap(167, 167, 167))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(26, 26, 26)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(btnAgregarSesion)
+                        .addGap(32, 32, 32)
+                        .addComponent(btnSalir)
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(94, Short.MAX_VALUE))))
+                        .addGap(28, 28, 28))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -318,7 +308,7 @@ public class VistasDiaDeSpa extends javax.swing.JInternalFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel1)
                             .addComponent(txtDni, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton1))
+                            .addComponent(btnBuscarCliente))
                         .addGap(16, 16, 16)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel2)
@@ -335,115 +325,32 @@ public class VistasDiaDeSpa extends javax.swing.JInternalFrame {
                         .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(2, 2, 2)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel15)
+                            .addComponent(txtMontoTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(29, 29, 29))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(32, 32, 32)
+                        .addContainerGap()
                         .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton3)
-                    .addComponent(jButton4))
-                .addGap(18, 18, 18))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnReservar)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btnSalir)
+                        .addComponent(btnAgregarSesion)))
+                .addGap(12, 12, 12))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombreActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtNombreActionPerformed
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        dispose();
-    }//GEN-LAST:event_jButton4ActionPerformed
-
-    private void cmbTratamientoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbTratamientoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_cmbTratamientoActionPerformed
-
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-
-    }//GEN-LAST:event_jButton2ActionPerformed
-
-    private void cmbConsultorioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbConsultorioActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_cmbConsultorioActionPerformed
-
-    private void cmbProfesionalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbProfesionalActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_cmbProfesionalActionPerformed
-
-    private void cmbTipoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbTipoActionPerformed
-        cargarComboEspecialidad();
-        cargarComboTrat();
-    }//GEN-LAST:event_cmbTipoActionPerformed
-
-    private void cmbEspecialidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbEspecialidadActionPerformed
-        cargarComboProfesional();
-    }//GEN-LAST:event_cmbEspecialidadActionPerformed
-
-    private void cmbHoraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbHoraActionPerformed
-     cmbProfesional.removeAllItems();
-        SesionData sesionData= new SesionData();
-     ArrayList<Profesional> listado=null;
-     LocalDate fecha= dateChooser.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-     String hora= cmbHora.getSelectedItem().toString(); 
-     String especialidad= cmbEspecialidad.getSelectedItem().toString();
-        try {
-          listado= sesionData.buscarProfesionalesLibres(fecha, hora, especialidad);
-        } catch (SQLException ex) {
-            Logger.getLogger(VistasDiaDeSpa.class.getName()).log(Level.SEVERE, null, ex);
-        }
-     
-     for(Profesional aux : listado){
-        cmbProfesional.addItem(aux.getNombre()+aux.getApellido());  
-         
-     }
-     cargarComboConsultorios();
-    }//GEN-LAST:event_cmbHoraActionPerformed
-
-
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JComboBox<String> cmbConsultorio;
-    private javax.swing.JComboBox<String> cmbEspecialidad;
-    private javax.swing.JComboBox<String> cmbHora;
-    private javax.swing.JComboBox<String> cmbInstalaciones;
-    private javax.swing.JComboBox<String> cmbProfesional;
-    private javax.swing.JComboBox<String> cmbTipo;
-    private javax.swing.JComboBox<String> cmbTratamiento;
-    private com.toedter.calendar.JDateChooser dateChooser;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JDesktopPane jDesktopPane2;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel14;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JList<String> listSesiones;
-    private javax.swing.JTextField txtApellido;
-    private javax.swing.JTextField txtDni;
-    private javax.swing.JTextField txtNombre;
-    private javax.swing.JTextField txtTelefono;
-    // End of variables declaration//GEN-END:variables
-
+    public void txtNoEditables() {
+        txtNombre.setEditable(false);
+        txtApellido.setEditable(false);
+        txtTelefono.setEditable(false);
+    }
+    
     public void cargarComboTrat() {
         cmbTratamiento.removeAllItems();
         TratamientoData tratData = new TratamientoData();
@@ -491,18 +398,107 @@ public class VistasDiaDeSpa extends javax.swing.JInternalFrame {
     public void cargarComboInstalacion() {
         InstalacionData instData = new InstalacionData();
         ArrayList<Instalacion> listado = (ArrayList) instData.listarInstalacionesActivas();
-       for (Instalacion aux : listado){
-           cmbInstalaciones.addItem(aux.getNombre());
-       }
+        for (Instalacion aux : listado) {
+            cmbInstalaciones.addItem(aux.getNombre());
+        }
     }
-    public void cargarComboConsultorios(){
-        SesionData sesionData= new SesionData();
-         LocalDate fecha= dateChooser.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-     String hora= cmbHora.getSelectedItem().toString(); 
-     String apto= cmbTipo.getSelectedItem().toString();
-        ArrayList<Consultorio> listado= sesionData.buscarConsultoriosDisponibles(fecha, hora, apto);
-        for(Consultorio aux :listado){
+
+    public void cargarComboConsultorios() {
+        SesionData sesionData = new SesionData();
+        LocalDate fecha = dateChooser.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        String hora = cmbHora.getSelectedItem().toString();
+        String apto = cmbTipo.getSelectedItem().toString();
+        ArrayList<Consultorio> listado = sesionData.buscarConsultoriosDisponibles(fecha, hora, apto);
+        for (Consultorio aux : listado) {
             cmbConsultorio.addItem(aux.getNumeroConsultorio());
         }
     }
+
+    private void btnBuscarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarClienteActionPerformed
+        ClienteData clienteData = new ClienteData();
+        Cliente cliente = clienteData.buscarClienteDni(Integer.parseInt(txtDni.getText()));
+        
+        txtNombre.setText(cliente.getNombre());
+        txtApellido.setText(cliente.getApellido());
+        txtTelefono.setText(String.valueOf(cliente.getTelefono()));
+    }//GEN-LAST:event_btnBuscarClienteActionPerformed
+
+    private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
+        dispose();
+    }//GEN-LAST:event_btnSalirActionPerformed
+
+    private void btnAgregarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarSesionActionPerformed
+
+    }//GEN-LAST:event_btnAgregarSesionActionPerformed
+
+    private void cmbTipoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbTipoActionPerformed
+        cargarComboEspecialidad();
+        cargarComboTrat();
+    }//GEN-LAST:event_cmbTipoActionPerformed
+
+    private void cmbEspecialidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbEspecialidadActionPerformed
+        cargarComboProfesional();
+    }//GEN-LAST:event_cmbEspecialidadActionPerformed
+
+    private void cmbHoraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbHoraActionPerformed
+        cmbProfesional.removeAllItems();
+        SesionData sesionData = new SesionData();
+        ArrayList<Profesional> listado = null;
+        LocalDate fecha = dateChooser.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        String hora = cmbHora.getSelectedItem().toString();
+        String especialidad = cmbEspecialidad.getSelectedItem().toString();
+        try {
+            listado = sesionData.buscarProfesionalesLibres(fecha, hora, especialidad);
+        } catch (SQLException ex) {
+            Logger.getLogger(VistasDiaDeSpa.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        for (Profesional aux : listado) {
+            cmbProfesional.addItem(aux.getNombre() + aux.getApellido());
+
+        }
+        cargarComboConsultorios();
+    }//GEN-LAST:event_cmbHoraActionPerformed
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAgregarSesion;
+    private javax.swing.JButton btnBuscarCliente;
+    private javax.swing.JButton btnReservar;
+    private javax.swing.JButton btnSalir;
+    private javax.swing.JComboBox<String> cmbConsultorio;
+    private javax.swing.JComboBox<String> cmbEspecialidad;
+    private javax.swing.JComboBox<String> cmbHora;
+    private javax.swing.JComboBox<String> cmbInstalaciones;
+    private javax.swing.JComboBox<String> cmbProfesional;
+    private javax.swing.JComboBox<String> cmbTipo;
+    private javax.swing.JComboBox<String> cmbTratamiento;
+    private com.toedter.calendar.JDateChooser dateChooser;
+    private javax.swing.JDesktopPane jDesktopPane2;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JList<String> listSesiones;
+    private javax.swing.JTextField txtApellido;
+    private javax.swing.JTextField txtDni;
+    private javax.swing.JTextField txtMontoSesion;
+    private javax.swing.JTextField txtMontoTotal;
+    private javax.swing.JTextField txtNombre;
+    private javax.swing.JTextField txtTelefono;
+    // End of variables declaration//GEN-END:variables
+
 }
