@@ -74,6 +74,7 @@ public class VistasSesion extends javax.swing.JInternalFrame {
         jLabel16 = new javax.swing.JLabel();
         txtMontoSesion = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
+        btnLimpiarCampos = new javax.swing.JButton();
 
         btnAgregar.setText("Agregar");
         btnAgregar.addActionListener(new java.awt.event.ActionListener() {
@@ -143,6 +144,13 @@ public class VistasSesion extends javax.swing.JInternalFrame {
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel1.setText("Gestor de Sesiones");
 
+        btnLimpiarCampos.setText("Limpiar");
+        btnLimpiarCampos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLimpiarCamposActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -178,12 +186,17 @@ public class VistasSesion extends javax.swing.JInternalFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(btnAgregar)
                             .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
+                        .addGap(12, 12, 12)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(26, 26, 26)
+                                .addComponent(jLabel1))
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(dateChooser, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(btnSalir, javax.swing.GroupLayout.Alignment.TRAILING)))))
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                    .addComponent(btnLimpiarCampos)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 93, Short.MAX_VALUE)
+                                    .addComponent(btnSalir))))))
                 .addContainerGap(51, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -229,7 +242,8 @@ public class VistasSesion extends javax.swing.JInternalFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAgregar)
-                    .addComponent(btnSalir))
+                    .addComponent(btnSalir)
+                    .addComponent(btnLimpiarCampos))
                 .addGap(14, 14, 14))
         );
 
@@ -262,7 +276,7 @@ public class VistasSesion extends javax.swing.JInternalFrame {
         cmbProfesional.setSelectedIndex(-1);
         cmbInstalaciones.setSelectedIndex(-1);
     }
-    
+
     public double calculoMontoTotal() {
         Tratamiento trat;
         Instalacion inst;
@@ -354,12 +368,14 @@ public class VistasSesion extends javax.swing.JInternalFrame {
 
     public void cargarComboConsultorios() {
         SesionData sesionData = new SesionData();
-        LocalDate fecha = dateChooser.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-        String hora = cmbHora.getSelectedItem().toString();
-        String apto = cmbTipo.getSelectedItem().toString();
-        ArrayList<Consultorio> listado = sesionData.buscarConsultoriosDisponibles(fecha, hora, apto);
-        for (Consultorio aux : listado) {
-            cmbConsultorio.addItem(aux);
+        if (cmbTipo.getSelectedIndex() != -1 && cmbHora.getSelectedIndex() != -1) {
+            LocalDate fecha = dateChooser.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            String hora = cmbHora.getSelectedItem().toString();
+            String apto = cmbTipo.getSelectedItem().toString();
+            ArrayList<Consultorio> listado = sesionData.buscarConsultoriosDisponibles(fecha, hora, apto);
+            for (Consultorio aux : listado) {
+                cmbConsultorio.addItem(aux);
+            }
         }
         cmbConsultorio.setSelectedIndex(-1);
     }
@@ -377,15 +393,17 @@ public class VistasSesion extends javax.swing.JInternalFrame {
         try {
             cmbProfesional.removeAllItems();
             SesionData sesionData = new SesionData();
-            ArrayList<Profesional> listado = null;
-            LocalDate fecha = dateChooser.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-            String hora = cmbHora.getSelectedItem().toString();
-            String especialidad = cmbEspecialidad.getSelectedItem().toString();
-            listado = sesionData.buscarProfesionalesLibres(fecha, hora, especialidad);
+            if (cmbEspecialidad.getSelectedIndex() != -1 && cmbHora.getSelectedIndex() != -1) {
+                ArrayList<Profesional> listado = null;
+                LocalDate fecha = dateChooser.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                String hora = cmbHora.getSelectedItem().toString();
+                String especialidad = cmbEspecialidad.getSelectedItem().toString();
+                listado = sesionData.buscarProfesionalesLibres(fecha, hora, especialidad);
 
-            for (Profesional aux : listado) {
-                cmbProfesional.addItem(aux.getNombre() + aux.getApellido());
+                for (Profesional aux : listado) {
+                    cmbProfesional.addItem(aux.getNombre() + aux.getApellido());
 
+                }
             }
             cargarComboConsultorios();
         } catch (SQLException ex) {
@@ -409,9 +427,14 @@ public class VistasSesion extends javax.swing.JInternalFrame {
         txtMontoSesion.setText(String.valueOf(calculoMontoTotal()));
     }//GEN-LAST:event_cmbInstalacionesActionPerformed
 
+    private void btnLimpiarCamposActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarCamposActionPerformed
+        limpiarCampos();
+    }//GEN-LAST:event_btnLimpiarCamposActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregar;
+    private javax.swing.JButton btnLimpiarCampos;
     private javax.swing.JButton btnSalir;
     private javax.swing.JComboBox<Object> cmbConsultorio;
     private javax.swing.JComboBox<Object> cmbEspecialidad;

@@ -31,17 +31,16 @@ public class SesionData {
     public SesionData() {
     }
 
-    public ArrayList buscarProfesionalesLibres(LocalDate fecha ,String hora,String especialidad) throws SQLException {
+    public ArrayList buscarProfesionalesLibres(LocalDate fecha, String hora, String especialidad) throws SQLException {
 
         ArrayList<Profesional> listado = new ArrayList();
- 
-       
+
         try {
             String query = "SELECT idProfesional,matricula,nombre,apellido,telefono,especialidad,estado FROM profesional AS P WHERE P.especialidad=? AND P.idProfesional NOT IN(SELECT P.idProfesional FROM profesional AS P JOIN sesion AS S ON S.idProfesional= P.idProfesional WHERE S.fecha =? AND HoraInicio =?  AND P.especialidad =?)";
             PreparedStatement ps = con.prepareStatement(query);
             ps.setString(1, especialidad);
-            ps.setDate(2,Date.valueOf(fecha) );
-            ps.setString(3, especialidad);
+            ps.setDate(2, Date.valueOf(fecha));
+            ps.setString(3, hora);
             ps.setString(4, especialidad);
             ResultSet rs = ps.executeQuery();
             Profesional prof;
@@ -62,7 +61,7 @@ public class SesionData {
                 }
                 prof.setEstado(estado);
                 listado.add(prof);
-               
+
             }
 
         } catch (SQLException ex) {
@@ -71,27 +70,26 @@ public class SesionData {
         }
         return listado;
     }
-    
-    public ArrayList buscarConsultoriosDisponibles(LocalDate fecha ,String hora,String apto){
-         ArrayList<Consultorio> listado = new ArrayList();
- 
-       
+
+    public ArrayList buscarConsultoriosDisponibles(LocalDate fecha, String hora, String apto) {
+        ArrayList<Consultorio> listado = new ArrayList();
+
         try {
-            String query = "SELECT idConsultorio,numeroConsultorio,equipamiento,aptoPara,estado FROM consultorio WHERE aptoPara=? AND idConsultorio NOT IN (SELECT C.idConsultorio FROM consultorio as C JOIN sesion as S  on C.idConsultorio = S.idConsultorio AND S.fecha=? AND S.HoraInicio=? AND C.aptoPara=?)";
+            String query = "SELECT idConsultorio,numeroConsultorio,equipamiento,aptoPara,estado FROM consultorio AS C WHERE aptoPara=? AND C.idConsultorio NOT IN (SELECT C.idConsultorio FROM consultorio as C JOIN sesion as S  on C.idConsultorio = S.idConsultorio AND S.fecha=? AND S.HoraInicio=? AND C.aptoPara=?)";
             PreparedStatement ps = con.prepareStatement(query);
             ps.setString(1, apto);
-            ps.setDate(2,Date.valueOf(fecha) );
+            ps.setDate(2, Date.valueOf(fecha));
             ps.setString(3, hora);
             ps.setString(4, apto);
             ResultSet rs = ps.executeQuery();
-            
+
             while (rs.next()) {
-           Consultorio     consultorio = new Consultorio();
+                Consultorio consultorio = new Consultorio();
                 consultorio.setIdConsultorio(rs.getInt("idConsultorio"));
                 consultorio.setNumeroConsultorio(rs.getString("numeroConsultorio"));
                 consultorio.setAptoPara(rs.getString("aptoPara"));
                 consultorio.setEquipamiento(rs.getString("equipamiento"));
-               
+
                 int estadoInt = rs.getInt("estado");
                 boolean estado;
                 if (estadoInt == 1) {
@@ -101,7 +99,7 @@ public class SesionData {
                 }
                 consultorio.setEstado(estado);
                 listado.add(consultorio);
-               
+
             }
 
         } catch (SQLException ex) {
@@ -110,5 +108,4 @@ public class SesionData {
         }
         return listado;
     }
-    }
-
+}
