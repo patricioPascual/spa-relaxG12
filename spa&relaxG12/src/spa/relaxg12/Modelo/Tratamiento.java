@@ -121,7 +121,7 @@ public class Tratamiento {
 
     @Override
     public String toString() {
-        return "Tratamiento{" + "idTratamiento=" + idTratamiento + ", nombre=" + nombre + ", especialidad=" + especialidad + ", detalle=" + detalle + ", duracion=" + duracion + ", costo=" + costo + ", activo=" + activo + '}';
+        return  nombre + ", Costo: " + costo ;
     }
 
 }

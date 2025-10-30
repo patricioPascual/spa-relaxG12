@@ -76,7 +76,7 @@ public class Consultorio {
 
     @Override
     public String toString() {
-        return "Consultorio{" + "idConsultorio=" + idConsultorio + ", numeroConsultorio=" + numeroConsultorio + ", equipamiento=" + equipamiento + ", aptoPara=" + aptoPara + ", estado=" + estado + '}';
+        return "Consultorio N°: " + numeroConsultorio;
     }
 
 }

@@ -98,7 +98,7 @@ public class Profesional {
 
     @Override
     public String toString() {
-        return "Profesional{" + "idProfesional=" + idProfesional + ", matricula=" + matricula + ", nombre=" + nombre + ", apellido=" + apellido + ", telefono=" + telefono + ", especialidad=" + especialidad + ", estado=" + estado + '}';
+        return nombre + " " + apellido;
     }
 
 }

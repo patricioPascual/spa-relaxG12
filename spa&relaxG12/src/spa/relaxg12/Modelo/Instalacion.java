@@ -75,7 +75,7 @@ public class Instalacion {
 
     @Override
     public String toString() {
-        return "Instalaciones{" + "idInstalacion=" + idInstalacion + ", nombre=" + nombre + ", detalleUso=" + detalleUso + ", precioPor30min=" + precioPor30min + ", estado=" + estado + '}';
+        return nombre + ", Costo: " + precioPor30min;
     }
     
 }

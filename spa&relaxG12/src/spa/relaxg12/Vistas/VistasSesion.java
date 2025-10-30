@@ -10,6 +10,7 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.IntStream;
 import spa.relaxg12.Modelo.Consultorio;
 import spa.relaxg12.Modelo.Instalacion;
 import spa.relaxg12.Modelo.Profesional;
@@ -91,6 +92,7 @@ public class VistasSesion extends javax.swing.JInternalFrame {
         jLabel13.setText("Tipo de Tratamiento");
 
         cmbTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Facial", "Corporal", "Relajacion", "Estetico" }));
+        cmbTipo.setSelectedIndex(-1);
         cmbTipo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cmbTipoActionPerformed(evt);
@@ -107,6 +109,12 @@ public class VistasSesion extends javax.swing.JInternalFrame {
 
         jLabel6.setText("Tratamiento");
 
+        cmbTratamiento.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbTratamientoActionPerformed(evt);
+            }
+        });
+
         jLabel7.setText("Profesional");
 
         jLabel9.setText("Fecha /hora");
@@ -117,6 +125,12 @@ public class VistasSesion extends javax.swing.JInternalFrame {
         cmbHora.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cmbHoraActionPerformed(evt);
+            }
+        });
+
+        cmbInstalaciones.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbInstalacionesActionPerformed(evt);
             }
         });
 
@@ -250,56 +264,93 @@ public class VistasSesion extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    public double calculoMontoTotal() {
+        Tratamiento trat;
+        Instalacion inst;
+        double montoTrat;
+        double montoInst;
+        double montoTotal = 0;
+
+        if (cmbTratamiento.getSelectedIndex() != -1 && cmbInstalaciones.getSelectedIndex() != -1) {
+
+            trat = (Tratamiento) cmbTratamiento.getSelectedItem();
+            inst = (Instalacion) cmbInstalaciones.getSelectedItem();
+            montoTrat = trat.getCosto();
+            montoInst = inst.getPrecioPor30min();
+
+            montoTotal = montoTrat + montoInst;
+        } else if (cmbTratamiento.getSelectedIndex() != -1) {
+            trat = (Tratamiento) cmbTratamiento.getSelectedItem();
+            montoTrat = trat.getCosto();
+            montoTotal = montoTrat;
+
+        } else if (cmbInstalaciones.getSelectedIndex() != -1) {
+            inst = (Instalacion) cmbInstalaciones.getSelectedItem();
+            montoInst = inst.getPrecioPor30min();
+            montoTotal = montoInst;
+        }
+        return montoTotal;
+    }
+
     public void cargarComboTrat() {
         cmbTratamiento.removeAllItems();
         TratamientoData tratData = new TratamientoData();
-        ArrayList<Tratamiento> listado = tratData.listarTratamientos(cmbTipo.getSelectedItem().toString());
-
-        for (Tratamiento aux : listado) {
-            cmbTratamiento.addItem(aux.getNombre());
+        if (cmbTipo.getSelectedIndex() != -1) {
+            ArrayList<Tratamiento> listado = tratData.listarTratamientos(cmbTipo.getSelectedItem().toString());
+            for (Tratamiento aux : listado) {
+                cmbTratamiento.addItem(aux);
+            }
         }
-
+        cmbTratamiento.setSelectedIndex(-1);
     }
 
     public void cargarComboProfesional() {
         cmbProfesional.removeAllItems();
         ProfesionalData profData = new ProfesionalData();
-        ArrayList<Profesional> listado = profData.listarProfesionalesPorEspecialidad(cmbEspecialidad.getSelectedItem().toString());
-        for (Profesional aux : listado) {
-            cmbProfesional.addItem(aux.getNombre() + aux.getApellido());
+        if (cmbEspecialidad.getSelectedIndex() != -1) {
+            ArrayList<Profesional> listado = profData.listarProfesionalesPorEspecialidad(cmbEspecialidad.getSelectedItem().toString());
+            for (Profesional aux : listado) {
+                cmbProfesional.addItem(aux);
+            }
         }
+        cmbProfesional.setSelectedIndex(-1);
     }
 
     public void cargarComboEspecialidad() {
-        if (cmbTipo.getSelectedItem().toString().equalsIgnoreCase("Facial")) {
-            cmbEspecialidad.removeAllItems();
-            String esp1 = "Esteticista";
-            String esp2 = "Cosmetologo/a";
-            cmbEspecialidad.addItem(esp1);
-            cmbEspecialidad.addItem(esp2);
-        } else if (cmbTipo.getSelectedItem().toString().equalsIgnoreCase("Corporal")) {
-            cmbEspecialidad.removeAllItems();
-            String esp1 = "Masajista";
-            String esp2 = "Pedicurista";
-            cmbEspecialidad.addItem(esp1);
-            cmbEspecialidad.addItem(esp2);
-        } else if (cmbTipo.getSelectedItem().toString().equalsIgnoreCase("Estetico")) {
-            cmbEspecialidad.removeAllItems();
-            String esp1 = "Esteticista";
-            String esp2 = "Manicurista";
-            String esp3 = "Cosmetologo/a";
-            cmbEspecialidad.addItem(esp1);
-            cmbEspecialidad.addItem(esp2);
-            cmbEspecialidad.addItem(esp3);
+        int tipo = cmbTipo.getSelectedIndex();
+        if (tipo != -1) {
+            if (cmbTipo.getSelectedItem().toString().equalsIgnoreCase("Facial")) {
+                cmbEspecialidad.removeAllItems();
+                String esp1 = "Esteticista";
+                String esp2 = "Cosmetologo/a";
+                cmbEspecialidad.addItem(esp1);
+                cmbEspecialidad.addItem(esp2);
+            } else if (cmbTipo.getSelectedItem().toString().equalsIgnoreCase("Corporal")) {
+                cmbEspecialidad.removeAllItems();
+                String esp1 = "Masajista";
+                String esp2 = "Pedicurista";
+                cmbEspecialidad.addItem(esp1);
+                cmbEspecialidad.addItem(esp2);
+            } else if (cmbTipo.getSelectedItem().toString().equalsIgnoreCase("Estetico")) {
+                cmbEspecialidad.removeAllItems();
+                String esp1 = "Esteticista";
+                String esp2 = "Manicurista";
+                String esp3 = "Cosmetologo/a";
+                cmbEspecialidad.addItem(esp1);
+                cmbEspecialidad.addItem(esp2);
+                cmbEspecialidad.addItem(esp3);
+            }
         }
+        cmbEspecialidad.setSelectedIndex(-1);
     }
 
     public void cargarComboInstalacion() {
         InstalacionData instData = new InstalacionData();
         ArrayList<Instalacion> listado = (ArrayList) instData.listarInstalacionesActivas();
         for (Instalacion aux : listado) {
-            cmbInstalaciones.addItem(aux.getNombre());
+            cmbInstalaciones.addItem(aux);
         }
+        cmbInstalaciones.setSelectedIndex(-1);
     }
 
     public void cargarComboConsultorios() {
@@ -309,8 +360,9 @@ public class VistasSesion extends javax.swing.JInternalFrame {
         String apto = cmbTipo.getSelectedItem().toString();
         ArrayList<Consultorio> listado = sesionData.buscarConsultoriosDisponibles(fecha, hora, apto);
         for (Consultorio aux : listado) {
-            cmbConsultorio.addItem(aux.getNumeroConsultorio());
+            cmbConsultorio.addItem(aux);
         }
+        cmbConsultorio.setSelectedIndex(-1);
     }
 
     private void cmbTipoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbTipoActionPerformed
@@ -331,10 +383,10 @@ public class VistasSesion extends javax.swing.JInternalFrame {
             String hora = cmbHora.getSelectedItem().toString();
             String especialidad = cmbEspecialidad.getSelectedItem().toString();
             listado = sesionData.buscarProfesionalesLibres(fecha, hora, especialidad);
-            
+
             for (Profesional aux : listado) {
                 cmbProfesional.addItem(aux.getNombre() + aux.getApellido());
-                
+
             }
             cargarComboConsultorios();
         } catch (SQLException ex) {
@@ -350,17 +402,25 @@ public class VistasSesion extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnAgregarActionPerformed
 
+    private void cmbTratamientoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbTratamientoActionPerformed
+        txtMontoSesion.setText(String.valueOf(calculoMontoTotal()));
+    }//GEN-LAST:event_cmbTratamientoActionPerformed
+
+    private void cmbInstalacionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbInstalacionesActionPerformed
+        txtMontoSesion.setText(String.valueOf(calculoMontoTotal()));
+    }//GEN-LAST:event_cmbInstalacionesActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregar;
     private javax.swing.JButton btnSalir;
-    private javax.swing.JComboBox<String> cmbConsultorio;
-    private javax.swing.JComboBox<String> cmbEspecialidad;
+    private javax.swing.JComboBox<Object> cmbConsultorio;
+    private javax.swing.JComboBox<Object> cmbEspecialidad;
     private javax.swing.JComboBox<String> cmbHora;
-    private javax.swing.JComboBox<String> cmbInstalaciones;
-    private javax.swing.JComboBox<String> cmbProfesional;
+    private javax.swing.JComboBox<Object> cmbInstalaciones;
+    private javax.swing.JComboBox<Object> cmbProfesional;
     private javax.swing.JComboBox<String> cmbTipo;
-    private javax.swing.JComboBox<String> cmbTratamiento;
+    private javax.swing.JComboBox<Object> cmbTratamiento;
     private com.toedter.calendar.JDateChooser dateChooser;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
