@@ -176,7 +176,6 @@ public class MenuPrincipal extends javax.swing.JFrame {
         VistasDiaDeSpa vistSpa= new VistasDiaDeSpa();
         escritorio.add(vistSpa);
         vistSpa.setVisible(true);
-        vistSpa.setMaximizable(true);
     }//GEN-LAST:event_btnTurnosActionPerformed
 
     private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
@@ -240,7 +239,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnTurnos;
-    public javax.swing.JDesktopPane escritorio;
+    public static javax.swing.JDesktopPane escritorio;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;

@@ -29,6 +29,9 @@ import spa.relaxg12.Persistencia.TratamientoData;
  */
 public class VistasDiaDeSpa extends javax.swing.JInternalFrame {
 
+    private VistasSesion vistSesion;
+    private MenuPrincipal menu;
+
     /**
      * Creates new form VistasDiaDeSpa
      */
@@ -248,10 +251,9 @@ public class VistasDiaDeSpa extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnBuscarClienteActionPerformed
 
     private void btnAgregarSesionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarSesionesActionPerformed
-        VistasSesion vista = new VistasSesion();
-        ventanaDiaSpa.add(vista);
-        vista.setVisible(true);
-        vista.setMaximizable(true);
+        VistasSesion vistSesion = new VistasSesion();       
+        menu.escritorio.add(vistSesion);
+        vistSesion.setVisible(true);
     }//GEN-LAST:event_btnAgregarSesionesActionPerformed
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
