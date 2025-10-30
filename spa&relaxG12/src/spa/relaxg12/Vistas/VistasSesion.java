@@ -383,6 +383,7 @@ public class VistasSesion extends javax.swing.JInternalFrame {
     private void cmbTipoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbTipoActionPerformed
         cargarComboEspecialidad();
         cargarComboTrat();
+        cargarComboConsultorios();
     }//GEN-LAST:event_cmbTipoActionPerformed
 
     private void cmbEspecialidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbEspecialidadActionPerformed

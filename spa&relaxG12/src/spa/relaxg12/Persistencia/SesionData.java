@@ -75,7 +75,7 @@ public class SesionData {
         ArrayList<Consultorio> listado = new ArrayList();
 
         try {
-            String query = "SELECT idConsultorio,numeroConsultorio,equipamiento,aptoPara,estado FROM consultorio AS C WHERE aptoPara=? AND C.idConsultorio NOT IN (SELECT C.idConsultorio FROM consultorio as C JOIN sesion as S  on C.idConsultorio = S.idConsultorio AND S.fecha=? AND S.HoraInicio=? AND C.aptoPara=?)";
+            String query = "SELECT idConsultorio,numeroConsultorio,equipamiento,aptoPara,estado FROM consultorio AS C WHERE C.aptoPara=? AND C.idConsultorio NOT IN (SELECT C.idConsultorio FROM consultorio as C JOIN sesion AS S  on C.idConsultorio = S.idConsultorio AND S.fecha=? AND S.HoraInicio=? AND C.aptoPara=?)";
             PreparedStatement ps = con.prepareStatement(query);
             ps.setString(1, apto);
             ps.setDate(2, Date.valueOf(fecha));
