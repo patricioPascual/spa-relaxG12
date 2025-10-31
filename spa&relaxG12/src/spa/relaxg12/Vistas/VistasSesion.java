@@ -8,12 +8,16 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.IntStream;
+import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
 import spa.relaxg12.Modelo.Consultorio;
 import spa.relaxg12.Modelo.Instalacion;
 import spa.relaxg12.Modelo.Profesional;
+import spa.relaxg12.Modelo.Sesion;
 import spa.relaxg12.Modelo.Tratamiento;
 import spa.relaxg12.Persistencia.InstalacionData;
 import spa.relaxg12.Persistencia.ProfesionalData;
@@ -25,21 +29,22 @@ import spa.relaxg12.Persistencia.TratamientoData;
  * @author Leandro
  */
 public class VistasSesion extends javax.swing.JInternalFrame {
-
+    
     private SesionData sesionData;
     private ProfesionalData profData;
     private TratamientoData tratData;
+   
 
     /**
      * Creates new form VistasSesion
      */
     public VistasSesion() {
         initComponents();
-
+        
         this.sesionData = new SesionData();
         this.profData = new ProfesionalData();
         this.tratData = new TratamientoData();
-
+        
         cargarComboInstalacion();
     }
 
@@ -276,27 +281,27 @@ public class VistasSesion extends javax.swing.JInternalFrame {
         cmbProfesional.setSelectedIndex(-1);
         cmbInstalaciones.setSelectedIndex(-1);
     }
-
+    
     public double calculoMontoTotal() {
         Tratamiento trat;
         Instalacion inst;
         double montoTrat;
         double montoInst;
         double montoTotal = 0;
-
+        
         if (cmbTratamiento.getSelectedIndex() != -1 && cmbInstalaciones.getSelectedIndex() != -1) {
-
+            
             trat = (Tratamiento) cmbTratamiento.getSelectedItem();
             inst = (Instalacion) cmbInstalaciones.getSelectedItem();
             montoTrat = trat.getCosto();
             montoInst = inst.getPrecioPor30min();
-
+            
             montoTotal = montoTrat + montoInst;
         } else if (cmbTratamiento.getSelectedIndex() != -1) {
             trat = (Tratamiento) cmbTratamiento.getSelectedItem();
             montoTrat = trat.getCosto();
             montoTotal = montoTrat;
-
+            
         } else if (cmbInstalaciones.getSelectedIndex() != -1) {
             inst = (Instalacion) cmbInstalaciones.getSelectedItem();
             montoInst = inst.getPrecioPor30min();
@@ -304,7 +309,7 @@ public class VistasSesion extends javax.swing.JInternalFrame {
         }
         return montoTotal;
     }
-
+    
     public void cargarComboTrat() {
         cmbTratamiento.removeAllItems();
         TratamientoData tratData = new TratamientoData();
@@ -316,7 +321,7 @@ public class VistasSesion extends javax.swing.JInternalFrame {
         }
         cmbTratamiento.setSelectedIndex(-1);
     }
-
+    
     public void cargarComboProfesional() {
         cmbProfesional.removeAllItems();
         ProfesionalData profData = new ProfesionalData();
@@ -328,7 +333,7 @@ public class VistasSesion extends javax.swing.JInternalFrame {
         }
         cmbProfesional.setSelectedIndex(-1);
     }
-
+    
     public void cargarComboEspecialidad() {
         int tipo = cmbTipo.getSelectedIndex();
         if (tipo != -1) {
@@ -356,7 +361,7 @@ public class VistasSesion extends javax.swing.JInternalFrame {
         }
         cmbEspecialidad.setSelectedIndex(-1);
     }
-
+    
     public void cargarComboInstalacion() {
         InstalacionData instData = new InstalacionData();
         ArrayList<Instalacion> listado = (ArrayList) instData.listarInstalacionesActivas();
@@ -365,7 +370,7 @@ public class VistasSesion extends javax.swing.JInternalFrame {
         }
         cmbInstalaciones.setSelectedIndex(-1);
     }
-
+    
     public void cargarComboConsultorios() {
         SesionData sesionData = new SesionData();
         if (cmbTipo.getSelectedIndex() != -1 && cmbHora.getSelectedIndex() != -1) {
@@ -391,25 +396,21 @@ public class VistasSesion extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_cmbEspecialidadActionPerformed
 
     private void cmbHoraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbHoraActionPerformed
-        try {
-            cmbProfesional.removeAllItems();
-            SesionData sesionData = new SesionData();
-            if (cmbEspecialidad.getSelectedIndex() != -1 && cmbHora.getSelectedIndex() != -1) {
-                ArrayList<Profesional> listado = null;
-                LocalDate fecha = dateChooser.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-                String hora = cmbHora.getSelectedItem().toString();
-                String especialidad = cmbEspecialidad.getSelectedItem().toString();
-                listado = sesionData.buscarProfesionalesLibres(fecha, hora, especialidad);
-
-                for (Profesional aux : listado) {
-                    cmbProfesional.addItem(aux.getNombre() + aux.getApellido());
-
-                }
+        cmbProfesional.removeAllItems();
+        SesionData sesionData = new SesionData();
+        if (cmbEspecialidad.getSelectedIndex() != -1 && cmbHora.getSelectedIndex() != -1) {
+            ArrayList<Profesional> listado = null;
+            LocalDate fecha = dateChooser.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            String hora = cmbHora.getSelectedItem().toString();
+            String especialidad = cmbEspecialidad.getSelectedItem().toString();
+            listado = sesionData.buscarProfesionalesLibres(fecha, hora, especialidad);
+            
+            for (Profesional aux : listado) {
+                cmbProfesional.addItem(aux.getNombre() + aux.getApellido());
+                
             }
-            cargarComboConsultorios();
-        } catch (SQLException ex) {
-            Logger.getLogger(VistasSesion.class.getName()).log(Level.SEVERE, null, ex);
         }
+        cargarComboConsultorios();
     }//GEN-LAST:event_cmbHoraActionPerformed
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
@@ -417,7 +418,35 @@ public class VistasSesion extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnSalirActionPerformed
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
-        // TODO add your handling code here:
+        Instalacion instalacion=null;
+        SesionData sesionData= new SesionData();
+        LocalDate fecha=null;
+       
+        if (cmbProfesional.getSelectedIndex() != -1 && cmbConsultorio.getSelectedIndex() != -1 && cmbTratamiento.getSelectedIndex() != -1) {
+             fecha =  dateChooser.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            String hora = cmbHora.getSelectedItem().toString();
+            Profesional profesional = (Profesional) cmbProfesional.getSelectedItem();
+            Consultorio consultorio = (Consultorio) cmbConsultorio.getSelectedItem();
+            Tratamiento tratamiento = (Tratamiento) cmbTratamiento.getSelectedItem();
+            if (cmbInstalaciones.getSelectedIndex() != -1) {
+                 instalacion = (Instalacion) cmbInstalaciones.getSelectedItem();
+            } else {
+                 instalacion = null;
+            }
+            
+            Sesion sesion = new Sesion(profesional,consultorio,tratamiento,instalacion,fecha,hora);
+           
+          VistasDiaDeSpa.listado.add(sesion);
+           
+            JOptionPane.showMessageDialog(this, "Guardado con exito");
+            
+        
+            
+            this.dispose();
+            
+        } else {
+            JOptionPane.showMessageDialog(this, "Debe Seleccionar los Campos ");
+        }
     }//GEN-LAST:event_btnAgregarActionPerformed
 
     private void cmbTratamientoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbTratamientoActionPerformed

@@ -4,7 +4,7 @@
  */
 package spa.relaxg12.Modelo;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 import java.util.List;
 
@@ -17,24 +17,34 @@ public class Sesion {
     private int idSesion;
     private Profesional profesional;
     private Consultorio consultorio;
-    private List<Tratamiento> tratamientos;
-    private List<Instalacion> instalacion;
-    private LocalDateTime fechaHoraInicio;
-    private LocalDateTime fechaHoraFin;
+    private Tratamiento tratamientos;
+    private Instalacion instalacion;
+    private LocalDate fechaInicio;
+    private String hora;
+    private double monto;
     private boolean estado;
 
     public Sesion() {
     }
 
-    public Sesion(int idSesion, Profesional profesional, Consultorio consultorio, List<Tratamiento> tratamientos, List<Instalacion> instalacion, LocalDateTime fechaHoraInicio, LocalDateTime fechaHoraFin, boolean estado) {
+    public Sesion(int idSesion, Profesional profesional, Consultorio consultorio, Tratamiento tratamientos, Instalacion instalacion, LocalDate fechaHoraInicio, String hora, boolean estado) {
         this.idSesion = idSesion;
         this.profesional = profesional;
         this.consultorio = consultorio;
         this.tratamientos = tratamientos;
         this.instalacion = instalacion;
-        this.fechaHoraInicio = fechaHoraInicio;
-        this.fechaHoraFin = fechaHoraFin;
+        this.fechaInicio = fechaHoraInicio;
+        this.hora = hora;
         this.estado = estado;
+    }
+
+    public Sesion(Profesional profesional, Consultorio consultorio, Tratamiento tratamientos, Instalacion instalacion, LocalDate fechaInicio, String hora) {
+        this.profesional = profesional;
+        this.consultorio = consultorio;
+        this.tratamientos = tratamientos;
+        this.instalacion = instalacion;
+        this.fechaInicio = fechaInicio;
+        this.hora = hora;
     }
 
     public int getIdSesion() {
@@ -61,36 +71,36 @@ public class Sesion {
         this.consultorio = consultorio;
     }
 
-    public List<Tratamiento> getTratamientos() {
+    public Tratamiento getTratamientos() {
         return tratamientos;
     }
 
-    public void setTratamientos(List<Tratamiento> tratamientos) {
+    public void setTratamientos(Tratamiento tratamientos) {
         this.tratamientos = tratamientos;
     }
 
-    public List<Instalacion> getInstalacion() {
+    public Instalacion getInstalacion() {
         return instalacion;
     }
 
-    public void setInstalacion(List<Instalacion> instalacion) {
+    public void setInstalacion(Instalacion instalacion) {
         this.instalacion = instalacion;
     }
 
-    public LocalDateTime getFechaHoraInicio() {
-        return fechaHoraInicio;
+    public LocalDate getFechaHoraInicio() {
+        return fechaInicio;
     }
 
-    public void setFechaHoraInicio(LocalDateTime fechaHoraInicio) {
-        this.fechaHoraInicio = fechaHoraInicio;
+    public void setFechaHoraInicio(LocalDate fechaHoraInicio) {
+        this.fechaInicio = fechaHoraInicio;
     }
 
-    public LocalDateTime getFechaHoraFin() {
-        return fechaHoraFin;
+    public String getHora() {
+        return hora;
     }
 
-    public void setFechaHoraFin(LocalDateTime fechaHoraFin) {
-        this.fechaHoraFin = fechaHoraFin;
+    public void setFechaHoraFin(String hora) {
+        this.hora = hora;
     }
 
     public boolean isEstado() {
@@ -103,7 +113,7 @@ public class Sesion {
 
     @Override
     public String toString() {
-        return "Sesion{" + "idSesion=" + idSesion + ", profesional=" + profesional + ", consultorio=" + consultorio + ", tratamientos=" + tratamientos + ", instalacion=" + instalacion + ", fechaHoraInicio=" + fechaHoraInicio + ", fechaHoraFin=" + fechaHoraFin + ", estado=" + estado + '}';
+        return "Sesion{" + "idSesion=" + idSesion + ", profesional=" + profesional + ", consultorio=" + consultorio + ", tratamientos=" + tratamientos + ", instalacion=" + instalacion + ", fechaHoraInicio=" + fechaInicio + ", fechaHoraFin=" + hora + ", estado=" + estado + '}';
     }
 
 }

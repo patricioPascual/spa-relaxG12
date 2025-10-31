@@ -290,14 +290,15 @@ public class VistasCliente extends javax.swing.JInternalFrame {
                         .addComponent(btnSalir)
                         .addContainerGap())
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnAgregar)
-                            .addComponent(btnModificar)
-                            .addComponent(btnAltaBaja)
-                            .addComponent(btnLimpiarCampos)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(rbtnActivo)
-                                .addComponent(rbtnInactivo)))
+                                .addComponent(rbtnInactivo))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(btnAgregar)
+                                .addComponent(btnModificar)
+                                .addComponent(btnAltaBaja)
+                                .addComponent(btnLimpiarCampos)))
                         .addGap(14, 14, 14))))
         );
 
@@ -313,7 +314,7 @@ public class VistasCliente extends javax.swing.JInternalFrame {
         txtAfecciones.setText("");
     }
     
-    public void armarCabecera() {
+    public  void armarCabecera() {
         ArrayList<Object> filaCabecera = new ArrayList<>();
         filaCabecera.add("DNI");
         filaCabecera.add("Nombre");
