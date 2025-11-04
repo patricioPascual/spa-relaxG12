@@ -123,6 +123,12 @@ public class VistasSesion extends javax.swing.JInternalFrame {
 
         jLabel7.setText("Profesional");
 
+        cmbProfesional.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbProfesionalActionPerformed(evt);
+            }
+        });
+
         jLabel9.setText("Fecha /hora");
 
         jLabel10.setText("Hora");
@@ -465,6 +471,10 @@ public class VistasSesion extends javax.swing.JInternalFrame {
     private void btnLimpiarCamposActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarCamposActionPerformed
         limpiarCampos();
     }//GEN-LAST:event_btnLimpiarCamposActionPerformed
+
+    private void cmbProfesionalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbProfesionalActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cmbProfesionalActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
