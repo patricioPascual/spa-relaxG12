@@ -16,11 +16,13 @@ import javax.swing.DefaultListModel;
 import javax.swing.table.DefaultTableModel;
 import spa.relaxg12.Modelo.Cliente;
 import spa.relaxg12.Modelo.Consultorio;
+import spa.relaxg12.Modelo.DiaDeSpa;
 import spa.relaxg12.Modelo.Instalacion;
 import spa.relaxg12.Modelo.Profesional;
 import spa.relaxg12.Modelo.Sesion;
 import spa.relaxg12.Modelo.Tratamiento;
 import spa.relaxg12.Persistencia.ClienteData;
+import spa.relaxg12.Persistencia.DiaDeSpaData;
 import spa.relaxg12.Persistencia.InstalacionData;
 import spa.relaxg12.Persistencia.ProfesionalData;
 import spa.relaxg12.Persistencia.SesionData;
@@ -116,6 +118,11 @@ public class VistasDiaDeSpa extends javax.swing.JInternalFrame {
         jLabel15.setText("Monto Total");
 
         btnReservar.setText("Reservar");
+        btnReservar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnReservarActionPerformed(evt);
+            }
+        });
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel6.setText("Dia de Spa");
@@ -322,10 +329,37 @@ public class VistasDiaDeSpa extends javax.swing.JInternalFrame {
        cargarTabla();
     }//GEN-LAST:event_jPanel2MouseMoved
 
+    private void btnReservarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReservarActionPerformed
+       DiaDeSpaData diaDeSpaData = new DiaDeSpaData();
+       SesionData sesionData= new SesionData();
+       
+        ClienteData clienteData= new ClienteData();
+       Cliente cliente = clienteData.buscarClienteDni(Integer.parseInt(txtDni.getText()));
+   LocalDate    fecha= listado.getFirst().getFechaInicio();
+     String preferencias="";
+     double monto=0;
+     for (Sesion aux: listado){
+         monto += aux.getMonto();
+         if(aux.getInstalacion()==null){
+         sesionData.crearSesionSinInstalacion(aux);
+         }else{
+             sesionData.crearSesion(aux);
+         }
+        
+     }
+     DiaDeSpa dia= new DiaDeSpa(cliente,fecha,preferencias,monto,true);
+     diaDeSpaData.guardarDiaDeSpa(dia);
+     
+     for (Sesion aux : listado){
+         diaDeSpaData.cargarDiaDeSpaSesion(dia, aux);
+     }
+    }//GEN-LAST:event_btnReservarActionPerformed
+
     public void txtNoEditables() {
         txtNombre.setEditable(false);
         txtApellido.setEditable(false);
         txtTelefono.setEditable(false);
+        txtMontoTotal.setEditable(false);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -362,10 +396,16 @@ public class VistasDiaDeSpa extends javax.swing.JInternalFrame {
                  aux.getTratamientos(),
                  aux.getProfesional(),
                  aux.getInstalacion(),
-                 
+                 aux.getMonto()
                
              };
              modelo.addRow(fila);
          }
+         double montoTotal=0;
+         for(Sesion aux : listado){
+             montoTotal += aux.getMonto();
+         }
+         txtMontoTotal.setText(String.valueOf(montoTotal));
      }
+    
 }

@@ -327,10 +327,15 @@ public class VistasSesion extends javax.swing.JInternalFrame {
         ProfesionalData profData = new ProfesionalData();
         if (cmbEspecialidad.getSelectedIndex() != -1) {
             ArrayList<Profesional> listado = profData.listarProfesionalesPorEspecialidad(cmbEspecialidad.getSelectedItem().toString());
-            for (Profesional aux : listado) {
-                cmbProfesional.addItem(aux);
+            if(listado.isEmpty()){
+                JOptionPane.showMessageDialog(this, "No hay Profesionales disponibles");
+                
             }
-        }
+            for (Profesional aux : listado) {              
+                cmbProfesional.addItem(aux);                
+                }
+            }
+        
         cmbProfesional.setSelectedIndex(-1);
     }
     
@@ -433,8 +438,8 @@ public class VistasSesion extends javax.swing.JInternalFrame {
             } else {
                  instalacion = null;
             }
-            
-            Sesion sesion = new Sesion(profesional,consultorio,tratamiento,instalacion,fecha,hora);
+            double monto= Double.parseDouble(txtMontoSesion.getText()); 
+            Sesion sesion = new Sesion(profesional,consultorio,tratamiento,instalacion,fecha,hora,monto);
            
           VistasDiaDeSpa.listado.add(sesion);
            

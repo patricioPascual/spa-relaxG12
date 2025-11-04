@@ -4,6 +4,7 @@
  */
 package spa.relaxg12.Modelo;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -14,8 +15,8 @@ import java.util.List;
 public class DiaDeSpa {
   private int idDiaDeSpa;
   private Cliente cliente;  
-  private LocalDateTime fechaHoraCreacion; /* Podemos usar ZonedDataTime*/
-  private List<Sesion> sesiones;
+  private LocalDate fecha; 
+  private Sesion sesiones;
   private String preferencias;
   private Double montoTotal;  
   private boolean estado;
@@ -23,10 +24,21 @@ public class DiaDeSpa {
     public DiaDeSpa() {
     }
 
-    public DiaDeSpa(int idDiaDeSpa, int idCliente, LocalDateTime fechaHoraCreacion, String preferencias, Double montoTotal, boolean estado) {
+  
+
+    public DiaDeSpa(int idDiaDeSpa, int idCliente, LocalDate fecha, String preferencias, Double montoTotal, boolean estado) {
         this.idDiaDeSpa = idDiaDeSpa;
         this.cliente = cliente;
-        this.fechaHoraCreacion = fechaHoraCreacion;
+        this.fecha = fecha;
+ 
+        this.preferencias = preferencias;
+        this.montoTotal = montoTotal;
+        this.estado = estado;
+    }
+
+    public DiaDeSpa(Cliente cliente, LocalDate fecha, String preferencias, Double montoTotal, boolean estado) {
+        this.cliente = cliente;
+        this.fecha = fecha;
         this.preferencias = preferencias;
         this.montoTotal = montoTotal;
         this.estado = estado;
@@ -48,22 +60,22 @@ public class DiaDeSpa {
         this.cliente = cliente;
     }
 
-    public List<Sesion> getSesiones() {
+    public Sesion getSesiones() {
         return sesiones;
     }
 
-    public void setSesiones(List<Sesion> sesiones) {
+    public void setSesiones(Sesion sesiones) {
         this.sesiones = sesiones;
     }
 
 
 
-    public LocalDateTime getFechaHoraCreacion() {
-        return fechaHoraCreacion;
+    public LocalDate getFecha() {
+        return fecha;
     }
 
-    public void setFechaHoraCreacion(LocalDateTime fechaHoraCreacion) {
-        this.fechaHoraCreacion = fechaHoraCreacion;
+    public void setFecha (LocalDate fecha) {
+        this.fecha = fecha;
     }
 
     public String getPreferencias() {
@@ -92,7 +104,7 @@ public class DiaDeSpa {
 
     @Override
     public String toString() {
-        return "DiaDeSpa{" + "idDiaDeSpa=" + idDiaDeSpa + ", cliente=" + cliente + ", fechaHoraCreacion=" + fechaHoraCreacion + ", sesiones=" + sesiones + ", preferencias=" + preferencias + ", montoTotal=" + montoTotal + ", estado=" + estado + '}';
+        return "DiaDeSpa{" + "idDiaDeSpa=" + idDiaDeSpa + ", cliente=" + cliente + ", fechaHoraCreacion=" + fecha + ", sesiones=" + sesiones + ", preferencias=" + preferencias + ", montoTotal=" + montoTotal + ", estado=" + estado + '}';
     }
 
 }

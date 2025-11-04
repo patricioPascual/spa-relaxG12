@@ -7,6 +7,7 @@ package spa.relaxg12.Vistas;
 import spa.relaxg12.Persistencia.ClienteData;
 import spa.relaxg12.Persistencia.Conexion;
 import spa.relaxg12.Persistencia.ConsultorioData;
+import spa.relaxg12.Persistencia.DiaDeSpaData;
 import spa.relaxg12.Persistencia.InstalacionData;
 import spa.relaxg12.Persistencia.ProductoData;
 import spa.relaxg12.Persistencia.ProfesionalData;
@@ -28,6 +29,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
      private ProfesionalData profesionalData;
      private ConsultorioData consultorioData;
      private SesionData sesionData;
+     private DiaDeSpaData diaDeSpaData;
     /**
      * Creates new form MenuPrincipal
      */
@@ -41,6 +43,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
         profesionalData = new ProfesionalData(miConexion);
         consultorioData = new ConsultorioData(miConexion);
         sesionData= new SesionData(miConexion);
+        diaDeSpaData= new DiaDeSpaData(miConexion);
     }
 
     /**

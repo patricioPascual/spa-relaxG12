@@ -10,6 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.sql.Date;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
@@ -111,22 +112,66 @@ public class SesionData {
         }
         return listado;
     }
-     public void crearSesion(Profesional profesional, Consultorio consultorio, Tratamiento tratamiento,Instalacion instalacion,LocalDate fecha, String hora) {
+     public void crearSesion(Sesion sesion) {
+         ResultSet rs= null;
         String query = "INSERT INTO sesion (idProfesional,idConsultorio,idTratamiento,idInstalacion,fecha,hora,estado) VALUES (?,?,?,?,?,?,?)";
         try {
-            PreparedStatement ps = con.prepareStatement(query);
-            ps.setInt(1, profesional.getIdProfesional());
-            ps.setInt(2, consultorio.getIdConsultorio());
-            ps.setInt(3, tratamiento.getIdTratamiento());
-            ps.setInt(4, instalacion.getIdInstalacion());
-            ps.setDate(5,Date.valueOf(fecha) );
-            ps.setString(6, hora);
+            PreparedStatement ps = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+            ps.setInt(1, sesion.getProfesional().getIdProfesional());
+            ps.setInt(2, sesion.getConsultorio().getIdConsultorio());
+            ps.setInt(3, sesion.getTratamientos().getIdTratamiento());       
+            ps.setInt(4, sesion.getInstalacion().getIdInstalacion());    
+                      
+            ps.setDate(5,Date.valueOf(sesion.getFechaInicio()) );
+            ps.setString(6, sesion.getHora());
             ps.setBoolean(7, true);
             int exito = ps.executeUpdate();
+             rs = ps.getGeneratedKeys();
+        if (rs.next()) {
+            int idGenerado = rs.getInt(1); 
+            
+          
+            sesion.setIdSesion(idGenerado); 
+        }
+            
+            
             if (exito == 1) {
                 JOptionPane.showMessageDialog(null, "Sesion agregado con exito");
             }
+          
+            ps.close();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al guardar Sesion");
+        }
 
+    }
+     public void crearSesionSinInstalacion(Sesion sesion) {
+         ResultSet rs= null;
+        String query = "INSERT INTO sesion (idProfesional,idConsultorio,idTratamiento,fecha,hora,estado) VALUES (?,?,?,?,?,?)";
+        try {
+            PreparedStatement ps = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+            ps.setInt(1, sesion.getProfesional().getIdProfesional());
+            ps.setInt(2, sesion.getConsultorio().getIdConsultorio());
+            ps.setInt(3, sesion.getTratamientos().getIdTratamiento());       
+               
+                      
+            ps.setDate(4,Date.valueOf(sesion.getFechaInicio()) );
+            ps.setString(5, sesion.getHora());
+            ps.setBoolean(6, true);
+            int exito = ps.executeUpdate();
+             rs = ps.getGeneratedKeys();
+        if (rs.next()) {
+            int idGenerado = rs.getInt(1); 
+            
+          
+            sesion.setIdSesion(idGenerado); 
+        }
+            
+            
+            if (exito == 1) {
+                JOptionPane.showMessageDialog(null, "Sesion agregado con exito");
+            }
+          
             ps.close();
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Error al guardar Sesion");

@@ -22,6 +22,22 @@ public class Sesion {
     private LocalDate fechaInicio;
     private String hora;
     private double monto;
+
+    public LocalDate getFechaInicio() {
+        return fechaInicio;
+    }
+
+    public void setFechaInicio(LocalDate fechaInicio) {
+        this.fechaInicio = fechaInicio;
+    }
+
+    public double getMonto() {
+        return monto;
+    }
+
+    public void setMonto(double monto) {
+        this.monto = monto;
+    }
     private boolean estado;
 
     public Sesion() {
@@ -38,13 +54,14 @@ public class Sesion {
         this.estado = estado;
     }
 
-    public Sesion(Profesional profesional, Consultorio consultorio, Tratamiento tratamientos, Instalacion instalacion, LocalDate fechaInicio, String hora) {
+    public Sesion(Profesional profesional, Consultorio consultorio, Tratamiento tratamientos, Instalacion instalacion, LocalDate fechaInicio, String hora, double monto) {
         this.profesional = profesional;
         this.consultorio = consultorio;
         this.tratamientos = tratamientos;
         this.instalacion = instalacion;
         this.fechaInicio = fechaInicio;
         this.hora = hora;
+        this.monto= monto;
     }
 
     public int getIdSesion() {
@@ -87,13 +104,7 @@ public class Sesion {
         this.instalacion = instalacion;
     }
 
-    public LocalDate getFechaHoraInicio() {
-        return fechaInicio;
-    }
-
-    public void setFechaHoraInicio(LocalDate fechaHoraInicio) {
-        this.fechaInicio = fechaHoraInicio;
-    }
+   
 
     public String getHora() {
         return hora;
