@@ -438,8 +438,11 @@ public class VistasProfesional extends javax.swing.JInternalFrame {
             String telefono = txtTelefono.getText();
             String especialidad = (String) cmbEspecialidad.getSelectedItem();
             Profesional prof = new Profesional(matricula, nombre, apellido, telefono, especialidad, true);
-
+           if(matricula.isEmpty()){
+               JOptionPane.showMessageDialog(this, "Debe cargar una matricula");
+           }else{
             profData.crearProfesional(prof);
+           }
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this, "Debe llenar los campos");
         }
