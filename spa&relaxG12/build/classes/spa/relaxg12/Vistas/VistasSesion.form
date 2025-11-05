@@ -87,7 +87,7 @@
                                   <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="dateChooser" alignment="1" min="-2" pref="219" max="-2" attributes="0"/>
+                                  <Component id="diaTurno" alignment="1" min="-2" pref="219" max="-2" attributes="0"/>
                                   <Group type="102" alignment="1" attributes="0">
                                       <Component id="btnLimpiarCampos" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace pref="93" max="32767" attributes="0"/>
@@ -107,7 +107,7 @@
                   <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="dateChooser" min="-2" max="-2" attributes="0"/>
+                      <Component id="diaTurno" min="-2" max="-2" attributes="0"/>
                       <Component id="jLabel9" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
@@ -261,7 +261,7 @@
             <Property name="text" type="java.lang.String" value="Fecha /hora"/>
           </Properties>
         </Component>
-        <Component class="com.toedter.calendar.JDateChooser" name="dateChooser">
+        <Component class="com.toedter.calendar.JDateChooser" name="diaTurno">
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value=""/>
           </AuxValues>

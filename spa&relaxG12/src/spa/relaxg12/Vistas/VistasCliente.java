@@ -81,6 +81,18 @@ public class VistasCliente extends javax.swing.JInternalFrame {
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel5.setText("Gestor de Clientes");
 
+        txtNombre.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtNombreFocusLost(evt);
+            }
+        });
+
+        txtApellido.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtApellidoFocusLost(evt);
+            }
+        });
+
         jLabel6.setText("Afecciones");
 
         txtAfecciones.setColumns(20);
@@ -305,6 +317,47 @@ public class VistasCliente extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    //Validaciones
+    public boolean validacionApellido() {
+        String apellido = txtApellido.getText().trim();
+        boolean valido = true;
+        for (int i = 0; i < apellido.length(); i++) {
+            char c = apellido.charAt(i);
+            if (!Character.isLetter(c) && c != ' ') {
+                valido = false;
+                break;
+            }
+        }
+        if (apellido.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "El campo apellido no debe estar vacio!");
+        } else if (valido == false) {
+            JOptionPane.showMessageDialog(null, "Apellido: solo se permiten letras y espacios");
+            txtApellido.setText("");
+        }
+        return valido;
+    }
+
+    public boolean validacionNombre() {
+        String nombre= txtNombre.getText().trim();
+        boolean valido = true;
+        for (int i = 0; i < nombre.length(); i++) {
+            char c = nombre.charAt(i);
+            if (!Character.isLetter(c) && c != ' ') {
+                valido = false;
+                break;
+            }
+        }
+        if (nombre.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "El campo nombre no debe estar vacio!");
+        } else if(valido == false) {
+            JOptionPane.showMessageDialog(null, "Nombre: solo se permiten letras y espacios");
+            txtNombre.setText("");
+        }
+        return valido;
+    }
+
+    
+    
     public void limpiarCampos() {
         txtDni.setText("");
         txtNombre.setText("");
@@ -313,8 +366,8 @@ public class VistasCliente extends javax.swing.JInternalFrame {
         txtTelefono.setText("");
         txtAfecciones.setText("");
     }
-    
-    public  void armarCabecera() {
+
+    public void armarCabecera() {
         ArrayList<Object> filaCabecera = new ArrayList<>();
         filaCabecera.add("DNI");
         filaCabecera.add("Nombre");
@@ -347,7 +400,7 @@ public class VistasCliente extends javax.swing.JInternalFrame {
             modelo.addRow(row);
         }
     }
-    
+
     public void cargarClientesActivos() {
         modelo.setRowCount(0);
         ArrayList<Cliente> listado = clienteData.listarClientesActivos();
@@ -357,44 +410,44 @@ public class VistasCliente extends javax.swing.JInternalFrame {
             modelo.addRow(row);
         }
     }
-    
+
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
         dispose();
     }//GEN-LAST:event_btnSalirActionPerformed
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
-       try{
-        int dni = Integer.parseInt(txtDni.getText());
-        String nombre = txtNombre.getText();
-        String apellido = txtApellido.getText();
-        int edad = Integer.parseInt(txtEdad.getText());
-        long telefono = Long.parseLong(txtTelefono.getText());
-        String afecciones = txtAfecciones.getText();
-        Cliente cliente = new Cliente(dni, nombre, apellido, edad, telefono, afecciones, true);
+        try {
+            int dni = Integer.parseInt(txtDni.getText());
+            String nombre = txtNombre.getText();
+            String apellido = txtApellido.getText();
+            int edad = Integer.parseInt(txtEdad.getText());
+            long telefono = Long.parseLong(txtTelefono.getText());
+            String afecciones = txtAfecciones.getText();
+            Cliente cliente = new Cliente(dni, nombre, apellido, edad, telefono, afecciones, true);
 
-        clienteData.crearCliente(cliente);
-       }catch(NumberFormatException e){
-           JOptionPane.showMessageDialog(this, "Debe llenar los campos");
-       }
+            clienteData.crearCliente(cliente);
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Debe llenar los campos");
+        }
     }//GEN-LAST:event_btnAgregarActionPerformed
 
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
         if (rbtnActivo.isSelected()) {
-           cargarClientesActivos();
+            cargarClientesActivos();
         } else {
             cargarClientesInactivos();
         }
     }//GEN-LAST:event_btnActualizarActionPerformed
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-       
+
         int dniNum = Integer.parseInt(txtBuscar.getText());
         for (int i = 0; i < tblClientes.getRowCount(); i++) {
             String dni = txtBuscar.getText();
             String valorDni = tblClientes.getValueAt(i, 0).toString();
             if (valorDni.equalsIgnoreCase(dni)) {
-                tblClientes.setRowSelectionInterval(i, i); 
-                tblClientes.scrollRectToVisible(tblClientes.getCellRect(i, 0, true)); 
+                tblClientes.setRowSelectionInterval(i, i);
+                tblClientes.scrollRectToVisible(tblClientes.getCellRect(i, 0, true));
                 return;
             }
 
@@ -403,20 +456,20 @@ public class VistasCliente extends javax.swing.JInternalFrame {
 
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
-       try{
-        int dni = Integer.parseInt(txtDni.getText());
-        String nombre = txtNombre.getText();
-        String apellido = txtApellido.getText();
-        int edad = Integer.parseInt(txtEdad.getText());
-        long telefono = Long.parseLong(txtTelefono.getText());
-        String afecciones = txtAfecciones.getText();
-        Cliente cliente = new Cliente(dni, nombre, apellido, edad, telefono, afecciones, true);
-        
-        clienteData.modificarCliente(cliente);
-       }catch(NumberFormatException e){
-           JOptionPane.showMessageDialog(this, "Debe Cargar un Cliente o seleccionarlo de la tabla");
-       }
-        
+        try {
+            int dni = Integer.parseInt(txtDni.getText());
+            String nombre = txtNombre.getText();
+            String apellido = txtApellido.getText();
+            int edad = Integer.parseInt(txtEdad.getText());
+            long telefono = Long.parseLong(txtTelefono.getText());
+            String afecciones = txtAfecciones.getText();
+            Cliente cliente = new Cliente(dni, nombre, apellido, edad, telefono, afecciones, true);
+
+            clienteData.modificarCliente(cliente);
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Debe Cargar un Cliente o seleccionarlo de la tabla");
+        }
+
     }//GEN-LAST:event_btnModificarActionPerformed
 
     private void btnAltaBajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAltaBajaActionPerformed
@@ -431,7 +484,7 @@ public class VistasCliente extends javax.swing.JInternalFrame {
             } else {
                 clienteData.darAltaCliente(dni);
             }
-        }else{
+        } else {
             JOptionPane.showMessageDialog(this, "Debe seleccionar un cliente de la tabla");
         }
     }//GEN-LAST:event_btnAltaBajaActionPerformed
@@ -462,6 +515,14 @@ public class VistasCliente extends javax.swing.JInternalFrame {
     private void rbtnInactivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbtnInactivoActionPerformed
         cargarClientesInactivos();
     }//GEN-LAST:event_rbtnInactivoActionPerformed
+
+    private void txtApellidoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtApellidoFocusLost
+        validacionApellido();
+    }//GEN-LAST:event_txtApellidoFocusLost
+
+    private void txtNombreFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtNombreFocusLost
+        validacionNombre();
+    }//GEN-LAST:event_txtNombreFocusLost
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

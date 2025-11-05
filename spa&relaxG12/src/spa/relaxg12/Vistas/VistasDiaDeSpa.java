@@ -36,17 +36,16 @@ public class VistasDiaDeSpa extends javax.swing.JInternalFrame {
 
     private VistasSesion vistSesion;
     private MenuPrincipal menu;
-    public static  ArrayList<Sesion> listado;
-   
+    public static ArrayList<Sesion> listado;
+
     /**
      * Creates new form VistasDiaDeSpa
      */
     public VistasDiaDeSpa() {
         initComponents();
         txtNoEditables();
-       this.listado= new ArrayList();
-      
-       
+        this.listado = new ArrayList();
+
     }
 
     /**
@@ -308,7 +307,7 @@ public class VistasDiaDeSpa extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnBuscarClienteActionPerformed
 
     private void btnAgregarSesionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarSesionesActionPerformed
-        VistasSesion vistSesion = new VistasSesion();       
+        VistasSesion vistSesion = new VistasSesion();
         menu.escritorio.add(vistSesion);
         vistSesion.setVisible(true);
     }//GEN-LAST:event_btnAgregarSesionesActionPerformed
@@ -322,37 +321,37 @@ public class VistasDiaDeSpa extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void tblSesionesFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tblSesionesFocusGained
-      
+
     }//GEN-LAST:event_tblSesionesFocusGained
 
     private void jPanel2MouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel2MouseMoved
-       cargarTabla();
+        cargarTabla();
     }//GEN-LAST:event_jPanel2MouseMoved
 
     private void btnReservarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReservarActionPerformed
-       DiaDeSpaData diaDeSpaData = new DiaDeSpaData();
-       SesionData sesionData= new SesionData();
-       
-        ClienteData clienteData= new ClienteData();
-       Cliente cliente = clienteData.buscarClienteDni(Integer.parseInt(txtDni.getText()));
-   LocalDate    fecha= listado.getFirst().getFechaInicio();
-     String preferencias="";
-     double monto=0;
-     for (Sesion aux: listado){
-         monto += aux.getMonto();
-         if(aux.getInstalacion()==null){
-         sesionData.crearSesionSinInstalacion(aux);
-         }else{
-             sesionData.crearSesion(aux);
-         }
-        
-     }
-     DiaDeSpa dia= new DiaDeSpa(cliente,fecha,preferencias,monto,true);
-     diaDeSpaData.guardarDiaDeSpa(dia);
-     
-     for (Sesion aux : listado){
-         diaDeSpaData.cargarDiaDeSpaSesion(dia, aux);
-     }
+        DiaDeSpaData diaDeSpaData = new DiaDeSpaData();
+        SesionData sesionData = new SesionData();
+
+        ClienteData clienteData = new ClienteData();
+        Cliente cliente = clienteData.buscarClienteDni(Integer.parseInt(txtDni.getText()));
+        LocalDate fecha = listado.getFirst().getFechaInicio();
+        String preferencias = "";
+        double monto = 0;
+        for (Sesion aux : listado) {
+            monto += aux.getMonto();
+            if (aux.getInstalacion() == null) {
+                sesionData.crearSesionSinInstalacion(aux);
+            } else {
+                sesionData.crearSesion(aux);
+            }
+
+        }
+        DiaDeSpa dia = new DiaDeSpa(cliente, fecha, preferencias, monto, true);
+        diaDeSpaData.guardarDiaDeSpa(dia);
+
+        for (Sesion aux : listado) {
+            diaDeSpaData.cargarDiaDeSpaSesion(dia, aux);
+        }
     }//GEN-LAST:event_btnReservarActionPerformed
 
     public void txtNoEditables() {
@@ -387,25 +386,25 @@ public class VistasDiaDeSpa extends javax.swing.JInternalFrame {
     public static javax.swing.JDesktopPane ventanaDiaSpa;
     // End of variables declaration//GEN-END:variables
 
-     public  void cargarTabla(){
-        DefaultTableModel modelo =(DefaultTableModel) tblSesiones.getModel();
-         
-         modelo.setRowCount(0);
-         for (Sesion aux : listado){
-             Object [] fila= {
-                 aux.getTratamientos(),
-                 aux.getProfesional(),
-                 aux.getInstalacion(),
-                 aux.getMonto()
-               
-             };
-             modelo.addRow(fila);
-         }
-         double montoTotal=0;
-         for(Sesion aux : listado){
-             montoTotal += aux.getMonto();
-         }
-         txtMontoTotal.setText(String.valueOf(montoTotal));
-     }
-    
+    public void cargarTabla() {
+        DefaultTableModel modelo = (DefaultTableModel) tblSesiones.getModel();
+
+        modelo.setRowCount(0);
+        for (Sesion aux : listado) {
+            Object[] fila = {
+                aux.getTratamientos(),
+                aux.getProfesional(),
+                aux.getInstalacion(),
+                aux.getMonto()
+
+            };
+            modelo.addRow(fila);
+        }
+        double montoTotal = 0;
+        for (Sesion aux : listado) {
+            montoTotal += aux.getMonto();
+        }
+        txtMontoTotal.setText(String.valueOf(montoTotal));
+    }
+
 }

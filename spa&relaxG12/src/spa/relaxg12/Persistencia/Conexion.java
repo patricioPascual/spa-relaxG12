@@ -14,29 +14,29 @@ import javax.swing.JOptionPane;
  * @author patri
  */
 public class Conexion {
+
     private String url;
     private String usuario;
     private String password;
-    private  Connection conexion= null;
+    private Connection conexion = null;
 
     public Conexion(String url, String usuario, String password) {
         this.url = url;
         this.usuario = usuario;
         this.password = password;
     }
-    
-    public Connection buscarConexion(){
-        if(conexion==null){
-            try{
+
+    public Connection buscarConexion() {
+        if (conexion == null) {
+            try {
                 Class.forName("org.mariadb.jdbc.Driver");
-                conexion=DriverManager.getConnection(url,usuario,password);
-                
-            }catch(SQLException |ClassNotFoundException ex){
+                conexion = DriverManager.getConnection(url, usuario, password);
+
+            } catch (SQLException | ClassNotFoundException ex) {
                 JOptionPane.showMessageDialog(null, "No se puede conectar o no se puede cargar el Driver");
             }
         }
         return conexion;
     }
-    
-}
 
+}

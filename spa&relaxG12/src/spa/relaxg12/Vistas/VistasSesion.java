@@ -47,6 +47,7 @@ public class VistasSesion extends javax.swing.JInternalFrame {
         this.tratData = new TratamientoData();
         
         cargarComboInstalacion();
+        cargarDia();
     }
 
     /**
@@ -70,7 +71,7 @@ public class VistasSesion extends javax.swing.JInternalFrame {
         jLabel7 = new javax.swing.JLabel();
         cmbProfesional = new javax.swing.JComboBox<>();
         jLabel9 = new javax.swing.JLabel();
-        dateChooser = new com.toedter.calendar.JDateChooser();
+        diaTurno = new com.toedter.calendar.JDateChooser();
         jLabel10 = new javax.swing.JLabel();
         cmbHora = new javax.swing.JComboBox<>();
         cmbInstalaciones = new javax.swing.JComboBox<>();
@@ -204,7 +205,7 @@ public class VistasSesion extends javax.swing.JInternalFrame {
                                 .addGap(26, 26, 26)
                                 .addComponent(jLabel1))
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(dateChooser, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(diaTurno, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                                     .addComponent(btnLimpiarCampos)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 93, Short.MAX_VALUE)
@@ -217,7 +218,7 @@ public class VistasSesion extends javax.swing.JInternalFrame {
                 .addComponent(jLabel1)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(dateChooser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(diaTurno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel9))
                 .addGap(8, 8, 8)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -279,6 +280,11 @@ public class VistasSesion extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    public void cargarDia() {
+        Date hoy = new Date();
+        diaTurno.setDate(hoy);
+    }
+    
     public void limpiarCampos() {
         cmbTipo.setSelectedIndex(-1);
         cmbTratamiento.setSelectedIndex(-1);
@@ -334,7 +340,7 @@ public class VistasSesion extends javax.swing.JInternalFrame {
         ProfesionalData profData = new ProfesionalData();
         SesionData sesiondata = new SesionData();
         try{
-        LocalDate fecha= dateChooser.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        LocalDate fecha= diaTurno.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         String hora= cmbHora.getSelectedItem().toString();
         if (cmbEspecialidad.getSelectedIndex() != -1) {
             ArrayList<Profesional> listado = sesiondata.buscarProfesionalesLibres( fecha,hora,cmbEspecialidad.getSelectedItem().toString());
@@ -394,7 +400,7 @@ public class VistasSesion extends javax.swing.JInternalFrame {
         SesionData sesionData = new SesionData();
         try{
         if (cmbTipo.getSelectedIndex() != -1 && cmbHora.getSelectedIndex() != -1) {            
-            LocalDate fecha = dateChooser.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            LocalDate fecha = diaTurno.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
             String hora = cmbHora.getSelectedItem().toString();
             String apto = cmbTipo.getSelectedItem().toString();
             ArrayList<Consultorio> listado = sesionData.buscarConsultoriosDisponibles(fecha, hora, apto);
@@ -423,7 +429,7 @@ public class VistasSesion extends javax.swing.JInternalFrame {
         SesionData sesionData = new SesionData();
         if (cmbEspecialidad.getSelectedIndex() != -1 && cmbHora.getSelectedIndex() != -1) {
             ArrayList<Profesional> listado = null;
-            LocalDate fecha = dateChooser.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            LocalDate fecha = diaTurno.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
             String hora = cmbHora.getSelectedItem().toString();
             String especialidad = cmbEspecialidad.getSelectedItem().toString();
             listado = sesionData.buscarProfesionalesLibres(fecha, hora, especialidad);
@@ -447,7 +453,7 @@ public class VistasSesion extends javax.swing.JInternalFrame {
        
         if (cmbProfesional.getSelectedIndex() != -1 && cmbConsultorio.getSelectedIndex() != -1 && cmbTratamiento.getSelectedIndex() != -1) {
            try{
-            fecha =  dateChooser.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            fecha =  diaTurno.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
             String hora = cmbHora.getSelectedItem().toString();
             Profesional profesional = (Profesional) cmbProfesional.getSelectedItem();
             Consultorio consultorio = (Consultorio) cmbConsultorio.getSelectedItem();
@@ -503,7 +509,7 @@ public class VistasSesion extends javax.swing.JInternalFrame {
     private javax.swing.JComboBox<Object> cmbProfesional;
     private javax.swing.JComboBox<String> cmbTipo;
     private javax.swing.JComboBox<Object> cmbTratamiento;
-    private com.toedter.calendar.JDateChooser dateChooser;
+    private com.toedter.calendar.JDateChooser diaTurno;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
