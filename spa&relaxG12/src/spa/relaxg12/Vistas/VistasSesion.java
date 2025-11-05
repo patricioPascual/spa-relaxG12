@@ -19,6 +19,7 @@ import spa.relaxg12.Modelo.Instalacion;
 import spa.relaxg12.Modelo.Profesional;
 import spa.relaxg12.Modelo.Sesion;
 import spa.relaxg12.Modelo.Tratamiento;
+import spa.relaxg12.Persistencia.DiaDeSpaData;
 import spa.relaxg12.Persistencia.InstalacionData;
 import spa.relaxg12.Persistencia.ProfesionalData;
 import spa.relaxg12.Persistencia.SesionData;
@@ -331,8 +332,12 @@ public class VistasSesion extends javax.swing.JInternalFrame {
     public void cargarComboProfesional() {
         cmbProfesional.removeAllItems();
         ProfesionalData profData = new ProfesionalData();
+        SesionData sesiondata = new SesionData();
+        try{
+        LocalDate fecha= dateChooser.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        String hora= cmbHora.getSelectedItem().toString();
         if (cmbEspecialidad.getSelectedIndex() != -1) {
-            ArrayList<Profesional> listado = profData.listarProfesionalesPorEspecialidad(cmbEspecialidad.getSelectedItem().toString());
+            ArrayList<Profesional> listado = sesiondata.buscarProfesionalesLibres( fecha,hora,cmbEspecialidad.getSelectedItem().toString());
             if(listado.isEmpty()){
                 JOptionPane.showMessageDialog(this, "No hay Profesionales disponibles");
                 
@@ -343,8 +348,11 @@ public class VistasSesion extends javax.swing.JInternalFrame {
             }
         
         cmbProfesional.setSelectedIndex(-1);
+    }catch(NullPointerException e){
+        JOptionPane.showMessageDialog(this, "Seleccione una fecha");
+        return;
     }
-    
+    }
     public void cargarComboEspecialidad() {
         int tipo = cmbTipo.getSelectedIndex();
         if (tipo != -1) {
@@ -384,7 +392,8 @@ public class VistasSesion extends javax.swing.JInternalFrame {
     
     public void cargarComboConsultorios() {
         SesionData sesionData = new SesionData();
-        if (cmbTipo.getSelectedIndex() != -1 && cmbHora.getSelectedIndex() != -1) {
+        try{
+        if (cmbTipo.getSelectedIndex() != -1 && cmbHora.getSelectedIndex() != -1) {            
             LocalDate fecha = dateChooser.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
             String hora = cmbHora.getSelectedItem().toString();
             String apto = cmbTipo.getSelectedItem().toString();
@@ -394,8 +403,11 @@ public class VistasSesion extends javax.swing.JInternalFrame {
             }
         }
         cmbConsultorio.setSelectedIndex(-1);
+    }catch(NullPointerException e){
+        JOptionPane.showMessageDialog(this, "Seleccione una fecha");
+        return;
     }
-
+    }
     private void cmbTipoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbTipoActionPerformed
         cargarComboEspecialidad();
         cargarComboTrat();
@@ -434,7 +446,8 @@ public class VistasSesion extends javax.swing.JInternalFrame {
         LocalDate fecha=null;
        
         if (cmbProfesional.getSelectedIndex() != -1 && cmbConsultorio.getSelectedIndex() != -1 && cmbTratamiento.getSelectedIndex() != -1) {
-             fecha =  dateChooser.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+           try{
+            fecha =  dateChooser.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
             String hora = cmbHora.getSelectedItem().toString();
             Profesional profesional = (Profesional) cmbProfesional.getSelectedItem();
             Consultorio consultorio = (Consultorio) cmbConsultorio.getSelectedItem();
@@ -454,7 +467,9 @@ public class VistasSesion extends javax.swing.JInternalFrame {
         
             
             this.dispose();
-            
+           }catch(NullPointerException e){
+               JOptionPane.showMessageDialog(this, "debe seleccionar una fecha");
+           }   
         } else {
             JOptionPane.showMessageDialog(this, "Debe Seleccionar los Campos ");
         }
