@@ -4,6 +4,7 @@
  */
 package spa.relaxg12.Vistas;
 
+import javax.swing.JOptionPane;
 import spa.relaxg12.Persistencia.ClienteData;
 import spa.relaxg12.Persistencia.Conexion;
 import spa.relaxg12.Persistencia.ConsultorioData;
@@ -66,6 +67,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
         jMenuItem5 = new javax.swing.JMenuItem();
         jMenuItem6 = new javax.swing.JMenuItem();
         mnSalir = new javax.swing.JMenu();
+        mniSalirAccion = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -145,6 +147,15 @@ public class MenuPrincipal extends javax.swing.JFrame {
         jMenuBar1.add(jMenu2);
 
         mnSalir.setText("Salir");
+
+        mniSalirAccion.setText("Salir");
+        mniSalirAccion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mniSalirAccionActionPerformed(evt);
+            }
+        });
+        mnSalir.add(mniSalirAccion);
+
         jMenuBar1.add(mnSalir);
 
         setJMenuBar(jMenuBar1);
@@ -205,6 +216,11 @@ public class MenuPrincipal extends javax.swing.JFrame {
         vistasProfesional.setVisible(true);
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
+    private void mniSalirAccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniSalirAccionActionPerformed
+        JOptionPane.showConfirmDialog(this, "Esta seguro que desea abandonar el programa?");
+        dispose();
+    }//GEN-LAST:event_mniSalirAccionActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -252,5 +268,6 @@ public class MenuPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenu mnSalir;
+    private javax.swing.JMenuItem mniSalirAccion;
     // End of variables declaration//GEN-END:variables
 }

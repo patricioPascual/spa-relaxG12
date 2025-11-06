@@ -93,10 +93,27 @@ public class VistasCliente extends javax.swing.JInternalFrame {
             }
         });
 
+        txtDni.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtDniFocusLost(evt);
+            }
+        });
+
+        txtTelefono.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtTelefonoFocusLost(evt);
+            }
+        });
+
         jLabel6.setText("Afecciones");
 
         txtAfecciones.setColumns(20);
         txtAfecciones.setRows(5);
+        txtAfecciones.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtAfeccionesFocusLost(evt);
+            }
+        });
         jScrollPane1.setViewportView(txtAfecciones);
 
         btnAgregar.setText("Agregar");
@@ -138,6 +155,12 @@ public class VistasCliente extends javax.swing.JInternalFrame {
             }
         });
 
+        txtBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtBuscarActionPerformed(evt);
+            }
+        });
+
         jLabel7.setText("DNI");
 
         btnActualizar.setText("Actualizar");
@@ -158,6 +181,12 @@ public class VistasCliente extends javax.swing.JInternalFrame {
         btnAltaBaja.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAltaBajaActionPerformed(evt);
+            }
+        });
+
+        txtEdad.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtEdadFocusLost(evt);
             }
         });
 
@@ -329,16 +358,16 @@ public class VistasCliente extends javax.swing.JInternalFrame {
             }
         }
         if (apellido.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "El campo apellido no debe estar vacio!");
+            JOptionPane.showMessageDialog(this, "El campo apellido no debe estar vacio!");
         } else if (valido == false) {
-            JOptionPane.showMessageDialog(null, "Apellido: solo se permiten letras y espacios");
+            JOptionPane.showMessageDialog(this, "Apellido: solo se permiten letras y espacios");
             txtApellido.setText("");
         }
         return valido;
     }
 
     public boolean validacionNombre() {
-        String nombre= txtNombre.getText().trim();
+        String nombre = txtNombre.getText().trim();
         boolean valido = true;
         for (int i = 0; i < nombre.length(); i++) {
             char c = nombre.charAt(i);
@@ -348,16 +377,112 @@ public class VistasCliente extends javax.swing.JInternalFrame {
             }
         }
         if (nombre.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "El campo nombre no debe estar vacio!");
-        } else if(valido == false) {
-            JOptionPane.showMessageDialog(null, "Nombre: solo se permiten letras y espacios");
+            JOptionPane.showMessageDialog(this, "El campo nombre no debe estar vacio!");
+        } else if (valido == false) {
+            JOptionPane.showMessageDialog(this, "Nombre: solo se permiten letras y espacios");
             txtNombre.setText("");
         }
         return valido;
     }
 
-    
-    
+    public boolean validacionDni() {
+        String numero = txtDni.getText().trim();
+        boolean valido = true;
+
+        for (int i = 0; i < numero.length(); i++) {
+            char c = numero.charAt(i);
+            if (!Character.isDigit(c)) {
+                valido = false;
+                break;
+            }
+        }
+
+        if (numero.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "El campo DNI no debe estar vacio!");
+            valido = false;
+        } else if (!valido) {
+            JOptionPane.showMessageDialog(this, "DNI: solo se permiten digitos (0-9)");
+            txtDni.setText("");
+        } else if (numero.length() < 7) {
+            JOptionPane.showMessageDialog(this, "El DNI debe tener al menos 7 caracteres");
+            valido = false;
+        }
+
+        return valido;
+    }
+
+    public boolean validacionTel() {
+        String numero = txtTelefono.getText().trim();
+        boolean valido = true;
+
+        for (int i = 0; i < numero.length(); i++) {
+            char c = numero.charAt(i);
+            if (!Character.isDigit(c)) {
+                valido = false;
+                break;
+            }
+        }
+
+        if (numero.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "El campo telefono no debe estar vacio!");
+            valido = false;
+        } else if (!valido) {
+            JOptionPane.showMessageDialog(this, "Telefono: solo se permiten digitos (0-9)");
+            txtTelefono.setText("");
+        } else if (numero.length() < 10) {
+            JOptionPane.showMessageDialog(this, "El telefono debe tener al menos 10 caracteres");
+            valido = false;
+        }
+
+        return valido;
+    }
+
+    public boolean validacionEdad() {
+        String numero = txtEdad.getText().trim();
+        boolean valido = true;
+        int numInt = 0;
+
+        for (int i = 0; i < numero.length(); i++) {
+            char c = numero.charAt(i);
+            if (!Character.isDigit(c)) {
+                valido = false;
+                break;
+            }
+        }
+
+        if (!numero.isBlank() && valido) {
+            numInt = Integer.parseInt(numero);
+        }
+
+        if (numero.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "El campo edad no debe estar vacio!");
+            valido = false;
+        } else if (numInt < 1 || numInt > 110) {
+            JOptionPane.showMessageDialog(this, "Edad inválida: debe estar entre 1 y 110 años");
+            valido = false;
+            txtEdad.setText("");
+        }
+
+        return valido;
+    }
+
+    public boolean validacionAfec() {
+        String afec = txtAfecciones.getText().trim();
+        boolean valido = true;
+        for (int i = 0; i < afec.length(); i++) {
+            char c = afec.charAt(i);
+            if (!Character.isLetter(c) && c != ' ') {
+                valido = false;
+                break;
+            }
+        }
+        if (valido == false) {
+            JOptionPane.showMessageDialog(this, "Afecciones: solo se permiten letras y espacios");
+            txtAfecciones.setText("");
+        }
+        return valido;
+    }
+
     public void limpiarCampos() {
         txtDni.setText("");
         txtNombre.setText("");
@@ -417,14 +542,16 @@ public class VistasCliente extends javax.swing.JInternalFrame {
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
         try {
-            int dni = Integer.parseInt(txtDni.getText());
-            String nombre = txtNombre.getText();
-            String apellido = txtApellido.getText();
-            int edad = Integer.parseInt(txtEdad.getText());
-            long telefono = Long.parseLong(txtTelefono.getText());
-            String afecciones = txtAfecciones.getText();
-            Cliente cliente = new Cliente(dni, nombre, apellido, edad, telefono, afecciones, true);
-
+            Cliente cliente = null;
+            if (validacionAfec() && validacionTel() && validacionNombre() && validacionEdad() && validacionDni() && validacionApellido()) {
+                int dni = Integer.parseInt(txtDni.getText());
+                String nombre = txtNombre.getText();
+                String apellido = txtApellido.getText();
+                int edad = Integer.parseInt(txtEdad.getText());
+                long telefono = Long.parseLong(txtTelefono.getText());
+                String afecciones = txtAfecciones.getText();
+                cliente = new Cliente(dni, nombre, apellido, edad, telefono, afecciones, true);
+            }            
             clienteData.crearCliente(cliente);
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this, "Debe llenar los campos");
@@ -440,36 +567,37 @@ public class VistasCliente extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnActualizarActionPerformed
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-
-        int dniNum = Integer.parseInt(txtBuscar.getText());
-        for (int i = 0; i < tblClientes.getRowCount(); i++) {
-            String dni = txtBuscar.getText();
-            String valorDni = tblClientes.getValueAt(i, 0).toString();
-            if (valorDni.equalsIgnoreCase(dni)) {
-                tblClientes.setRowSelectionInterval(i, i);
-                tblClientes.scrollRectToVisible(tblClientes.getCellRect(i, 0, true));
-                return;
+        if (validacionDni()) {
+            int dniNum = Integer.parseInt(txtBuscar.getText());
+            for (int i = 0; i < tblClientes.getRowCount(); i++) {
+                String dni = txtBuscar.getText();
+                String valorDni = tblClientes.getValueAt(i, 0).toString();
+                if (valorDni.equalsIgnoreCase(dni)) {
+                    tblClientes.setRowSelectionInterval(i, i);
+                    tblClientes.scrollRectToVisible(tblClientes.getCellRect(i, 0, true));
+                    return;
+                }
             }
-
         }
     }//GEN-LAST:event_btnBuscarActionPerformed
 
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
         try {
-            int dni = Integer.parseInt(txtDni.getText());
-            String nombre = txtNombre.getText();
-            String apellido = txtApellido.getText();
-            int edad = Integer.parseInt(txtEdad.getText());
-            long telefono = Long.parseLong(txtTelefono.getText());
-            String afecciones = txtAfecciones.getText();
-            Cliente cliente = new Cliente(dni, nombre, apellido, edad, telefono, afecciones, true);
-
+            Cliente cliente = null;
+            if (validacionAfec() && validacionTel() && validacionNombre() && validacionEdad() && validacionDni() && validacionApellido()) {
+                int dni = Integer.parseInt(txtDni.getText());
+                String nombre = txtNombre.getText();
+                String apellido = txtApellido.getText();
+                int edad = Integer.parseInt(txtEdad.getText());
+                long telefono = Long.parseLong(txtTelefono.getText());
+                String afecciones = txtAfecciones.getText();
+                cliente = new Cliente(dni, nombre, apellido, edad, telefono, afecciones, true);
+            }
             clienteData.modificarCliente(cliente);
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this, "Debe Cargar un Cliente o seleccionarlo de la tabla");
         }
-
     }//GEN-LAST:event_btnModificarActionPerformed
 
     private void btnAltaBajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAltaBajaActionPerformed
@@ -523,6 +651,26 @@ public class VistasCliente extends javax.swing.JInternalFrame {
     private void txtNombreFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtNombreFocusLost
         validacionNombre();
     }//GEN-LAST:event_txtNombreFocusLost
+
+    private void txtDniFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtDniFocusLost
+        validacionDni();
+    }//GEN-LAST:event_txtDniFocusLost
+
+    private void txtTelefonoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtTelefonoFocusLost
+        validacionTel();
+    }//GEN-LAST:event_txtTelefonoFocusLost
+
+    private void txtEdadFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtEdadFocusLost
+        validacionEdad();
+    }//GEN-LAST:event_txtEdadFocusLost
+
+    private void txtAfeccionesFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtAfeccionesFocusLost
+        validacionAfec();
+    }//GEN-LAST:event_txtAfeccionesFocusLost
+
+    private void txtBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBuscarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtBuscarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

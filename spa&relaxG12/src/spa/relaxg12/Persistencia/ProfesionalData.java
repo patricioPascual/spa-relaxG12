@@ -172,7 +172,7 @@ public class ProfesionalData {
     public ArrayList listarEspecialidades() {
         ArrayList<String> listado = new ArrayList<>();
         try {
-            String query = "SELECT especialidad FROM profesional";
+            String query = "SELECT DISTINCT especialidad FROM profesional";
             PreparedStatement ps = con.prepareStatement(query);
             ResultSet rs = ps.executeQuery();
             String especialidad;

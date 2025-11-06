@@ -179,6 +179,30 @@ public class VistasProfesional extends javax.swing.JInternalFrame {
             }
         });
 
+        txtMatricula.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtMatriculaFocusLost(evt);
+            }
+        });
+
+        txtNombre.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtNombreFocusLost(evt);
+            }
+        });
+
+        txtApellido.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtApellidoFocusLost(evt);
+            }
+        });
+
+        txtTelefono.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtTelefonoFocusLost(evt);
+            }
+        });
+
         cmbEspecialidad.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -299,6 +323,71 @@ public class VistasProfesional extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    //Validaciones
+    public boolean validacionApellido() {
+        String apellido = txtApellido.getText().trim();
+        boolean valido = true;
+        for (int i = 0; i < apellido.length(); i++) {
+            char c = apellido.charAt(i);
+            if (!Character.isLetter(c) && c != ' ') {
+                valido = false;
+                break;
+            }
+        }
+        if (apellido.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "El campo apellido no debe estar vacio!");
+        } else if (valido == false) {
+            JOptionPane.showMessageDialog(this, "Apellido: solo se permiten letras y espacios");
+            txtApellido.setText("");
+        }
+        return valido;
+    }
+
+    public boolean validacionNombre() {
+        String nombre = txtNombre.getText().trim();
+        boolean valido = true;
+        for (int i = 0; i < nombre.length(); i++) {
+            char c = nombre.charAt(i);
+            if (!Character.isLetter(c) && c != ' ') {
+                valido = false;
+                break;
+            }
+        }
+        if (nombre.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "El campo nombre no debe estar vacio!");
+        } else if (valido == false) {
+            JOptionPane.showMessageDialog(this, "Nombre: solo se permiten letras y espacios");
+            txtNombre.setText("");
+        }
+        return valido;
+    }
+
+    public boolean validacionTel() {
+        String numero = txtTelefono.getText().trim();
+        boolean valido = true;
+
+        for (int i = 0; i < numero.length(); i++) {
+            char c = numero.charAt(i);
+            if (!Character.isDigit(c)) {
+                valido = false;
+                break;
+            }
+        }
+
+        if (numero.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "El campo telefono no debe estar vacio!");
+            valido = false;
+        } else if (!valido) {
+            JOptionPane.showMessageDialog(this, "Telefono: solo se permiten digitos (0-9)");
+            txtTelefono.setText("");
+        } else if (numero.length() < 10) {
+            JOptionPane.showMessageDialog(this, "El telefono debe tener al menos 10 caracteres");
+            valido = false;
+        }
+
+        return valido;
+    }
+
     public void limpiarCampos() {
         txtMatricula.setText("");
         txtApellido.setText("");
@@ -319,9 +408,9 @@ public class VistasProfesional extends javax.swing.JInternalFrame {
 
     public void armarComboBuscar() {
         cmbEspecialidadBuscar.removeAllItems();
-               
+
         ArrayList<String> listaEspecialidad = profData.listarEspecialidades();
-        for (String it : listaEspecialidad ) {
+        for (String it : listaEspecialidad) {
             cmbEspecialidadBuscar.addItem(it);
         }
 
@@ -350,7 +439,7 @@ public class VistasProfesional extends javax.swing.JInternalFrame {
             modelo.addRow(row);
         }
     }
-    
+
     public void listarProfesionales() {
         modelo.setRowCount(0);
         ArrayList<Profesional> listado = profData.listarProfesionales();
@@ -368,8 +457,8 @@ public class VistasProfesional extends javax.swing.JInternalFrame {
             modelo.removeRow(i);
         }
     }
-    
-     public void cargarInactivos() {
+
+    public void cargarInactivos() {
         borrarFila();
         listaProf = profData.listarProfesionalesInactivos();
         for (Profesional p : listaProf) {
@@ -381,32 +470,34 @@ public class VistasProfesional extends javax.swing.JInternalFrame {
     public void cargarActivos() {
         borrarFila();
         ArrayList<Profesional> lista = profData.listarProfesionalesActivos();
-         for (Profesional p : lista) {
+        for (Profesional p : lista) {
             Object[] row = {p.getMatricula(), p.getNombre(), p.getApellido(), p.getTelefono(), p.getEspecialidad(), p.isEstado()};
             modelo.addRow(row);
         }
     }
-      
+
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-
-        for (int i = 0; i < tblProfesionales.getRowCount(); i++) {
-            String matricula = txtBuscar.getText().trim();
-            String valorMatricula = tblProfesionales.getValueAt(i, 0).toString();
-            if (valorMatricula.equalsIgnoreCase(matricula)) {
-                tblProfesionales.setRowSelectionInterval(i, i);
-                tblProfesionales.scrollRectToVisible(tblProfesionales.getCellRect(i, 0, true));
-                return;
+        if (!txtMatricula.getText().isEmpty()) {
+            for (int i = 0; i < tblProfesionales.getRowCount(); i++) {
+                String matricula = txtBuscar.getText().trim();
+                String valorMatricula = tblProfesionales.getValueAt(i, 0).toString();
+                if (valorMatricula.equalsIgnoreCase(matricula)) {
+                    tblProfesionales.setRowSelectionInterval(i, i);
+                    tblProfesionales.scrollRectToVisible(tblProfesionales.getCellRect(i, 0, true));
+                    return;
+                }
             }
-
+        } else {
+            JOptionPane.showMessageDialog(this, "El campo matricula no debe estar vacio!");
         }
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
-       if (rbtnActivo.isSelected()) {
-           cargarActivos();
-       } else {
-           cargarInactivos();
-       }
+        if (rbtnActivo.isSelected()) {
+            cargarActivos();
+        } else {
+            cargarInactivos();
+        }
     }//GEN-LAST:event_btnActualizarActionPerformed
 
     private void btnSalir1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalir1ActionPerformed
@@ -431,32 +522,31 @@ public class VistasProfesional extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnAltaBajaActionPerformed
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
-        try {
+        Profesional prof = null;
+        if (validacionNombre() && validacionApellido() && validacionTel() && !txtMatricula.getText().isEmpty()) {
             String matricula = txtMatricula.getText();
             String nombre = txtNombre.getText();
             String apellido = txtApellido.getText();
             String telefono = txtTelefono.getText();
             String especialidad = (String) cmbEspecialidad.getSelectedItem();
-            Profesional prof = new Profesional(matricula, nombre, apellido, telefono, especialidad, true);
-           if(matricula.isEmpty()){
-               JOptionPane.showMessageDialog(this, "Debe cargar una matricula");
-           }else{
-            profData.crearProfesional(prof);
-           }
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "Debe llenar los campos");
+            prof = new Profesional(matricula, nombre, apellido, telefono, especialidad, true);
+        } else {
+            JOptionPane.showMessageDialog(this, "Debe cargar los campos correspondientes");
         }
+        profData.crearProfesional(prof);
     }//GEN-LAST:event_btnAgregarActionPerformed
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
         try {
-            String matricula = txtMatricula.getText();
-            String nombre = txtNombre.getText();
-            String apellido = txtApellido.getText();
-            String telefono = txtTelefono.getText();
-            String especialidad = (String) cmbEspecialidad.getSelectedItem();
-            Profesional prof = new Profesional(matricula, nombre, apellido, telefono, especialidad, true);
-
+            Profesional prof = null;
+            if (validacionNombre() && validacionApellido() && validacionTel() && !txtMatricula.getText().isEmpty()) {
+                String matricula = txtMatricula.getText();
+                String nombre = txtNombre.getText();
+                String apellido = txtApellido.getText();
+                String telefono = txtTelefono.getText();
+                String especialidad = (String) cmbEspecialidad.getSelectedItem();
+                prof = new Profesional(matricula, nombre, apellido, telefono, especialidad, true);
+            }
             profData.modificarProfesional(prof);
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this, "Debe Cargar un Profesional o seleccionarlo de la tabla");
@@ -493,9 +583,27 @@ public class VistasProfesional extends javax.swing.JInternalFrame {
 
     private void cmbEspecialidadBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbEspecialidadBuscarActionPerformed
         String especialidad = (String) cmbEspecialidadBuscar.getSelectedItem();
-        
+
         listarPorEspecialidad(especialidad);
     }//GEN-LAST:event_cmbEspecialidadBuscarActionPerformed
+
+    private void txtNombreFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtNombreFocusLost
+        validacionNombre();
+    }//GEN-LAST:event_txtNombreFocusLost
+
+    private void txtApellidoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtApellidoFocusLost
+        validacionApellido();
+    }//GEN-LAST:event_txtApellidoFocusLost
+
+    private void txtTelefonoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtTelefonoFocusLost
+        validacionTel();
+    }//GEN-LAST:event_txtTelefonoFocusLost
+
+    private void txtMatriculaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtMatriculaFocusLost
+        if (txtMatricula.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "El campo matricula no debe estar vacio!");
+        }
+    }//GEN-LAST:event_txtMatriculaFocusLost
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

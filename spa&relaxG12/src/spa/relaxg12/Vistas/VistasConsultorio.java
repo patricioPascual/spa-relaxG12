@@ -64,7 +64,6 @@ public class VistasConsultorio extends javax.swing.JInternalFrame {
         });
 
         cmbAptoPara.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Facial", "Corporal", "Relajacion", "Estetico" }));
-        cmbAptoPara.setSelectedIndex(-1);
         cmbAptoPara.setToolTipText("");
 
         btnGuardar.setText("Guardar");

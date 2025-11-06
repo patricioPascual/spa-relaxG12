@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import spa.relaxg12.Modelo.Cliente;
 import spa.relaxg12.Modelo.Consultorio;
@@ -297,13 +298,41 @@ public class VistasDiaDeSpa extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    public boolean validacionDni() {
+        String numero = txtDni.getText().trim();
+        boolean valido = true;
+
+        for (int i = 0; i < numero.length(); i++) {
+            char c = numero.charAt(i);
+            if (!Character.isDigit(c)) {
+                valido = false;
+                break;
+            }
+        }
+
+        if (numero.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "El campo DNI no debe estar vacio!");
+            valido = false;
+        } else if (!valido) {
+            JOptionPane.showMessageDialog(this, "DNI: solo se permiten digitos (0-9)");
+            txtDni.setText("");
+        } else if (numero.length() < 7) {
+            JOptionPane.showMessageDialog(this, "El DNI debe tener al menos 7 caracteres");
+            valido = false;
+        }
+
+        return valido;
+    }
+    
     private void btnBuscarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarClienteActionPerformed
         ClienteData clienteData = new ClienteData();
-        Cliente cliente = clienteData.buscarClienteDni(Integer.parseInt(txtDni.getText()));
-
+        Cliente cliente = null;
+        if(validacionDni()) {
+        cliente = clienteData.buscarClienteDni(Integer.parseInt(txtDni.getText()));
         txtNombre.setText(cliente.getNombre());
         txtApellido.setText(cliente.getApellido());
         txtTelefono.setText(String.valueOf(cliente.getTelefono()));
+        }
     }//GEN-LAST:event_btnBuscarClienteActionPerformed
 
     private void btnAgregarSesionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarSesionesActionPerformed
