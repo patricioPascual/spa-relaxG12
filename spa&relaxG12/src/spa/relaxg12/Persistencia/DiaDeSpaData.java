@@ -15,42 +15,44 @@ import java.sql.Statement;
 import spa.relaxg12.Modelo.Tratamiento;
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author patri
  */
 public class DiaDeSpaData {
-private static Connection con;
+
+    private static Connection con;
 
     public DiaDeSpaData(Conexion miconexion) {
         this.con = miconexion.buscarConexion();
     }
 
-
     public DiaDeSpaData() {
     }
-    
-    
-      public void guardarDiaDeSpa(DiaDeSpa diaDeSpa){
+
+    public void guardarDiaDeSpa(DiaDeSpa diaDeSpa) {
         String query = "INSERT INTO diadespa (idCliente,fecha,preferencias,montoTotal,estado) VALUES (?,?,?,?,?) ";
-        ResultSet rs =null;
+        ResultSet rs = null;
         try {
             PreparedStatement ps = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
             ps.setInt(1, diaDeSpa.getCliente().getIdCliente());
-            ps.setDate(2, Date.valueOf(diaDeSpa.getFecha()) );
-         
+            ps.setDate(2, Date.valueOf(diaDeSpa.getFecha()));
+
             ps.setString(3, diaDeSpa.getPreferencias());
             ps.setDouble(4, diaDeSpa.getMontoTotal());
             ps.setBoolean(5, true);
             int exito = ps.executeUpdate();
-            
+
             rs = ps.getGeneratedKeys();
-        if (rs.next()) {
-            int idGenerado = rs.getInt(1); 
-            
-          
-            diaDeSpa.setIdDiaDeSpa(idGenerado); 
-        }
+            if (rs.next()) {
+                int idGenerado = rs.getInt(1);
+
+                diaDeSpa.setIdDiaDeSpa(idGenerado);
+            }
             if (exito == 1) {
                 JOptionPane.showMessageDialog(null, "Dia De Spa agregado con exito");
             }
@@ -59,15 +61,16 @@ private static Connection con;
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Error al guardar Dia de Spa");
         }
-        
+
     }
-      public void cargarDiaDeSpaSesion( DiaDeSpa diaDeSpa, Sesion sesion) {
+
+    public void cargarDiaDeSpaSesion(DiaDeSpa diaDeSpa, Sesion sesion) {
         String query = "INSERT INTO diadespa_sesion (idDiaDeSpa,idSesion) VALUES (?,?) ";
         try {
             PreparedStatement ps = con.prepareStatement(query);
             ps.setInt(1, diaDeSpa.getIdDiaDeSpa());
             ps.setInt(2, sesion.getIdSesion());
-            
+
             int exito = ps.executeUpdate();
             if (exito == 1) {
                 JOptionPane.showMessageDialog(null, "Listado  agregado con exito");
@@ -77,7 +80,62 @@ private static Connection con;
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Error al guardar listado");
         }
-        
+
+    }
+
+    public ArrayList buscarSesionesPorDni(int dni) {
+        ArrayList<Sesion> listado = new ArrayList<>();
+        ConsultorioData consultorioData = new ConsultorioData();
+        ProfesionalData profData = new ProfesionalData();
+        TratamientoData tratData = new TratamientoData();
+        try {
+            String query = "SELECT * FROM sesion AS s JOIN diasdespa_sesion AS ds ON ds.idSesion = s.idSesion JOIN diasdespa AS d ON ds.idDiaDeSpa = d.idDiaDeSpa JOIN cliente AS c ON d.idCliente = c.idCliente WHERE c.dni = ? ORDER BY s.fecha";
+            PreparedStatement ps = con.prepareStatement(query);
+            ps.setInt(1, dni);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+            Sesion sesion = new Sesion();          
+            sesion.setIdSesion(rs.getInt("idSesion"));
+            sesion.setConsultorio(consultorioData.buscarConsultorio(rs.getInt("idConsultorio")));
+            sesion.setProfesional(profData.buscarProfesionalId(rs.getInt("idProfesional")));
+            sesion.setMonto(rs.getDouble("monto"));
+            sesion.setFechaHoraFin(rs.getString("hora"));
+            sesion.setFechaInicio(rs.getDate("fecha").toLocalDate());
+            sesion.setEstado(true);
+            
+            listado.add(sesion);
+            }          
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "");
+        }
+        return listado;
     }
     
+    /*public ArrayList buscarSesionesPorFecha(LocalDate fecha) {
+        ArrayList<Sesion> listado = new ArrayList<>();
+        ConsultorioData consultorioData = new ConsultorioData();
+        ProfesionalData profData = new ProfesionalData();
+        TratamientoData tratData = new TratamientoData();
+        try {
+            String query = "SELECT * FROM sesion AS s JOIN diasdespa_sesion AS ds ON ds.idSesion = s.idSesion JOIN diasdespa AS d ON ds.idDiaDeSpa = d.idDiaDeSpa JOIN cliente AS c ON d.idCliente = c.idCliente WHERE c.dni = ?";
+            PreparedStatement ps = con.prepareStatement(query);
+            ps.setDate(1,Date.valueOf(fecha));
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+            Sesion sesion = new Sesion();          
+            sesion.setIdSesion(rs.getInt("idSesion"));
+            sesion.setConsultorio(consultorioData.buscarConsultorio(rs.getInt("idConsultorio")));
+            sesion.setProfesional(profData.buscarProfesionalId(rs.getInt("idProfesional")));
+            sesion.setMonto(rs.getDouble("monto"));
+            sesion.setFechaHoraFin(rs.getString("hora"));
+            sesion.setFechaInicio(rs.getDate("fecha").toLocalDate());
+            sesion.setEstado(true);
+            
+            listado.add(sesion);
+            }          
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "");
+        }
+        return listado;
+    }*/
 }

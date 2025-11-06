@@ -104,6 +104,41 @@ public class ProfesionalData {
         return prof;
     }
 
+    public Profesional buscarProfesionalId(int id) {
+        Profesional prof = null;
+        try {
+            String sql = "SELECT * FROM profesional WHERE idProfesional=?";
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                prof = new Profesional();
+                prof.setIdProfesional(rs.getInt("idProfesional"));
+                prof.setMatricula(rs.getString("matricula"));
+                prof.setApellido(rs.getString("apellido"));
+                prof.setNombre(rs.getString("nombre"));
+                prof.setTelefono(rs.getString("telefono"));
+                prof.setEspecialidad(rs.getString("especialidad"));
+                int estadoInt = rs.getInt("estado");
+                boolean estado;
+                if (estadoInt == 1) {
+                    estado = true;
+                } else {
+                    estado = false;
+                }
+                prof.setEstado(estado);
+                ps.close();
+
+            } else {
+                JOptionPane.showMessageDialog(null, "Profesional no encontrado");
+            }
+            ps.close();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error Al acceder a la Base de Datos");
+        }
+        return prof;
+    }
+    
     public void darBajaProfesional(String matricula) {
 
         try {
