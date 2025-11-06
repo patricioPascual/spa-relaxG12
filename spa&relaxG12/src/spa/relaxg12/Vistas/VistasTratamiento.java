@@ -23,8 +23,8 @@ public class VistasTratamiento extends javax.swing.JInternalFrame {
      */
     public VistasTratamiento() {
         initComponents();
-        ProductoData productoData= new ProductoData();
-       cargarComboProductos(productoData.cargarProductos()); 
+        ProductoData productoData = new ProductoData();
+        cargarComboProductos(productoData.cargarProductos());
     }
 
     /**
@@ -49,29 +49,15 @@ public class VistasTratamiento extends javax.swing.JInternalFrame {
         jLabel4 = new javax.swing.JLabel();
         txtPrecio = new javax.swing.JTextField();
         btnGuardarTrat = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        btnSalir = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         txtDetalle = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-
-        addInputMethodListener(new java.awt.event.InputMethodListener() {
-            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
-                formCaretPositionChanged(evt);
-            }
-            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
-            }
-        });
+        btnModificar = new javax.swing.JButton();
+        btnAltaBaja = new javax.swing.JButton();
+        btnBuscar = new javax.swing.JButton();
 
         jLabel1.setText("Nombre");
-
-        txtNombre.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtNombreActionPerformed(evt);
-            }
-        });
 
         jLabel2.setText("Especialidad");
 
@@ -125,12 +111,6 @@ public class VistasTratamiento extends javax.swing.JInternalFrame {
 
         jLabel4.setText("Precio Total");
 
-        txtPrecio.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtPrecioActionPerformed(evt);
-            }
-        });
-
         btnGuardarTrat.setText("Guardar");
         btnGuardarTrat.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -138,10 +118,10 @@ public class VistasTratamiento extends javax.swing.JInternalFrame {
             }
         });
 
-        jButton4.setText("Salir");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
+        btnSalir.setText("Salir");
+        btnSalir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
+                btnSalirActionPerformed(evt);
             }
         });
 
@@ -150,24 +130,24 @@ public class VistasTratamiento extends javax.swing.JInternalFrame {
 
         jLabel6.setText("Detalle");
 
-        jButton1.setText("Modificar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnModificar.setText("Modificar");
+        btnModificar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnModificarActionPerformed(evt);
             }
         });
 
-        jButton2.setText("Alta/Baja");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btnAltaBaja.setText("Alta/Baja");
+        btnAltaBaja.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btnAltaBajaActionPerformed(evt);
             }
         });
 
-        jButton3.setText("Buscar");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        btnBuscar.setText("Buscar");
+        btnBuscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                btnBuscarActionPerformed(evt);
             }
         });
 
@@ -209,17 +189,17 @@ public class VistasTratamiento extends javax.swing.JInternalFrame {
                                 .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(27, 27, 27)
-                                .addComponent(jButton3)))))
+                                .addComponent(btnBuscar)))))
                 .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addGap(28, 28, 28)
                 .addComponent(btnGuardarTrat)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton1)
+                .addComponent(btnModificar)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
-                .addComponent(jButton2)
+                .addComponent(btnAltaBaja)
                 .addGap(18, 18, 18)
-                .addComponent(jButton4)
+                .addComponent(btnSalir)
                 .addGap(62, 62, 62))
         );
         layout.setVerticalGroup(
@@ -230,7 +210,7 @@ public class VistasTratamiento extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton3))
+                    .addComponent(btnBuscar))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel2)
@@ -254,140 +234,175 @@ public class VistasTratamiento extends javax.swing.JInternalFrame {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnGuardarTrat)
-                    .addComponent(jButton4)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
+                    .addComponent(btnSalir)
+                    .addComponent(btnModificar)
+                    .addComponent(btnAltaBaja))
                 .addGap(18, 18, 18))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombreActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtNombreActionPerformed
+    public boolean validacionNombre() {
+        String nombre = txtNombre.getText().trim();
+        boolean valido = true;
+        for (int i = 0; i < nombre.length(); i++) {
+            char c = nombre.charAt(i);
+            if (!Character.isLetter(c) && c != ' ') {
+                valido = false;
+                break;
+            }
+        }
+        if (nombre.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "El campo nombre no debe estar vacio!");
+        } else if (valido == false) {
+            JOptionPane.showMessageDialog(this, "Nombre: solo se permiten letras y espacios");
+            txtNombre.setText("");
+        }
+        return valido;
+    }
 
-    private void formCaretPositionChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_formCaretPositionChanged
-        // TODO add your handling code here:
-    }//GEN-LAST:event_formCaretPositionChanged
+    public boolean validacionPrecio() {
+        String numero = txtPrecio.getText().trim();
+        boolean valido = true;
+
+        for (int i = 0; i < numero.length(); i++) {
+            char c = numero.charAt(i);
+            if (!Character.isDigit(c) && c != '.') {
+                valido = false;
+                break;
+            }
+        }
+
+        if (numero.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "El campo precio no debe estar vacio!");
+            valido = false;
+        } else if (!valido) {
+            JOptionPane.showMessageDialog(this, "Precio: solo se permiten digitos y puntos (0-9)");
+            txtPrecio.setText("");
+        }
+
+        return valido;
+    }
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
-        DefaultTableModel modelo=  (DefaultTableModel) tblProducto.getModel();
-        Producto producto= (Producto) comboProducto.getSelectedItem();
-       String[] fila ={
-                 producto.getNombre(),
-                 producto.getDetalle(),
-                 producto.getStock().toString()
-       };
+        DefaultTableModel modelo = (DefaultTableModel) tblProducto.getModel();
+        Producto producto = (Producto) comboProducto.getSelectedItem();
+        String[] fila = {
+            producto.getNombre(),
+            producto.getDetalle(),
+            producto.getStock().toString()
+        };
         modelo.addRow(fila);
-        
+
     }//GEN-LAST:event_btnAgregarActionPerformed
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-       dispose();
-    }//GEN-LAST:event_jButton4ActionPerformed
+    private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
+        dispose();
+    }//GEN-LAST:event_btnSalirActionPerformed
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
-        DefaultTableModel modelo= (DefaultTableModel) tblProducto.getModel();
-       int fila= tblProducto.getSelectedRow();
-       if(fila!= -1){
-       modelo.removeRow(fila);
-       }else{
-           JOptionPane.showMessageDialog(this, "Debe seleccionar una fila");
-       }
+        DefaultTableModel modelo = (DefaultTableModel) tblProducto.getModel();
+        int fila = tblProducto.getSelectedRow();
+        if (fila != -1) {
+            modelo.removeRow(fila);
+        } else {
+            JOptionPane.showMessageDialog(this, "Debe seleccionar una fila");
+        }
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnGuardarTratActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarTratActionPerformed
-             ProductoData pdta=  new ProductoData();
-             ArrayList<Producto> lista= new ArrayList();
-             DefaultTableModel modelo = (DefaultTableModel) tblProducto.getModel();
-             for (int i=0;i< modelo.getRowCount();i++){
-                String nombre= modelo.getValueAt(i, 0).toString();
-               lista.add(pdta.BuscarProducto(nombre));
-             }
-             
-             String nombre= txtNombre.getText();
-             String especialidad= comboEspecialidad.getSelectedItem().toString();
-             String detalle= txtDetalle.getText();
-             int duracion= 30;
-             double costo= Double.parseDouble(txtPrecio.getText());
-                Tratamiento tratamiento = new Tratamiento(nombre,especialidad,detalle,lista,duracion,costo,true);
-                TratamientoData tratamientoData= new TratamientoData();
-                tratamientoData.guardarTratamiento(tratamiento);
-              
-                for (Producto aux : lista){
-                    tratamientoData.cargarTratamientoProducto(aux, tratamiento);
-                    System.out.println(aux.getNombre() + tratamiento.getNombre());
-                }
-                
-    }//GEN-LAST:event_btnGuardarTratActionPerformed
+        ProductoData pdta = new ProductoData();
+        if (validacionNombre() && validacionPrecio()) {
+            ArrayList<Producto> lista = new ArrayList();
+            DefaultTableModel modelo = (DefaultTableModel) tblProducto.getModel();
+            for (int i = 0; i < modelo.getRowCount(); i++) {
+                String nombre = modelo.getValueAt(i, 0).toString();
+                lista.add(pdta.BuscarProducto(nombre));
+            }
 
-    private void txtPrecioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPrecioActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtPrecioActionPerformed
+            String nombre = txtNombre.getText();
+            String especialidad = comboEspecialidad.getSelectedItem().toString();
+            String detalle = txtDetalle.getText();
+            int duracion = 30;
+            double costo = Double.parseDouble(txtPrecio.getText());
+            Tratamiento tratamiento = new Tratamiento(nombre, especialidad, detalle, lista, duracion, costo, true);
+            TratamientoData tratamientoData = new TratamientoData();
+            tratamientoData.guardarTratamiento(tratamiento);
+
+            for (Producto aux : lista) {
+                tratamientoData.cargarTratamientoProducto(aux, tratamiento);
+                System.out.println(aux.getNombre() + tratamiento.getNombre());
+            }
+        }
+    }//GEN-LAST:event_btnGuardarTratActionPerformed
 
     private void comboEspecialidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboEspecialidadActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_comboEspecialidadActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-      TratamientoData tratamientoData= new TratamientoData();
-      ProductoData pdta=  new ProductoData();
-             ArrayList<Producto> lista= new ArrayList();
-             DefaultTableModel modelo = (DefaultTableModel) tblProducto.getModel();
-             for (int i=0;i< modelo.getRowCount();i++){
-                String nombre= modelo.getValueAt(i, 0).toString();
-               lista.add(pdta.BuscarProducto(nombre));
-             }
-             
-             String nombre= txtNombre.getText();
-             String especialidad= comboEspecialidad.getSelectedItem().toString();
-             String detalle= txtDetalle.getText();
-             int duracion= 30;
-             double costo= Double.parseDouble(txtPrecio.getText());
-                Tratamiento tratamiento = new Tratamiento(nombre,especialidad,detalle,lista,duracion,costo,true);
-                tratamientoData.modificarTratamiento(tratamiento);
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
+        TratamientoData tratamientoData = new TratamientoData();
+        if (validacionNombre() && validacionPrecio()) {
+            ProductoData pdta = new ProductoData();
+            ArrayList<Producto> lista = new ArrayList();
+            DefaultTableModel modelo = (DefaultTableModel) tblProducto.getModel();
+            for (int i = 0; i < modelo.getRowCount(); i++) {
+                String nombre = modelo.getValueAt(i, 0).toString();
+                lista.add(pdta.BuscarProducto(nombre));
+            }
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        TratamientoData tratamientoData= new TratamientoData();
-       Tratamiento tratamiento= tratamientoData.buscarTratramiento(txtNombre.getText());
-       if(tratamiento.isActivo()==true){
-           tratamientoData.bajaTratamiento(tratamiento);
-       }else if(tratamiento.isActivo()==false){
-           tratamientoData.altaTratamiento(tratamiento);
-       }
-    }//GEN-LAST:event_jButton2ActionPerformed
+            String nombre = txtNombre.getText();
+            String especialidad = comboEspecialidad.getSelectedItem().toString();
+            String detalle = txtDetalle.getText();
+            int duracion = 30;
+            double costo = Double.parseDouble(txtPrecio.getText());
+            Tratamiento tratamiento = new Tratamiento(nombre, especialidad, detalle, lista, duracion, costo, true);
+            tratamientoData.modificarTratamiento(tratamiento);
+        }
+    }//GEN-LAST:event_btnModificarActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-       TratamientoData tratData= new TratamientoData();
-      Tratamiento tratamiento= tratData.buscarTratramiento(txtNombre.getText());
-       int index;
-       if(tratamiento.getEspecialidad().equalsIgnoreCase("facial")){
-           index=0;
-       }else if(tratamiento.getEspecialidad().equalsIgnoreCase("Corporal")){
-           index=1;
-       }else if(tratamiento.getEspecialidad().equalsIgnoreCase("Relajacion")){
-           index=2;
-       }else{
-           index=3;
-       }
-       comboEspecialidad.setSelectedIndex(index);
-       txtDetalle.setText(tratamiento.getDetalle());
-       txtPrecio.setText(tratamiento.getCosto().toString());
-    }//GEN-LAST:event_jButton3ActionPerformed
+    private void btnAltaBajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAltaBajaActionPerformed
+        TratamientoData tratamientoData = new TratamientoData();
+        Tratamiento tratamiento = tratamientoData.buscarTratramiento(txtNombre.getText());
+        if (tratamiento.isActivo() == true) {
+            tratamientoData.bajaTratamiento(tratamiento);
+        } else if (tratamiento.isActivo() == false) {
+            tratamientoData.altaTratamiento(tratamiento);
+        }
+    }//GEN-LAST:event_btnAltaBajaActionPerformed
+
+    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+        TratamientoData tratData = new TratamientoData();
+        if (validacionNombre()) {
+            Tratamiento tratamiento = tratData.buscarTratramiento(txtNombre.getText());
+            int index;
+            if (tratamiento.getEspecialidad().equalsIgnoreCase("facial")) {
+                index = 0;
+            } else if (tratamiento.getEspecialidad().equalsIgnoreCase("Corporal")) {
+                index = 1;
+            } else if (tratamiento.getEspecialidad().equalsIgnoreCase("Relajacion")) {
+                index = 2;
+            } else {
+                index = 3;
+            }
+            comboEspecialidad.setSelectedIndex(index);
+            txtDetalle.setText(tratamiento.getDetalle());
+            txtPrecio.setText(tratamiento.getCosto().toString());
+        }
+    }//GEN-LAST:event_btnBuscarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregar;
+    private javax.swing.JButton btnAltaBaja;
+    private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnGuardarTrat;
+    private javax.swing.JButton btnModificar;
+    private javax.swing.JButton btnSalir;
     private javax.swing.JComboBox<String> comboEspecialidad;
     private javax.swing.JComboBox<Producto> comboProducto;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -400,13 +415,12 @@ public class VistasTratamiento extends javax.swing.JInternalFrame {
     private javax.swing.JTextField txtNombre;
     private javax.swing.JTextField txtPrecio;
     // End of variables declaration//GEN-END:variables
- public void cargarComboProductos(ArrayList<Producto> listado){
-        
-     for (Producto aux : listado){
-         comboProducto.addItem(aux);
-         
-     }
+ public void cargarComboProductos(ArrayList<Producto> listado) {
+
+        for (Producto aux : listado) {
+            comboProducto.addItem(aux);
+
+        }
     }
 
 }
-

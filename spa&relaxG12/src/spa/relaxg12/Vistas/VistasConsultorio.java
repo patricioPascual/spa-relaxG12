@@ -6,6 +6,7 @@ package spa.relaxg12.Vistas;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import spa.relaxg12.Modelo.Consultorio;
@@ -18,7 +19,7 @@ import spa.relaxg12.Persistencia.ConsultorioData;
 public class VistasConsultorio extends javax.swing.JInternalFrame {
 
     private ConsultorioData consultorioData;
-    private DefaultTableModel tableModel;
+    private DefaultTableModel modelo;
 
     /**
      * Creates new form VistasConsultorio
@@ -26,7 +27,10 @@ public class VistasConsultorio extends javax.swing.JInternalFrame {
     public VistasConsultorio() {
         initComponents();
         consultorioData = new ConsultorioData();
-        tableModel = new DefaultTableModel();
+        modelo = new DefaultTableModel();
+
+        armarCabecera();
+        cargarConsultoriosActivos();
     }
 
     /**
@@ -38,6 +42,7 @@ public class VistasConsultorio extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        groupEstado = new javax.swing.ButtonGroup();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -50,18 +55,16 @@ public class VistasConsultorio extends javax.swing.JInternalFrame {
         btnAlta = new javax.swing.JButton();
         btnSalir = new javax.swing.JButton();
         btnBaja = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tblConsultorios = new javax.swing.JTable();
+        rbtnActivo = new javax.swing.JRadioButton();
+        rbtnInactivo = new javax.swing.JRadioButton();
 
-        jLabel1.setText("N Consultorio");
+        jLabel1.setText("Nº Consultorio");
 
         jLabel2.setText("Equipamiento");
 
         jLabel3.setText("Apto Para");
-
-        txtEquipamiento.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtEquipamientoActionPerformed(evt);
-            }
-        });
 
         cmbAptoPara.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Facial", "Corporal", "Relajacion", "Estetico" }));
         cmbAptoPara.setToolTipText("");
@@ -116,72 +119,164 @@ public class VistasConsultorio extends javax.swing.JInternalFrame {
                 .addComponent(btnModificar)
                 .addGap(18, 18, 18)
                 .addComponent(btnSalir)
-                .addContainerGap(21, Short.MAX_VALUE))
+                .addContainerGap(17, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(22, 22, 22)
+                .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnGuardar)
                     .addComponent(btnModificar)
                     .addComponent(btnAlta)
                     .addComponent(btnSalir)
                     .addComponent(btnBaja))
-                .addContainerGap(23, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+
+        tblConsultorios.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tblConsultorios.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblConsultoriosMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tblConsultorios);
+
+        groupEstado.add(rbtnActivo);
+        rbtnActivo.setSelected(true);
+        rbtnActivo.setText("Activos");
+        rbtnActivo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rbtnActivoActionPerformed(evt);
+            }
+        });
+
+        groupEstado.add(rbtnInactivo);
+        rbtnInactivo.setText("Inactivos");
+        rbtnInactivo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rbtnInactivoActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(16, 16, 16)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addGap(18, 18, 18)
-                        .addComponent(txtNumConsultorio))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel3))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtEquipamiento)
-                            .addComponent(cmbAptoPara, 0, 134, Short.MAX_VALUE))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(77, Short.MAX_VALUE)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(35, 35, 35))
+                .addGap(16, 16, 16)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addGap(18, 18, 18)
+                                .addComponent(txtNumConsultorio))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(rbtnActivo)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jLabel2)
+                                        .addComponent(jLabel3)))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(txtEquipamiento)
+                                        .addComponent(cmbAptoPara, 0, 134, Short.MAX_VALUE))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addComponent(rbtnInactivo)
+                                        .addGap(14, 14, 14)))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 433, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(23, 23, 23))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(92, 92, 92)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(34, 34, 34)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(txtNumConsultorio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(28, 28, 28)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(txtEquipamiento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(33, 33, 33)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(cmbAptoPara, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 82, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(16, 16, 16)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(34, 34, 34)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel1)
+                            .addComponent(txtNumConsultorio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(28, 28, 28)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel2)
+                            .addComponent(txtEquipamiento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(33, 33, 33)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel3)
+                            .addComponent(cmbAptoPara, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(rbtnActivo)
+                            .addComponent(rbtnInactivo))
+                        .addGap(53, 53, 53)))
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(40, 40, 40))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtEquipamientoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEquipamientoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtEquipamientoActionPerformed
+    public void armarCabecera() {
+        ArrayList<Object> filaCabecera = new ArrayList<>();
+        filaCabecera.add("ID");
+        filaCabecera.add("NºConsultorio");
+        filaCabecera.add("Equipamiento");
+        filaCabecera.add("Apto para");
+        filaCabecera.add("Estado");
+        for (Object it : filaCabecera) {
+            modelo.addColumn(it);
+        }
+        tblConsultorios.setModel(modelo);
+    }
+
+    public void cargarConsultoriosInactivos() {
+        modelo.setRowCount(0);
+        ArrayList<Consultorio> listado = consultorioData.listarConsultoriosInactivos();
+
+        for (Consultorio c : listado) {
+            Object[] row = {c.getIdConsultorio(), c.getNumeroConsultorio(), c.getEquipamiento(), c.getAptoPara(), c.isEstado()};
+            modelo.addRow(row);
+        }
+    }
+
+    public void cargarConsultoriosActivos() {
+        modelo.setRowCount(0);
+        ArrayList<Consultorio> listado = consultorioData.listarConsultoriosActivos();
+
+        for (Consultorio c : listado) {
+            Object[] row = {c.getIdConsultorio(), c.getNumeroConsultorio(), c.getEquipamiento(), c.getAptoPara(), c.isEstado()};
+            modelo.addRow(row);
+        }
+    }
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         try {
@@ -204,7 +299,7 @@ public class VistasConsultorio extends javax.swing.JInternalFrame {
             } else {
                 JOptionPane.showMessageDialog(this, "No se pudo guardar el consultorio.");
             }
-
+            cargarConsultoriosActivos();
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, "Error al obtener datos de los campos: " + ex.getMessage());
         }
@@ -223,7 +318,7 @@ public class VistasConsultorio extends javax.swing.JInternalFrame {
             } else {
                 JOptionPane.showMessageDialog(this, "No se pudo dar de Alta");
             }
-
+            
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, "Error al obtener datos de los campos: " + ex.getMessage());
         }
@@ -251,7 +346,7 @@ public class VistasConsultorio extends javax.swing.JInternalFrame {
             } else {
                 JOptionPane.showMessageDialog(this, "No se pudo modificar el consultorio.");
             }
-
+            cargarConsultoriosActivos();
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, "Error al obtener datos de los campos: " + ex.getMessage());
         }
@@ -280,6 +375,27 @@ public class VistasConsultorio extends javax.swing.JInternalFrame {
         this.dispose();
     }//GEN-LAST:event_btnSalirActionPerformed
 
+    private void rbtnActivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbtnActivoActionPerformed
+        cargarConsultoriosActivos();
+    }//GEN-LAST:event_rbtnActivoActionPerformed
+
+    private void rbtnInactivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbtnInactivoActionPerformed
+        cargarConsultoriosInactivos();
+    }//GEN-LAST:event_rbtnInactivoActionPerformed
+
+    private void tblConsultoriosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblConsultoriosMouseClicked
+        Consultorio consultorio = null;
+        int fila = tblConsultorios.getSelectedRow();
+        if (fila != -1) {
+            int id = (Integer) modelo.getValueAt(fila, 0);
+            consultorio = consultorioData.buscarConsultorio(id);
+        }
+
+        txtNumConsultorio.setText(consultorio.getNumeroConsultorio());
+        txtEquipamiento.setText(consultorio.getEquipamiento());
+        cmbAptoPara.setSelectedItem(consultorio.getAptoPara());
+    }//GEN-LAST:event_tblConsultoriosMouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAlta;
@@ -288,10 +404,15 @@ public class VistasConsultorio extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnModificar;
     private javax.swing.JButton btnSalir;
     private javax.swing.JComboBox<String> cmbAptoPara;
+    private javax.swing.ButtonGroup groupEstado;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JRadioButton rbtnActivo;
+    private javax.swing.JRadioButton rbtnInactivo;
+    private javax.swing.JTable tblConsultorios;
     private javax.swing.JTextField txtEquipamiento;
     private javax.swing.JTextField txtNumConsultorio;
     // End of variables declaration//GEN-END:variables
