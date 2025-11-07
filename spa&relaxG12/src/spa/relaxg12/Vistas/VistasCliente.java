@@ -292,10 +292,10 @@ public class VistasCliente extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnActualizar, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(btnBuscar)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel1)
                         .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(btnBuscar)
                         .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel7)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -595,9 +595,9 @@ public class VistasCliente extends javax.swing.JInternalFrame {
                 cliente = new Cliente(dni, nombre, apellido, edad, telefono, afecciones, true);
             }
             clienteData.modificarCliente(cliente);
-        } catch (NumberFormatException e) {
+        } catch (NumberFormatException | NullPointerException e) {
             JOptionPane.showMessageDialog(this, "Debe Cargar un Cliente o seleccionarlo de la tabla");
-        }
+        } 
     }//GEN-LAST:event_btnModificarActionPerformed
 
     private void btnAltaBajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAltaBajaActionPerformed

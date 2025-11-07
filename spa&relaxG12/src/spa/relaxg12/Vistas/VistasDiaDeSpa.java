@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.NoSuchElementException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
@@ -220,10 +221,11 @@ public class VistasDiaDeSpa extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addComponent(jLabel6)
                 .addGap(30, 30, 30)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(txtDni, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnBuscarCliente))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnBuscarCliente)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel1)
+                        .addComponent(txtDni, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(15, 15, 15)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
@@ -322,15 +324,21 @@ public class VistasDiaDeSpa extends javax.swing.JInternalFrame {
 
         return valido;
     }
-    
+
     private void btnBuscarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarClienteActionPerformed
-        ClienteData clienteData = new ClienteData();
-        Cliente cliente = null;
-        if(validacionDni()) {
-        cliente = clienteData.buscarClienteDni(Integer.parseInt(txtDni.getText()));
-        txtNombre.setText(cliente.getNombre());
-        txtApellido.setText(cliente.getApellido());
-        txtTelefono.setText(String.valueOf(cliente.getTelefono()));
+        try {
+
+            ClienteData clienteData = new ClienteData();
+            Cliente cliente = null;
+            if (validacionDni()) {
+                cliente = clienteData.buscarClienteDni(Integer.parseInt(txtDni.getText()));
+                txtNombre.setText(cliente.getNombre());
+                txtApellido.setText(cliente.getApellido());
+                txtTelefono.setText(String.valueOf(cliente.getTelefono()));
+            }
+
+        } catch (NullPointerException e) {
+
         }
     }//GEN-LAST:event_btnBuscarClienteActionPerformed
 
@@ -357,28 +365,33 @@ public class VistasDiaDeSpa extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jPanel2MouseMoved
 
     private void btnReservarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReservarActionPerformed
-        DiaDeSpaData diaDeSpaData = new DiaDeSpaData();
-        SesionData sesionData = new SesionData();
+        try {
+            DiaDeSpaData diaDeSpaData = new DiaDeSpaData();
+            SesionData sesionData = new SesionData();
 
-        ClienteData clienteData = new ClienteData();
-        Cliente cliente = clienteData.buscarClienteDni(Integer.parseInt(txtDni.getText()));
-        LocalDate fecha = listado.getFirst().getFechaInicio();
-        String preferencias = "";
-        double monto = 0;
-        for (Sesion aux : listado) {
-            monto += aux.getMonto();
-            if (aux.getInstalacion() == null) {
-                sesionData.crearSesionSinInstalacion(aux);
-            } else {
-                sesionData.crearSesion(aux);
+            ClienteData clienteData = new ClienteData();
+            Cliente cliente = clienteData.buscarClienteDni(Integer.parseInt(txtDni.getText()));
+            LocalDate fecha = listado.getFirst().getFechaInicio();
+            String preferencias = "";
+            double monto = 0;
+            for (Sesion aux : listado) {
+                monto += aux.getMonto();
+                if (aux.getInstalacion() == null) {
+                    sesionData.crearSesionSinInstalacion(aux);
+                } else {
+                    sesionData.crearSesion(aux);
+                }
+
+            }
+            DiaDeSpa dia = new DiaDeSpa(cliente, fecha, preferencias, monto, true);
+            diaDeSpaData.guardarDiaDeSpa(dia);
+
+            for (Sesion aux : listado) {
+                diaDeSpaData.cargarDiaDeSpaSesion(dia, aux);
             }
 
-        }
-        DiaDeSpa dia = new DiaDeSpa(cliente, fecha, preferencias, monto, true);
-        diaDeSpaData.guardarDiaDeSpa(dia);
-
-        for (Sesion aux : listado) {
-            diaDeSpaData.cargarDiaDeSpaSesion(dia, aux);
+        } catch (NoSuchElementException e) {
+            JOptionPane.showMessageDialog(this, "No hay sesiones agregadas, debe cargar una sesion!");
         }
     }//GEN-LAST:event_btnReservarActionPerformed
 
