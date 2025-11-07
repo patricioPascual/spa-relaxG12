@@ -41,9 +41,9 @@ public class VistasTurnos extends javax.swing.JInternalFrame {
         txtDni = new javax.swing.JTextField();
         labelDni = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        btnAnular = new javax.swing.JButton();
+        btnBuscarDni = new javax.swing.JButton();
+        btnBuscarFecha = new javax.swing.JButton();
+        btnCancelar = new javax.swing.JButton();
         btnSalir = new javax.swing.JButton();
 
         tblSesiones.setModel(new javax.swing.table.DefaultTableModel(
@@ -71,19 +71,19 @@ public class VistasTurnos extends javax.swing.JInternalFrame {
 
         jLabel2.setText("Fecha");
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/spa/relaxg12/Vistas/img/lupa.png"))); // NOI18N
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnBuscarDni.setIcon(new javax.swing.ImageIcon(getClass().getResource("/spa/relaxg12/Vistas/img/lupa.png"))); // NOI18N
+        btnBuscarDni.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnBuscarDniActionPerformed(evt);
             }
         });
 
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/spa/relaxg12/Vistas/img/lupa.png"))); // NOI18N
+        btnBuscarFecha.setIcon(new javax.swing.ImageIcon(getClass().getResource("/spa/relaxg12/Vistas/img/lupa.png"))); // NOI18N
 
-        btnAnular.setText("Anular");
-        btnAnular.addActionListener(new java.awt.event.ActionListener() {
+        btnCancelar.setText("Cancelar");
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAnularActionPerformed(evt);
+                btnCancelarActionPerformed(evt);
             }
         });
 
@@ -100,7 +100,7 @@ public class VistasTurnos extends javax.swing.JInternalFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(40, 40, 40)
-                .addComponent(btnAnular)
+                .addComponent(btnCancelar)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnSalir)
                 .addGap(51, 51, 51))
@@ -113,13 +113,13 @@ public class VistasTurnos extends javax.swing.JInternalFrame {
                         .addGap(18, 18, 18)
                         .addComponent(dateFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnBuscarFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(60, 60, 60)
                         .addComponent(labelDni)
                         .addGap(18, 18, 18)
                         .addComponent(txtDni, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(btnBuscarDni, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -133,9 +133,9 @@ public class VistasTurnos extends javax.swing.JInternalFrame {
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(labelDni)
                                 .addComponent(txtDni, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addComponent(jButton2))
+                        .addComponent(btnBuscarFecha))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButton1)
+                        .addComponent(btnBuscarDni)
                         .addGap(4, 4, 4))
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(jLabel2)
@@ -144,62 +144,62 @@ public class VistasTurnos extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSalir)
-                    .addComponent(btnAnular))
+                    .addComponent(btnCancelar))
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-     
-        int dni= Integer.parseInt(txtDni.getText());
-     ClienteData clienteData= new ClienteData();
-    DefaultTableModel modelo = (DefaultTableModel) tblSesiones.getModel();
-    modelo.setRowCount(0);
-    DiaDeSpaData diaDeSpaData= new DiaDeSpaData();
-    ArrayList<Sesion> listado=  diaDeSpaData.buscarSesionesPorDni(dni);
-    Cliente cliente = clienteData.buscarClienteDni(dni);
-    for (Sesion aux : listado){
-        
-        String[] fila = {
-           String.valueOf(cliente.getDni()),
-            cliente.getNombre()+" "+ cliente.getApellido(),
-            aux.getFechaInicio().toString(),
-            aux.getHora().toString(),
-            aux.getTratamientos().toString(),
-               String.valueOf(aux.getIdSesion()) 
-        };
-        modelo.addRow(fila);
-    }
-    
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void btnBuscarDniActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarDniActionPerformed
 
-    private void btnAnularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnularActionPerformed
-        Sesion sesion=null; 
-        SesionData sesionData= new SesionData();
+        int dni = Integer.parseInt(txtDni.getText());
+        ClienteData clienteData = new ClienteData();
+        DefaultTableModel modelo = (DefaultTableModel) tblSesiones.getModel();
+        modelo.setRowCount(0);
+        DiaDeSpaData diaDeSpaData = new DiaDeSpaData();
+        ArrayList<Sesion> listado = diaDeSpaData.buscarSesionesPorDni(dni);
+        Cliente cliente = clienteData.buscarClienteDni(dni);
+        for (Sesion aux : listado) {
+
+            String[] fila = {
+                String.valueOf(cliente.getDni()),
+                cliente.getNombre() + " " + cliente.getApellido(),
+                aux.getFechaInicio().toString(),
+                aux.getHora().toString(),
+                aux.getTratamientos().toString(),
+                String.valueOf(aux.getIdSesion())
+            };
+            modelo.addRow(fila);
+        }
+
+    }//GEN-LAST:event_btnBuscarDniActionPerformed
+
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        Sesion sesion = null;
+        SesionData sesionData = new SesionData();
         DefaultTableModel modelo = (DefaultTableModel) tblSesiones.getModel();
         int fila = tblSesiones.getSelectedRow();
         if (fila != -1) {
-            int id = Integer.parseInt(modelo.getValueAt(fila, 5).toString()) ;
+            int id = Integer.parseInt(modelo.getValueAt(fila, 5).toString());
             sesionData.eliminarSesionDiaDeSpa(id);
             sesionData.eliminarSesion(id);
         } else {
             JOptionPane.showMessageDialog(this, "Debe seleccionar un cliente de la tabla");
         }
-    }//GEN-LAST:event_btnAnularActionPerformed
+    }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
-      dispose();        
+        dispose();
     }//GEN-LAST:event_btnSalirActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnAnular;
+    private javax.swing.JButton btnBuscarDni;
+    private javax.swing.JButton btnBuscarFecha;
+    private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnSalir;
     private com.toedter.calendar.JDateChooser dateFecha;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel labelDni;
