@@ -4,6 +4,15 @@
  */
 package spa.relaxg12.Vistas;
 
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import spa.relaxg12.Modelo.Cliente;
+import spa.relaxg12.Modelo.Sesion;
+import spa.relaxg12.Persistencia.ClienteData;
+import spa.relaxg12.Persistencia.DiaDeSpaData;
+import spa.relaxg12.Persistencia.SesionData;
+
 /**
  *
  * @author Leandro
@@ -27,7 +36,7 @@ public class VistasTurnos extends javax.swing.JInternalFrame {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tblSesiones = new javax.swing.JTable();
         dateFecha = new com.toedter.calendar.JDateChooser();
         txtDni = new javax.swing.JTextField();
         labelDni = new javax.swing.JLabel();
@@ -37,38 +46,53 @@ public class VistasTurnos extends javax.swing.JInternalFrame {
         btnAnular = new javax.swing.JButton();
         btnSalir = new javax.swing.JButton();
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblSesiones.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "DNI", "Nombre", "Fecha", "Hora", "Sesion"
+                "DNI", "Nombre", "Fecha", "Hora", "Sesion", "ID Sesion"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tblSesiones);
 
         labelDni.setText("DNI");
 
         jLabel2.setText("Fecha");
 
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/spa/relaxg12/Vistas/img/lupa.png"))); // NOI18N
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/spa/relaxg12/Vistas/img/lupa.png"))); // NOI18N
 
         btnAnular.setText("Anular");
+        btnAnular.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAnularActionPerformed(evt);
+            }
+        });
 
         btnSalir.setText("Salir");
+        btnSalir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSalirActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -116,8 +140,7 @@ public class VistasTurnos extends javax.swing.JInternalFrame {
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(jLabel2)
                         .addComponent(dateFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 234, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 252, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSalir)
@@ -128,6 +151,48 @@ public class VistasTurnos extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+     
+        int dni= Integer.parseInt(txtDni.getText());
+     ClienteData clienteData= new ClienteData();
+    DefaultTableModel modelo = (DefaultTableModel) tblSesiones.getModel();
+    modelo.setRowCount(0);
+    DiaDeSpaData diaDeSpaData= new DiaDeSpaData();
+    ArrayList<Sesion> listado=  diaDeSpaData.buscarSesionesPorDni(dni);
+    Cliente cliente = clienteData.buscarClienteDni(dni);
+    for (Sesion aux : listado){
+        
+        String[] fila = {
+           String.valueOf(cliente.getDni()),
+            cliente.getNombre()+" "+ cliente.getApellido(),
+            aux.getFechaInicio().toString(),
+            aux.getHora().toString(),
+            aux.getTratamientos().toString(),
+               String.valueOf(aux.getIdSesion()) 
+        };
+        modelo.addRow(fila);
+    }
+    
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void btnAnularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnularActionPerformed
+        Sesion sesion=null; 
+        SesionData sesionData= new SesionData();
+        DefaultTableModel modelo = (DefaultTableModel) tblSesiones.getModel();
+        int fila = tblSesiones.getSelectedRow();
+        if (fila != -1) {
+            int id = Integer.parseInt(modelo.getValueAt(fila, 5).toString()) ;
+            sesionData.eliminarSesionDiaDeSpa(id);
+            sesionData.eliminarSesion(id);
+        } else {
+            JOptionPane.showMessageDialog(this, "Debe seleccionar un cliente de la tabla");
+        }
+    }//GEN-LAST:event_btnAnularActionPerformed
+
+    private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
+      dispose();        
+    }//GEN-LAST:event_btnSalirActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAnular;
@@ -137,8 +202,8 @@ public class VistasTurnos extends javax.swing.JInternalFrame {
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JLabel labelDni;
+    private javax.swing.JTable tblSesiones;
     private javax.swing.JTextField txtDni;
     // End of variables declaration//GEN-END:variables
 }

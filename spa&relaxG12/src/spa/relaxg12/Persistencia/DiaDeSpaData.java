@@ -89,7 +89,7 @@ public class DiaDeSpaData {
         ProfesionalData profData = new ProfesionalData();
         TratamientoData tratData = new TratamientoData();
         try {
-            String query = "SELECT * FROM sesion AS s JOIN diasdespa_sesion AS ds ON ds.idSesion = s.idSesion JOIN diasdespa AS d ON ds.idDiaDeSpa = d.idDiaDeSpa JOIN cliente AS c ON d.idCliente = c.idCliente WHERE c.dni = ? ORDER BY s.fecha";
+            String query = "SELECT * FROM sesion AS s JOIN diadespa_sesion AS ds ON ds.idSesion = s.idSesion JOIN diadespa AS d ON ds.idDiaDeSpa = d.idDiaDeSpa JOIN cliente AS c ON d.idCliente = c.idCliente WHERE c.dni = ? ORDER BY s.fecha";
             PreparedStatement ps = con.prepareStatement(query);
             ps.setInt(1, dni);
             ResultSet rs = ps.executeQuery();
@@ -101,6 +101,7 @@ public class DiaDeSpaData {
             sesion.setMonto(rs.getDouble("monto"));
             sesion.setFechaHoraFin(rs.getString("hora"));
             sesion.setFechaInicio(rs.getDate("fecha").toLocalDate());
+            sesion.setTratamientos(tratData.buscarTratramientoId(rs.getInt("idTratamiento")));
             sesion.setEstado(true);
             
             listado.add(sesion);
@@ -117,7 +118,7 @@ public class DiaDeSpaData {
         ProfesionalData profData = new ProfesionalData();
         TratamientoData tratData = new TratamientoData();
         try {
-            String query = "SELECT * FROM sesion AS s JOIN diasdespa_sesion AS ds ON ds.idSesion = s.idSesion JOIN diasdespa AS d ON ds.idDiaDeSpa = d.idDiaDeSpa JOIN cliente AS c ON d.idCliente = c.idCliente WHERE c.dni = ?";
+            String query = "SELECT * FROM sesion AS s JOIN diadespa_sesion AS ds ON ds.idSesion = s.idSesion JOIN diadespa AS d ON ds.idDiaDeSpa = d.idDiaDeSpa JOIN cliente AS c ON d.idCliente = c.idCliente WHERE c.dni = ?";
             PreparedStatement ps = con.prepareStatement(query);
             ps.setDate(1,Date.valueOf(fecha));
             ResultSet rs = ps.executeQuery();

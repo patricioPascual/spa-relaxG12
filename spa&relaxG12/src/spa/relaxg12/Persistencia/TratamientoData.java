@@ -200,6 +200,42 @@ public class TratamientoData {
         return tratamiento;
 
     }
- 
-    }
 
+   public  Tratamiento buscarTratramientoId(int id) {
+
+        Tratamiento tratamiento = null;
+        try {
+            String sql = "SELECT * FROM tratamiento WHERE idTratamiento=? ";
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                tratamiento = new Tratamiento();
+                tratamiento.setIdTratamiento(rs.getInt("idTratamiento"));
+                tratamiento.setNombre(rs.getString("nombre"));
+                tratamiento.setEspecialidad(rs.getString("especialidad"));
+                tratamiento.setDetalle(rs.getString("detalle"));
+                tratamiento.setDuracion(rs.getInt("duracion"));
+                tratamiento.setCosto(rs.getDouble("costo"));
+                int estadoInt = rs.getInt("activo");
+                boolean estado;
+                if (estadoInt == 1) {
+                    estado = true;
+                } else {
+                    estado = false;
+                }
+                tratamiento.setActivo(estado);
+                ps.close();
+              
+            } else {
+                JOptionPane.showMessageDialog(null, "tratamiento no encontrado");
+            }
+            ps.close();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error Al acceder a la Base de Datos");
+        }
+
+        return tratamiento;
+   }
+    
+}

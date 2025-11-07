@@ -178,4 +178,34 @@ public class SesionData {
         }
 
     }
+      public void eliminarSesionDiaDeSpa(int id) {
+
+        try {
+            String sql = "DELETE   FROM diadespa_sesion  WHERE idSesion = ?  ";
+
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, id);
+            int exito = ps.executeUpdate();
+            if (exito == 1) {
+                JOptionPane.showMessageDialog(null, "Sesion Cancelada");
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al Accer a la Base de datos");
+        }
+    }
+      public void eliminarSesion(int id) {
+
+        try {
+            String sql = "DELETE  FROM sesion  WHERE idSesion = ?  ";
+
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, id);
+            int exito = ps.executeUpdate();
+            if (exito == 1) {
+                
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al Accer a la Base de datos");
+        }
+    }
 }
