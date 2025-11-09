@@ -112,7 +112,7 @@ public class DiaDeSpaData {
         return listado;
     }
     
-    /*public ArrayList buscarSesionesPorFecha(LocalDate fecha) {
+    public ArrayList buscarSesionesPorFecha(LocalDate fecha) {
         ArrayList<Sesion> listado = new ArrayList<>();
         ConsultorioData consultorioData = new ConsultorioData();
         ProfesionalData profData = new ProfesionalData();
@@ -138,5 +138,5 @@ public class DiaDeSpaData {
             JOptionPane.showMessageDialog(null, "");
         }
         return listado;
-    }*/
+    }
 }

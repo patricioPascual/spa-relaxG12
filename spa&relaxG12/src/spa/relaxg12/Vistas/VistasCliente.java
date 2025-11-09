@@ -81,39 +81,10 @@ public class VistasCliente extends javax.swing.JInternalFrame {
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel5.setText("Gestor de Clientes");
 
-        txtNombre.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                txtNombreFocusLost(evt);
-            }
-        });
-
-        txtApellido.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                txtApellidoFocusLost(evt);
-            }
-        });
-
-        txtDni.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                txtDniFocusLost(evt);
-            }
-        });
-
-        txtTelefono.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                txtTelefonoFocusLost(evt);
-            }
-        });
-
         jLabel6.setText("Afecciones");
 
         txtAfecciones.setColumns(20);
         txtAfecciones.setRows(5);
-        txtAfecciones.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                txtAfeccionesFocusLost(evt);
-            }
-        });
         jScrollPane1.setViewportView(txtAfecciones);
 
         btnAgregar.setText("Agregar");
@@ -155,12 +126,6 @@ public class VistasCliente extends javax.swing.JInternalFrame {
             }
         });
 
-        txtBuscar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtBuscarActionPerformed(evt);
-            }
-        });
-
         jLabel7.setText("DNI");
 
         btnActualizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/spa/relaxg12/Vistas/img/actualizar.png"))); // NOI18N
@@ -181,12 +146,6 @@ public class VistasCliente extends javax.swing.JInternalFrame {
         btnAltaBaja.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAltaBajaActionPerformed(evt);
-            }
-        });
-
-        txtEdad.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                txtEdadFocusLost(evt);
             }
         });
 
@@ -471,7 +430,7 @@ public class VistasCliente extends javax.swing.JInternalFrame {
         boolean valido = true;
         for (int i = 0; i < afec.length(); i++) {
             char c = afec.charAt(i);
-            if (!Character.isLetter(c) && c != ' ') {
+            if (!Character.isLetter(c)) {
                 valido = false;
                 break;
             }
@@ -543,7 +502,7 @@ public class VistasCliente extends javax.swing.JInternalFrame {
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
         try {
             Cliente cliente = null;
-            if (validacionAfec() && validacionTel() && validacionNombre() && validacionEdad() && validacionDni() && validacionApellido()) {
+            if (validacionNombre() && validacionApellido() && validacionDni() && validacionEdad() && validacionTel() && validacionAfec()) {
                 int dni = Integer.parseInt(txtDni.getText());
                 String nombre = txtNombre.getText();
                 String apellido = txtApellido.getText();
@@ -551,9 +510,14 @@ public class VistasCliente extends javax.swing.JInternalFrame {
                 long telefono = Long.parseLong(txtTelefono.getText());
                 String afecciones = txtAfecciones.getText();
                 cliente = new Cliente(dni, nombre, apellido, edad, telefono, afecciones, true);
-            }            
+            }
             clienteData.crearCliente(cliente);
-        } catch (NumberFormatException e) {
+            if (rbtnActivo.isSelected()) {
+                cargarClientesActivos();
+            } else {
+                cargarClientesInactivos();
+            }
+        } catch (NumberFormatException | NullPointerException e) {
             JOptionPane.showMessageDialog(this, "Debe llenar los campos");
         }
     }//GEN-LAST:event_btnAgregarActionPerformed
@@ -585,7 +549,7 @@ public class VistasCliente extends javax.swing.JInternalFrame {
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
         try {
             Cliente cliente = null;
-            if (validacionAfec() && validacionTel() && validacionNombre() && validacionEdad() && validacionDni() && validacionApellido()) {
+            if (validacionNombre() && validacionApellido() && validacionDni() && validacionEdad() && validacionTel() && validacionAfec()) {
                 int dni = Integer.parseInt(txtDni.getText());
                 String nombre = txtNombre.getText();
                 String apellido = txtApellido.getText();
@@ -595,9 +559,14 @@ public class VistasCliente extends javax.swing.JInternalFrame {
                 cliente = new Cliente(dni, nombre, apellido, edad, telefono, afecciones, true);
             }
             clienteData.modificarCliente(cliente);
+            if (rbtnActivo.isSelected()) {
+                cargarClientesActivos();
+            } else {
+                cargarClientesInactivos();
+            }
         } catch (NumberFormatException | NullPointerException e) {
             JOptionPane.showMessageDialog(this, "Debe Cargar un Cliente o seleccionarlo de la tabla");
-        } 
+        }
     }//GEN-LAST:event_btnModificarActionPerformed
 
     private void btnAltaBajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAltaBajaActionPerformed
@@ -609,8 +578,14 @@ public class VistasCliente extends javax.swing.JInternalFrame {
             boolean estado = cliente.isEstado();
             if (estado == true) {
                 clienteData.darBajaCliente(dni);
+                cargarClientesInactivos();
             } else {
                 clienteData.darAltaCliente(dni);
+                if (rbtnActivo.isSelected()) {
+                    cargarClientesActivos();
+                } else {
+                    cargarClientesInactivos();
+                }
             }
         } else {
             JOptionPane.showMessageDialog(this, "Debe seleccionar un cliente de la tabla");
@@ -643,34 +618,6 @@ public class VistasCliente extends javax.swing.JInternalFrame {
     private void rbtnInactivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbtnInactivoActionPerformed
         cargarClientesInactivos();
     }//GEN-LAST:event_rbtnInactivoActionPerformed
-
-    private void txtApellidoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtApellidoFocusLost
-        validacionApellido();
-    }//GEN-LAST:event_txtApellidoFocusLost
-
-    private void txtNombreFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtNombreFocusLost
-        validacionNombre();
-    }//GEN-LAST:event_txtNombreFocusLost
-
-    private void txtDniFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtDniFocusLost
-        validacionDni();
-    }//GEN-LAST:event_txtDniFocusLost
-
-    private void txtTelefonoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtTelefonoFocusLost
-        validacionTel();
-    }//GEN-LAST:event_txtTelefonoFocusLost
-
-    private void txtEdadFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtEdadFocusLost
-        validacionEdad();
-    }//GEN-LAST:event_txtEdadFocusLost
-
-    private void txtAfeccionesFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtAfeccionesFocusLost
-        validacionAfec();
-    }//GEN-LAST:event_txtAfeccionesFocusLost
-
-    private void txtBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBuscarActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtBuscarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

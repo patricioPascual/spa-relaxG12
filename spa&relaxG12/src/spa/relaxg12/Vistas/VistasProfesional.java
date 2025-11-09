@@ -179,30 +179,6 @@ public class VistasProfesional extends javax.swing.JInternalFrame {
             }
         });
 
-        txtMatricula.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                txtMatriculaFocusLost(evt);
-            }
-        });
-
-        txtNombre.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                txtNombreFocusLost(evt);
-            }
-        });
-
-        txtApellido.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                txtApellidoFocusLost(evt);
-            }
-        });
-
-        txtTelefono.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                txtTelefonoFocusLost(evt);
-            }
-        });
-
         cmbEspecialidad.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -517,24 +493,39 @@ public class VistasProfesional extends javax.swing.JInternalFrame {
             } else {
                 profData.darAltaProfesional(matricula);
             }
+            
+            if (rbtnActivo.isSelected()) {
+                cargarActivos();
+            } else {
+                cargarInactivos();
+            }
+            
         } else {
             JOptionPane.showMessageDialog(this, "Debe seleccionar un profesional de la tabla");
         }
     }//GEN-LAST:event_btnAltaBajaActionPerformed
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
-        Profesional prof = null;
-        if (validacionNombre() && validacionApellido() && validacionTel() && !txtMatricula.getText().isEmpty()) {
-            String matricula = txtMatricula.getText();
-            String nombre = txtNombre.getText();
-            String apellido = txtApellido.getText();
-            String telefono = txtTelefono.getText();
-            String especialidad = (String) cmbEspecialidad.getSelectedItem();
-            prof = new Profesional(matricula, nombre, apellido, telefono, especialidad, true);
-        } else {
-            JOptionPane.showMessageDialog(this, "Debe cargar los campos correspondientes");
+        try {
+            Profesional prof = null;
+            if (validacionNombre() && validacionApellido() && validacionTel() && !txtMatricula.getText().isEmpty()) {
+                String matricula = txtMatricula.getText();
+                String nombre = txtNombre.getText();
+                String apellido = txtApellido.getText();
+                String telefono = txtTelefono.getText();
+                String especialidad = (String) cmbEspecialidad.getSelectedItem();
+                prof = new Profesional(matricula, nombre, apellido, telefono, especialidad, true);
+            } else {
+                JOptionPane.showMessageDialog(this, "Debe cargar los campos correspondientes");
+            }
+            profData.crearProfesional(prof);
+            if (rbtnActivo.isSelected()) {
+                cargarActivos();
+            } else {
+                cargarInactivos();
+            }
+        } catch (NullPointerException e) {
         }
-        profData.crearProfesional(prof);
     }//GEN-LAST:event_btnAgregarActionPerformed
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
@@ -549,7 +540,12 @@ public class VistasProfesional extends javax.swing.JInternalFrame {
                 prof = new Profesional(matricula, nombre, apellido, telefono, especialidad, true);
             }
             profData.modificarProfesional(prof);
-        } catch (NumberFormatException e) {
+            if (rbtnActivo.isSelected()) {
+                cargarActivos();
+            } else {
+                cargarInactivos();
+            }
+        } catch (NumberFormatException | NullPointerException e) {
             JOptionPane.showMessageDialog(this, "Debe Cargar un Profesional o seleccionarlo de la tabla");
         }
     }//GEN-LAST:event_btnModificarActionPerformed
@@ -587,24 +583,6 @@ public class VistasProfesional extends javax.swing.JInternalFrame {
 
         listarPorEspecialidad(especialidad);
     }//GEN-LAST:event_cmbEspecialidadBuscarActionPerformed
-
-    private void txtNombreFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtNombreFocusLost
-        validacionNombre();
-    }//GEN-LAST:event_txtNombreFocusLost
-
-    private void txtApellidoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtApellidoFocusLost
-        validacionApellido();
-    }//GEN-LAST:event_txtApellidoFocusLost
-
-    private void txtTelefonoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtTelefonoFocusLost
-        validacionTel();
-    }//GEN-LAST:event_txtTelefonoFocusLost
-
-    private void txtMatriculaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtMatriculaFocusLost
-        if (txtMatricula.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "El campo matricula no debe estar vacio!");
-        }
-    }//GEN-LAST:event_txtMatriculaFocusLost
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
