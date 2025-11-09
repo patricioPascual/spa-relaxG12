@@ -4,7 +4,10 @@
  */
 package spa.relaxg12.Vistas;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Date;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import spa.relaxg12.Modelo.Cliente;
@@ -35,6 +38,7 @@ public class VistasTurnos extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        groupEstado = new javax.swing.ButtonGroup();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblSesiones = new javax.swing.JTable();
         dateFecha = new com.toedter.calendar.JDateChooser();
@@ -43,15 +47,15 @@ public class VistasTurnos extends javax.swing.JInternalFrame {
         jLabel2 = new javax.swing.JLabel();
         btnBuscarDni = new javax.swing.JButton();
         btnBuscarFecha = new javax.swing.JButton();
-        btnCancelar = new javax.swing.JButton();
+        btnEliminarSesion = new javax.swing.JButton();
         btnSalir = new javax.swing.JButton();
+        btnSesionFinalizada = new javax.swing.JButton();
+        rbtnEnCurso = new javax.swing.JRadioButton();
+        rbtnFinalizadas = new javax.swing.JRadioButton();
 
         tblSesiones.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+
             },
             new String [] {
                 "DNI", "Nombre", "Fecha", "Hora", "Sesion", "ID Sesion"
@@ -79,11 +83,16 @@ public class VistasTurnos extends javax.swing.JInternalFrame {
         });
 
         btnBuscarFecha.setIcon(new javax.swing.ImageIcon(getClass().getResource("/spa/relaxg12/Vistas/img/lupa.png"))); // NOI18N
-
-        btnCancelar.setText("Cancelar");
-        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+        btnBuscarFecha.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCancelarActionPerformed(evt);
+                btnBuscarFechaActionPerformed(evt);
+            }
+        });
+
+        btnEliminarSesion.setText("Eliminar Sesion");
+        btnEliminarSesion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarSesionActionPerformed(evt);
             }
         });
 
@@ -94,33 +103,55 @@ public class VistasTurnos extends javax.swing.JInternalFrame {
             }
         });
 
+        btnSesionFinalizada.setText("Sesion Finalizada");
+        btnSesionFinalizada.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSesionFinalizadaActionPerformed(evt);
+            }
+        });
+
+        groupEstado.add(rbtnEnCurso);
+        rbtnEnCurso.setSelected(true);
+        rbtnEnCurso.setText("En curso");
+
+        groupEstado.add(rbtnFinalizadas);
+        rbtnFinalizadas.setText("Finalizadas");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(25, 25, 25)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnCancelar)
-                        .addGap(337, 337, 337)
-                        .addComponent(btnSalir))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 493, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(layout.createSequentialGroup()
-                            .addGap(6, 6, 6)
-                            .addComponent(jLabel2)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(dateFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(btnBuscarFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(54, 54, 54)
-                            .addComponent(labelDni)
-                            .addGap(18, 18, 18)
-                            .addComponent(txtDni, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(btnBuscarDni, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(26, Short.MAX_VALUE))
+                        .addGap(31, 31, 31)
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(dateFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnBuscarFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(54, 54, 54)
+                        .addComponent(labelDni)
+                        .addGap(18, 18, 18)
+                        .addComponent(txtDni, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnBuscarDni, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(20, 20, 20))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(25, 25, 25)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 571, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(btnEliminarSesion)
+                                .addGap(18, 18, 18)
+                                .addComponent(btnSesionFinalizada)
+                                .addGap(18, 18, 18)
+                                .addComponent(rbtnEnCurso)
+                                .addGap(18, 18, 18)
+                                .addComponent(rbtnFinalizadas)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnSalir)))))
+                .addContainerGap(23, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -139,38 +170,79 @@ public class VistasTurnos extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSalir)
-                    .addComponent(btnCancelar))
+                    .addComponent(btnEliminarSesion)
+                    .addComponent(btnSesionFinalizada)
+                    .addComponent(rbtnEnCurso)
+                    .addComponent(rbtnFinalizadas))
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnBuscarDniActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarDniActionPerformed
+    public boolean validacionDni() {
+        String numero = txtDni.getText().trim();
+        boolean valido = true;
 
-        int dni = Integer.parseInt(txtDni.getText());
-        ClienteData clienteData = new ClienteData();
-        DefaultTableModel modelo = (DefaultTableModel) tblSesiones.getModel();
-        modelo.setRowCount(0);
-        DiaDeSpaData diaDeSpaData = new DiaDeSpaData();
-        ArrayList<Sesion> listado = diaDeSpaData.buscarSesionesPorDni(dni);
-        Cliente cliente = clienteData.buscarClienteDni(dni);
-        for (Sesion aux : listado) {
-
-            String[] fila = {
-                String.valueOf(cliente.getDni()),
-                cliente.getNombre() + " " + cliente.getApellido(),
-                aux.getFechaInicio().toString(),
-                aux.getHora().toString(),
-                aux.getTratamientos().toString(),
-                String.valueOf(aux.getIdSesion())
-            };
-            modelo.addRow(fila);
+        for (int i = 0; i < numero.length(); i++) {
+            char c = numero.charAt(i);
+            if (!Character.isDigit(c)) {
+                valido = false;
+                break;
+            }
         }
 
+        if (numero.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "El campo DNI no debe estar vacio!");
+            valido = false;
+        } else if (!valido) {
+            JOptionPane.showMessageDialog(this, "DNI: solo se permiten digitos (0-9)");
+            txtDni.setText("");
+        } else if (numero.length() < 7) {
+            JOptionPane.showMessageDialog(this, "El DNI debe tener al menos 7 caracteres");
+            valido = false;
+        }
+
+        return valido;
+    }
+
+    private void btnBuscarDniActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarDniActionPerformed
+        if (validacionDni()) {
+            int dni = Integer.parseInt(txtDni.getText());
+            ClienteData clienteData = new ClienteData();
+            DefaultTableModel modelo = (DefaultTableModel) tblSesiones.getModel();
+            modelo.setRowCount(0);
+            DiaDeSpaData diaDeSpaData = new DiaDeSpaData();
+            ArrayList<Sesion> listado = null;
+            Cliente cliente = null;
+            if (rbtnEnCurso.isSelected()) {
+                listado = diaDeSpaData.buscarSesionesActivasPorDni(dni);
+                cliente = clienteData.buscarClienteDni(dni);
+            } else if (rbtnFinalizadas.isSelected()) {
+                listado = diaDeSpaData.buscarSesionesInactivasPorDni(dni);
+                cliente = clienteData.buscarClienteDni(dni);
+            }
+
+            try {
+                for (Sesion aux : listado) {
+
+                    String[] fila = {
+                        String.valueOf(cliente.getDni()),
+                        cliente.getNombre() + " " + cliente.getApellido(),
+                        aux.getFechaInicio().toString(),
+                        aux.getHora().toString(),
+                        aux.getTratamientos().toString(),
+                        String.valueOf(aux.getIdSesion())
+                    };
+                    modelo.addRow(fila);
+                }
+            } catch (NullPointerException e) {
+                JOptionPane.showMessageDialog(this, "No se encontraron sesiones para ese DNI: " + dni);
+            }
+        }
     }//GEN-LAST:event_btnBuscarDniActionPerformed
 
-    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+    private void btnEliminarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarSesionActionPerformed
         Sesion sesion = null;
         SesionData sesionData = new SesionData();
         DefaultTableModel modelo = (DefaultTableModel) tblSesiones.getModel();
@@ -180,24 +252,75 @@ public class VistasTurnos extends javax.swing.JInternalFrame {
             sesionData.eliminarSesionDiaDeSpa(id);
             sesionData.eliminarSesion(id);
         } else {
-            JOptionPane.showMessageDialog(this, "Debe seleccionar un cliente de la tabla");
+            JOptionPane.showMessageDialog(this, "Debe seleccionar una sesion de la tabla");
         }
-    }//GEN-LAST:event_btnCancelarActionPerformed
+    }//GEN-LAST:event_btnEliminarSesionActionPerformed
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
         dispose();
     }//GEN-LAST:event_btnSalirActionPerformed
 
+    private void btnBuscarFechaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarFechaActionPerformed
+        DefaultTableModel modelo = (DefaultTableModel) tblSesiones.getModel();
+        modelo.setRowCount(0);
+        DiaDeSpaData diaDeSpaData = new DiaDeSpaData();
+        ArrayList<Sesion> listado = null;  
+        try {
+            LocalDate fecha = dateFecha.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            if (rbtnEnCurso.isSelected()) {
+                listado = diaDeSpaData.buscarSesionesActivasPorFecha(fecha);
+            } else if (rbtnFinalizadas.isSelected()) {
+                listado = diaDeSpaData.buscarSesionesInactivasPorFecha(fecha);
+            }
+            for (Sesion sesion : listado) {
+                Cliente cliente = diaDeSpaData.buscarClientePorSesion(sesion.getIdSesion());
+
+                String[] fila = {
+                    String.valueOf(cliente.getDni()),
+                    cliente.getNombre() + " " + cliente.getApellido(),
+                    sesion.getFechaInicio().toString(),
+                    sesion.getHora().toString(),
+                    sesion.getTratamientos().toString(),
+                    String.valueOf(sesion.getIdSesion())
+                };
+                modelo.addRow(fila);
+            }
+
+            if (modelo.getRowCount() == 0) {
+                JOptionPane.showMessageDialog(this, "No se encontraron sesiones para la fecha: " + fecha);
+            }
+
+        } catch (NullPointerException e) {
+            JOptionPane.showMessageDialog(this, "Seleccione una fecha valida!");
+        }
+    }//GEN-LAST:event_btnBuscarFechaActionPerformed
+
+    private void btnSesionFinalizadaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSesionFinalizadaActionPerformed
+        DiaDeSpaData diaDeSpaData = new DiaDeSpaData();
+        DefaultTableModel modelo = (DefaultTableModel) tblSesiones.getModel();
+        int fila = tblSesiones.getSelectedRow();
+        if (fila != -1) {
+            int id = Integer.parseInt(modelo.getValueAt(fila, 5).toString());
+            diaDeSpaData.sesionFinalizada(id);
+        } else {
+            JOptionPane.showMessageDialog(this, "Debe seleccionar una sesion de la tabla");
+        }
+    }//GEN-LAST:event_btnSesionFinalizadaActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscarDni;
     private javax.swing.JButton btnBuscarFecha;
-    private javax.swing.JButton btnCancelar;
+    private javax.swing.JButton btnEliminarSesion;
     private javax.swing.JButton btnSalir;
+    private javax.swing.JButton btnSesionFinalizada;
     private com.toedter.calendar.JDateChooser dateFecha;
+    private javax.swing.ButtonGroup groupEstado;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel labelDni;
+    private javax.swing.JRadioButton rbtnEnCurso;
+    private javax.swing.JRadioButton rbtnFinalizadas;
     private javax.swing.JTable tblSesiones;
     private javax.swing.JTextField txtDni;
     // End of variables declaration//GEN-END:variables

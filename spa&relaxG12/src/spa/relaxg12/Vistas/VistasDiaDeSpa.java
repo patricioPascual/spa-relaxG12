@@ -39,6 +39,7 @@ public class VistasDiaDeSpa extends javax.swing.JInternalFrame {
     private VistasSesion vistSesion;
     private MenuPrincipal menu;
     public static ArrayList<Sesion> listado;
+    DefaultTableModel modelo;
 
     /**
      * Creates new form VistasDiaDeSpa
@@ -47,7 +48,7 @@ public class VistasDiaDeSpa extends javax.swing.JInternalFrame {
         initComponents();
         txtNoEditables();
         this.listado = new ArrayList();
-
+        this.modelo = (DefaultTableModel) tblSesiones.getModel();
     }
 
     /**
@@ -80,7 +81,7 @@ public class VistasDiaDeSpa extends javax.swing.JInternalFrame {
         btnAgregarSesiones = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblSesiones = new javax.swing.JTable();
-        jButton1 = new javax.swing.JButton();
+        btnActualizar = new javax.swing.JButton();
 
         javax.swing.GroupLayout jDesktopPane2Layout = new javax.swing.GroupLayout(jDesktopPane2);
         jDesktopPane2.setLayout(jDesktopPane2Layout);
@@ -150,17 +151,12 @@ public class VistasDiaDeSpa extends javax.swing.JInternalFrame {
                 "Tratamiento", "Profesional", "Instalacion", "Monto"
             }
         ));
-        tblSesiones.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                tblSesionesFocusGained(evt);
-            }
-        });
         jScrollPane1.setViewportView(tblSesiones);
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/spa/relaxg12/Vistas/img/actualizar.png"))); // NOI18N
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnActualizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/spa/relaxg12/Vistas/img/actualizar.png"))); // NOI18N
+        btnActualizar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnActualizarActionPerformed(evt);
             }
         });
 
@@ -179,7 +175,7 @@ public class VistasDiaDeSpa extends javax.swing.JInternalFrame {
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 225, Short.MAX_VALUE)
-                                .addComponent(jButton1))
+                                .addComponent(btnActualizar))
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
@@ -256,7 +252,7 @@ public class VistasDiaDeSpa extends javax.swing.JInternalFrame {
                         .addGap(14, 14, 14))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(31, 31, 31)
-                        .addComponent(jButton1)
+                        .addComponent(btnActualizar)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
 
@@ -352,13 +348,9 @@ public class VistasDiaDeSpa extends javax.swing.JInternalFrame {
         dispose();
     }//GEN-LAST:event_btnSalirActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
         cargarTabla();
-    }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void tblSesionesFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tblSesionesFocusGained
-
-    }//GEN-LAST:event_tblSesionesFocusGained
+    }//GEN-LAST:event_btnActualizarActionPerformed
 
     private void jPanel2MouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel2MouseMoved
         cargarTabla();
@@ -374,25 +366,36 @@ public class VistasDiaDeSpa extends javax.swing.JInternalFrame {
             LocalDate fecha = listado.getFirst().getFechaInicio();
             String preferencias = "";
             double monto = 0;
+            boolean exitoSesion = true;
+            boolean exitoDia = true;
+            boolean exitoDiaSesion = true;
             for (Sesion aux : listado) {
                 monto += aux.getMonto();
                 if (aux.getInstalacion() == null) {
-                    sesionData.crearSesionSinInstalacion(aux);
+                    exitoSesion = sesionData.crearSesionSinInstalacion(aux);
                 } else {
-                    sesionData.crearSesion(aux);
+                    exitoSesion = sesionData.crearSesion(aux);
                 }
 
             }
             DiaDeSpa dia = new DiaDeSpa(cliente, fecha, preferencias, monto, true);
-            diaDeSpaData.guardarDiaDeSpa(dia);
+            exitoDia = diaDeSpaData.guardarDiaDeSpa(dia);
 
             for (Sesion aux : listado) {
-                diaDeSpaData.cargarDiaDeSpaSesion(dia, aux);
+                exitoDiaSesion = diaDeSpaData.cargarDiaDeSpaSesion(dia, aux);
+            }
+
+            if (exitoSesion && exitoDia && exitoDiaSesion) {
+                JOptionPane.showMessageDialog(this, "El Dia de Spa se reservo correctamente!");
+            } else {
+                JOptionPane.showMessageDialog(this, "Error al cargar la reserva!");
             }
 
         } catch (NoSuchElementException e) {
             JOptionPane.showMessageDialog(this, "No hay sesiones agregadas, debe cargar una sesion!");
         }
+        modelo.setRowCount(0);
+        listado.clear();
     }//GEN-LAST:event_btnReservarActionPerformed
 
     public void txtNoEditables() {
@@ -403,11 +406,11 @@ public class VistasDiaDeSpa extends javax.swing.JInternalFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnActualizar;
     private javax.swing.JButton btnAgregarSesiones;
     private javax.swing.JButton btnBuscarCliente;
     private javax.swing.JButton btnReservar;
     private javax.swing.JButton btnSalir;
-    private javax.swing.JButton jButton1;
     private javax.swing.JDesktopPane jDesktopPane2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel15;
@@ -428,8 +431,6 @@ public class VistasDiaDeSpa extends javax.swing.JInternalFrame {
     // End of variables declaration//GEN-END:variables
 
     public void cargarTabla() {
-        DefaultTableModel modelo = (DefaultTableModel) tblSesiones.getModel();
-
         modelo.setRowCount(0);
         for (Sesion aux : listado) {
             Object[] fila = {
