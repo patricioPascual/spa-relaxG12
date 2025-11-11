@@ -65,7 +65,8 @@ public class TratamientoData {
         
     }
     
-    public void cargarTratamientoProducto( Producto producto, Tratamiento tratamiento){
+    public boolean cargarTratamientoProducto( Producto producto, Tratamiento tratamiento){
+        boolean guardado=false;
         String query = "INSERT INTO tratamiento_producto (id_producto,idTratamiento) VALUES (?,?) ";
         try {
             PreparedStatement ps = con.prepareStatement(query);
@@ -73,15 +74,16 @@ public class TratamientoData {
             ps.setInt(2, tratamiento.getIdTratamiento());
             
             int exito = ps.executeUpdate();
-            if (exito == 1) {
-                JOptionPane.showMessageDialog(null, "Listado  agregado con exito");
-            }
+           
+               
+                return true;
+            
 
-            ps.close();
+         
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Error al guardar listado");
+           return false;
         }
-        
+       
     }
     
    public  ArrayList listarTratamientos(String especialidad) {

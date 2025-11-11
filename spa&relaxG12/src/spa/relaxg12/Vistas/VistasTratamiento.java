@@ -11,6 +11,7 @@ import spa.relaxg12.Modelo.Producto;
 import spa.relaxg12.Modelo.Tratamiento;
 import spa.relaxg12.Persistencia.ProductoData;
 import spa.relaxg12.Persistencia.TratamientoData;
+import java.sql.SQLException;
 
 /**
  *
@@ -313,6 +314,7 @@ public class VistasTratamiento extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnGuardarTratActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarTratActionPerformed
+
         ProductoData pdta = new ProductoData();
         if (validacionNombre() && validacionPrecio()) {
             ArrayList<Producto> lista = new ArrayList();
@@ -328,14 +330,24 @@ public class VistasTratamiento extends javax.swing.JInternalFrame {
             int duracion = 30;
             double costo = Double.parseDouble(txtPrecio.getText());
             Tratamiento tratamiento = new Tratamiento(nombre, especialidad, detalle, lista, duracion, costo, true);
+
             TratamientoData tratamientoData = new TratamientoData();
+
             tratamientoData.guardarTratamiento(tratamiento);
 
+            boolean exito = false;
             for (Producto aux : lista) {
-                tratamientoData.cargarTratamientoProducto(aux, tratamiento);
-                System.out.println(aux.getNombre() + tratamiento.getNombre());
+
+                exito = tratamientoData.cargarTratamientoProducto(aux, tratamiento);
+
+            }
+            if (exito) {
+                JOptionPane.showMessageDialog(this, "Productos guardados con Exito");
+            } else {
+                JOptionPane.showMessageDialog(this, "Error al guardar Productos");
             }
         }
+
     }//GEN-LAST:event_btnGuardarTratActionPerformed
 
     private void comboEspecialidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboEspecialidadActionPerformed

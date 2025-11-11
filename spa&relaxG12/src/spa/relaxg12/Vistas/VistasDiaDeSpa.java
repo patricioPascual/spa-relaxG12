@@ -360,7 +360,7 @@ public class VistasDiaDeSpa extends javax.swing.JInternalFrame {
         try {
             DiaDeSpaData diaDeSpaData = new DiaDeSpaData();
             SesionData sesionData = new SesionData();
-
+            if(validacionDni()){
             ClienteData clienteData = new ClienteData();
             Cliente cliente = clienteData.buscarClienteDni(Integer.parseInt(txtDni.getText()));
             LocalDate fecha = listado.getFirst().getFechaInicio();
@@ -390,8 +390,10 @@ public class VistasDiaDeSpa extends javax.swing.JInternalFrame {
             } else {
                 JOptionPane.showMessageDialog(this, "Error al cargar la reserva!");
             }
-
-        } catch (NoSuchElementException e) {
+            }
+                
+            
+        } catch (NoSuchElementException | NullPointerException  e ) {
             JOptionPane.showMessageDialog(this, "No hay sesiones agregadas, debe cargar una sesion!");
         }
         modelo.setRowCount(0);
