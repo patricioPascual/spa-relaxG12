@@ -332,15 +332,21 @@ public class VistasTratamiento extends javax.swing.JInternalFrame {
             Tratamiento tratamiento = new Tratamiento(nombre, especialidad, detalle, lista, duracion, costo, true);
 
             TratamientoData tratamientoData = new TratamientoData();
-
-            tratamientoData.guardarTratamiento(tratamiento);
-
+            Tratamiento tratNoEsta = tratamientoData.buscarTratramiento(nombre);
             boolean exito = false;
-            for (Producto aux : lista) {
+            if (tratNoEsta == null) {
 
-                exito = tratamientoData.cargarTratamientoProducto(aux, tratamiento);
+                tratamientoData.guardarTratamiento(tratamiento);
+                exito = false;
+                for (Producto aux : lista) {
 
+                    exito = tratamientoData.cargarTratamientoProducto(aux, tratamiento);
+
+                }
+            } else {
+                JOptionPane.showMessageDialog(this, "No pueden duplicarse nombres de tratamiento.");
             }
+
             if (exito) {
                 JOptionPane.showMessageDialog(this, "Productos guardados con Exito");
             } else {

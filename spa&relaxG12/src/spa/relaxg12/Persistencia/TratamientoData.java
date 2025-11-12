@@ -6,7 +6,7 @@ package spa.relaxg12.Persistencia;
 
 import java.sql.Statement;
 import java.sql.Connection;
-import java.sql.Date;
+
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -19,74 +19,62 @@ import java.sql.ResultSet;
  *
  * @author patri
  */
-
- 
 public class TratamientoData {
 
-     private static Connection con;
-    
-    
+    private static Connection con;
+
     public TratamientoData(Conexion miconexion) {
-        this.con= miconexion.buscarConexion();
+        this.con = miconexion.buscarConexion();
     }
 
     public TratamientoData() {
     }
-    
-    
-    public void guardarTratamiento(Tratamiento tratamiento){
+
+    public boolean guardarTratamiento(Tratamiento tratamiento) {
         String query = "INSERT INTO tratamiento (nombre,especialidad,detalle,duracion,costo,activo) VALUES (?,?,?,?,?,?) ";
         ResultSet rs = null;
         try {
             PreparedStatement ps = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, tratamiento.getNombre());
             ps.setString(2, tratamiento.getEspecialidad());
-            ps.setString(3, tratamiento.getDetalle());            
+            ps.setString(3, tratamiento.getDetalle());
             ps.setInt(4, 30);
             ps.setDouble(5, tratamiento.getCosto());
             ps.setBoolean(6, true);
             int exito = ps.executeUpdate();
-            
-            rs = ps.getGeneratedKeys();
-        if (rs.next()) {
-            int idGenerado = rs.getInt(1); 
-            
-          
-            tratamiento.setIdTratamiento(idGenerado); 
-        }
-            if (exito == 1) {
-                JOptionPane.showMessageDialog(null, "Tratamiento agregado con exito");
-            }
 
-            ps.close();
+            rs = ps.getGeneratedKeys();
+            if (rs.next()) {
+                int idGenerado = rs.getInt(1);
+                tratamiento.setIdTratamiento(idGenerado);
+            }
+                
+            return exito > 0;
+
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Error al guardar tratamiento");
+            return false;
         }
-        
+
     }
-    
-    public boolean cargarTratamientoProducto( Producto producto, Tratamiento tratamiento){
-        boolean guardado=false;
+
+    public boolean cargarTratamientoProducto(Producto producto, Tratamiento tratamiento) {
+        boolean guardado = false;
         String query = "INSERT INTO tratamiento_producto (id_producto,idTratamiento) VALUES (?,?) ";
         try {
             PreparedStatement ps = con.prepareStatement(query);
             ps.setInt(1, producto.getIdProducto());
             ps.setInt(2, tratamiento.getIdTratamiento());
-            
-            int exito = ps.executeUpdate();
-           
-               
-                return true;
-            
 
-         
+            int exito = ps.executeUpdate();
+            return exito > 0;
+
         } catch (SQLException ex) {
-           return false;
+            return false;
         }
-       
+
     }
-    
-   public  ArrayList listarTratamientos(String especialidad) {
+
+    public ArrayList listarTratamientos(String especialidad) {
         ArrayList<Tratamiento> listado = new ArrayList();
         try {
             String query = "SELECT * FROM tratamiento WHERE especialidad=? AND activo=1";
@@ -100,8 +88,8 @@ public class TratamientoData {
                 tratamiento.setEspecialidad(rs.getString("especialidad"));
                 tratamiento.setDetalle(rs.getString("detalle"));
                 tratamiento.setDuracion(30);
-                tratamiento.setCosto((Double)rs.getDouble("costo"));
-                
+                tratamiento.setCosto((Double) rs.getDouble("costo"));
+
                 tratamiento.setActivo(true);
                 listado.add(tratamiento);
                 ps.close();
@@ -113,8 +101,9 @@ public class TratamientoData {
 
         return listado;
     }
-     public  void modificarTratamiento(Tratamiento tratamiento) {
-       
+
+    public void modificarTratamiento(Tratamiento tratamiento) {
+
         String query = "UPDATE  tratamiento SET  nombre=?, especialidad=?,detalle=?,duracion=?,costo=?,activo=?  WHERE nombre=?  ";
         try {
             PreparedStatement ps = con.prepareStatement(query);
@@ -135,7 +124,8 @@ public class TratamientoData {
         }
 
     }
-      public void bajaTratamiento(Tratamiento tratamiento) {
+
+    public void bajaTratamiento(Tratamiento tratamiento) {
 
         try {
             String sql = "UPDATE tratamiento SET  activo = 0 WHERE nombre = ?";
@@ -150,7 +140,8 @@ public class TratamientoData {
             JOptionPane.showMessageDialog(null, "Error al Accer a la Base de datos");
         }
     }
- public void altaTratamiento(Tratamiento tratamiento) {
+
+    public void altaTratamiento(Tratamiento tratamiento) {
 
         try {
             String sql = "UPDATE tratamiento SET  activo = 1 WHERE nombre = ?";
@@ -165,7 +156,8 @@ public class TratamientoData {
             JOptionPane.showMessageDialog(null, "Error al Accer a la Base de datos");
         }
     }
- public  Tratamiento buscarTratramiento(String nombre) {
+
+    public Tratamiento buscarTratramiento(String nombre) {
 
         Tratamiento tratamiento = null;
         try {
@@ -190,7 +182,7 @@ public class TratamientoData {
                 }
                 tratamiento.setActivo(estado);
                 ps.close();
-              
+
             } else {
                 JOptionPane.showMessageDialog(null, "tratamiento no encontrado");
             }
@@ -203,7 +195,7 @@ public class TratamientoData {
 
     }
 
-   public  Tratamiento buscarTratramientoId(int id) {
+    public Tratamiento buscarTratramientoId(int id) {
 
         Tratamiento tratamiento = null;
         try {
@@ -228,7 +220,7 @@ public class TratamientoData {
                 }
                 tratamiento.setActivo(estado);
                 ps.close();
-              
+
             } else {
                 JOptionPane.showMessageDialog(null, "tratamiento no encontrado");
             }
@@ -238,6 +230,6 @@ public class TratamientoData {
         }
 
         return tratamiento;
-   }
-    
+    }
+
 }
