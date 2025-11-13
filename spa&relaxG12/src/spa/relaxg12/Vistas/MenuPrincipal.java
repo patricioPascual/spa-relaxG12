@@ -8,6 +8,7 @@ import java.awt.Graphics;
 import java.awt.Image;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
+import javax.swing.UIManager;
 import spa.relaxg12.Persistencia.ClienteData;
 import spa.relaxg12.Persistencia.Conexion;
 import spa.relaxg12.Persistencia.ConsultorioData;
@@ -18,36 +19,38 @@ import spa.relaxg12.Persistencia.ProfesionalData;
 import spa.relaxg12.Persistencia.SesionData;
 import spa.relaxg12.Persistencia.TratamientoData;
 import spa.relaxg12.Vistas.VistasTratamiento;
+import com.formdev.flatlaf.themes.FlatMacDarkLaf;
 
 /**
  *
  * @author patri
  */
 public class MenuPrincipal extends javax.swing.JFrame {
-       
-     private Conexion miConexion;
-     private ClienteData clienteData;
-     private InstalacionData instalacionData;
-     private TratamientoData tratamientoData;
-     private ProductoData productoData; 
-     private ProfesionalData profesionalData;
-     private ConsultorioData consultorioData;
-     private SesionData sesionData;
-     private DiaDeSpaData diaDeSpaData;
+
+    private Conexion miConexion;
+    private ClienteData clienteData;
+    private InstalacionData instalacionData;
+    private TratamientoData tratamientoData;
+    private ProductoData productoData;
+    private ProfesionalData profesionalData;
+    private ConsultorioData consultorioData;
+    private SesionData sesionData;
+    private DiaDeSpaData diaDeSpaData;
+
     /**
      * Creates new form MenuPrincipal
      */
     public MenuPrincipal() {
         initComponents();
-        miConexion= new Conexion("jdbc:mariadb://localhost:3306/spaentrededos","root","");
+        miConexion = new Conexion("jdbc:mariadb://localhost:3306/spaentrededos", "root", "");
         clienteData = new ClienteData(miConexion);
-        instalacionData = new InstalacionData(miConexion); 
-        tratamientoData= new TratamientoData(miConexion);
-        productoData= new ProductoData(miConexion);
+        instalacionData = new InstalacionData(miConexion);
+        tratamientoData = new TratamientoData(miConexion);
+        productoData = new ProductoData(miConexion);
         profesionalData = new ProfesionalData(miConexion);
         consultorioData = new ConsultorioData(miConexion);
-        sesionData= new SesionData(miConexion);
-        diaDeSpaData= new DiaDeSpaData(miConexion);
+        sesionData = new SesionData(miConexion);
+        diaDeSpaData = new DiaDeSpaData(miConexion);
     }
 
     /**
@@ -234,25 +237,25 @@ public class MenuPrincipal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        VistasCliente vistasCliente=new VistasCliente();
+        VistasCliente vistasCliente = new VistasCliente();
         escritorio.add(vistasCliente);
         vistasCliente.setVisible(true);
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void btnTurnosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTurnosActionPerformed
-        VistasDiaDeSpa vistSpa= new VistasDiaDeSpa();
+        VistasDiaDeSpa vistSpa = new VistasDiaDeSpa();
         escritorio.add(vistSpa);
         vistSpa.setVisible(true);
     }//GEN-LAST:event_btnTurnosActionPerformed
 
     private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
-        VistasConsultorio vistasConsultorio =new VistasConsultorio();
+        VistasConsultorio vistasConsultorio = new VistasConsultorio();
         escritorio.add(vistasConsultorio);
         vistasConsultorio.setVisible(true);
     }//GEN-LAST:event_jMenuItem6ActionPerformed
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
-        VistasInstalacion vistasInstalacion=new VistasInstalacion();
+        VistasInstalacion vistasInstalacion = new VistasInstalacion();
         escritorio.add(vistasInstalacion);
         vistasInstalacion.setVisible(true);
     }//GEN-LAST:event_jMenuItem4ActionPerformed
@@ -264,7 +267,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem5ActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
-       VistasProfesional vistasProfesional = new VistasProfesional();
+        VistasProfesional vistasProfesional = new VistasProfesional();
         escritorio.add(vistasProfesional);
         vistasProfesional.setVisible(true);
     }//GEN-LAST:event_jMenuItem3ActionPerformed
@@ -308,10 +311,15 @@ public class MenuPrincipal extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new MenuPrincipal().setVisible(true);
-            }
+        try {
+            // Aplica FlatLaf Cupertino Light
+            UIManager.setLookAndFeel(new com.formdev.flatlaf.themes.FlatMacDarkLaf());
+        } catch (Exception ex) {
+            System.err.println("No se pudo aplicar FlatLaf: " + ex.getMessage());
+        }
+
+        java.awt.EventQueue.invokeLater(() -> {
+            new MenuPrincipal().setVisible(true);
         });
     }
 
