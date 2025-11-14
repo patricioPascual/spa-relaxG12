@@ -27,7 +27,12 @@ public class VistasConsultorio extends javax.swing.JInternalFrame {
     public VistasConsultorio() {
         initComponents();
         consultorioData = new ConsultorioData();
-        modelo = new DefaultTableModel();
+        modelo = new DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false; // ninguna celda editable
+            }
+        };
 
         armarCabecera();
         cargarConsultoriosActivos();
@@ -318,7 +323,7 @@ public class VistasConsultorio extends javax.swing.JInternalFrame {
             } else {
                 JOptionPane.showMessageDialog(this, "No se pudo dar de Alta");
             }
-            
+
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, "Error al obtener datos de los campos: " + ex.getMessage());
         }

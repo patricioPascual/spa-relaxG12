@@ -194,16 +194,17 @@ public class VistasTurnos extends javax.swing.JInternalFrame {
 
         if (numero.isEmpty()) {
             JOptionPane.showMessageDialog(this, "El campo DNI no debe estar vacio!");
-            valido = false;
+            return false;
         } else if (!valido) {
             JOptionPane.showMessageDialog(this, "DNI: solo se permiten digitos (0-9)");
             txtDni.setText("");
+            return false;
         } else if (numero.length() < 7) {
             JOptionPane.showMessageDialog(this, "El DNI debe tener al menos 7 caracteres");
-            valido = false;
+            return false;
         }
 
-        return valido;
+        return true;
     }
 
     private void btnBuscarDniActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarDniActionPerformed
@@ -264,7 +265,7 @@ public class VistasTurnos extends javax.swing.JInternalFrame {
         DefaultTableModel modelo = (DefaultTableModel) tblSesiones.getModel();
         modelo.setRowCount(0);
         DiaDeSpaData diaDeSpaData = new DiaDeSpaData();
-        ArrayList<Sesion> listado = null;  
+        ArrayList<Sesion> listado = null;
         try {
             LocalDate fecha = dateFecha.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
             if (rbtnEnCurso.isSelected()) {

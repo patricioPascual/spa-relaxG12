@@ -135,6 +135,8 @@ public class VistasSesion extends javax.swing.JInternalFrame {
 
         jLabel9.setText("Fecha /hora");
 
+        diaTurno.setForeground(new java.awt.Color(255, 255, 255));
+
         jLabel10.setText("Hora");
 
         cmbHora.addActionListener(new java.awt.event.ActionListener() {

@@ -26,7 +26,12 @@ public class VistasCliente extends javax.swing.JInternalFrame {
         initComponents();
 
         clienteData = new ClienteData();
-        modelo = new DefaultTableModel();
+        modelo = new DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false; // ninguna celda editable
+            }
+        };
 
         armarCabecera();
         cargarClientesActivos();
@@ -318,11 +323,13 @@ public class VistasCliente extends javax.swing.JInternalFrame {
         }
         if (apellido.isEmpty()) {
             JOptionPane.showMessageDialog(this, "El campo apellido no debe estar vacio!");
+            return false;
         } else if (valido == false) {
             JOptionPane.showMessageDialog(this, "Apellido: solo se permiten letras y espacios");
             txtApellido.setText("");
+            return false;
         }
-        return valido;
+        return true;
     }
 
     public boolean validacionNombre() {
@@ -337,11 +344,13 @@ public class VistasCliente extends javax.swing.JInternalFrame {
         }
         if (nombre.isEmpty()) {
             JOptionPane.showMessageDialog(this, "El campo nombre no debe estar vacio!");
+            return false;
         } else if (valido == false) {
             JOptionPane.showMessageDialog(this, "Nombre: solo se permiten letras y espacios");
             txtNombre.setText("");
+            return false;
         }
-        return valido;
+        return true;
     }
 
     public boolean validacionDni() {
@@ -358,18 +367,46 @@ public class VistasCliente extends javax.swing.JInternalFrame {
 
         if (numero.isEmpty()) {
             JOptionPane.showMessageDialog(this, "El campo DNI no debe estar vacio!");
-            valido = false;
+            return false;
         } else if (!valido) {
             JOptionPane.showMessageDialog(this, "DNI: solo se permiten digitos (0-9)");
             txtDni.setText("");
+            return false;
         } else if (numero.length() < 7) {
             JOptionPane.showMessageDialog(this, "El DNI debe tener al menos 7 caracteres");
-            valido = false;
+            return false;
         }
 
-        return valido;
+        return true;
     }
 
+    public boolean validacionDniBuscar() {
+        String numero = txtBuscar.getText().trim();
+        boolean valido = true;
+
+        for (int i = 0; i < numero.length(); i++) {
+            char c = numero.charAt(i);
+            if (!Character.isDigit(c)) {
+                valido = false;
+                break;
+            }
+        }
+
+        if (numero.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "El campo DNI no debe estar vacio!");
+            return false;
+        } else if (!valido) {
+            JOptionPane.showMessageDialog(this, "DNI: solo se permiten digitos (0-9)");
+            txtBuscar.setText("");
+            return false;
+        } else if (numero.length() < 7) {
+            JOptionPane.showMessageDialog(this, "El DNI debe tener al menos 7 caracteres");
+            return false;
+        }
+
+        return true;
+    }
+    
     public boolean validacionTel() {
         String numero = txtTelefono.getText().trim();
         boolean valido = true;
@@ -384,16 +421,17 @@ public class VistasCliente extends javax.swing.JInternalFrame {
 
         if (numero.isEmpty()) {
             JOptionPane.showMessageDialog(this, "El campo telefono no debe estar vacio!");
-            valido = false;
+            return false;
         } else if (!valido) {
             JOptionPane.showMessageDialog(this, "Telefono: solo se permiten digitos (0-9)");
             txtTelefono.setText("");
+            return false;
         } else if (numero.length() < 10) {
             JOptionPane.showMessageDialog(this, "El telefono debe tener al menos 10 caracteres");
-            valido = false;
+            return false;
         }
 
-        return valido;
+        return true;
     }
 
     public boolean validacionEdad() {
@@ -415,14 +453,14 @@ public class VistasCliente extends javax.swing.JInternalFrame {
 
         if (numero.isEmpty()) {
             JOptionPane.showMessageDialog(this, "El campo edad no debe estar vacio!");
-            valido = false;
+            return false;
         } else if (numInt < 1 || numInt > 110) {
             JOptionPane.showMessageDialog(this, "Edad inválida: debe estar entre 1 y 110 años");
-            valido = false;
             txtEdad.setText("");
+            return false;
         }
 
-        return valido;
+        return true;
     }
 
     public boolean validacionAfec() {
@@ -438,8 +476,9 @@ public class VistasCliente extends javax.swing.JInternalFrame {
         if (valido == false) {
             JOptionPane.showMessageDialog(this, "Afecciones: solo se permiten letras y espacios");
             txtAfecciones.setText("");
+            return false;
         }
-        return valido;
+        return true;
     }
 
     public void limpiarCampos() {
@@ -531,7 +570,7 @@ public class VistasCliente extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnActualizarActionPerformed
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-        if (validacionDni()) {
+        if (validacionDniBuscar()) {
             int dniNum = Integer.parseInt(txtBuscar.getText());
             for (int i = 0; i < tblClientes.getRowCount(); i++) {
                 String dni = txtBuscar.getText();

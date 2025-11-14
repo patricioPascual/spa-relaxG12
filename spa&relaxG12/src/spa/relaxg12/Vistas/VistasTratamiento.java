@@ -97,7 +97,7 @@ public class VistasTratamiento extends javax.swing.JInternalFrame {
                 java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, true, false
+                false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -145,7 +145,7 @@ public class VistasTratamiento extends javax.swing.JInternalFrame {
             }
         });
 
-        btnBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/spa/relaxg12/Vistas/img/actualizar.png"))); // NOI18N
+        btnBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/spa/relaxg12/Vistas/img/lupa.png"))); // NOI18N
         btnBuscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnBuscarActionPerformed(evt);
@@ -257,11 +257,13 @@ public class VistasTratamiento extends javax.swing.JInternalFrame {
         }
         if (nombre.isEmpty()) {
             JOptionPane.showMessageDialog(this, "El campo nombre no debe estar vacio!");
+            return false;
         } else if (valido == false) {
             JOptionPane.showMessageDialog(this, "Nombre: solo se permiten letras y espacios");
             txtNombre.setText("");
+            return false;
         }
-        return valido;
+        return true;
     }
 
     public boolean validacionPrecio() {
@@ -278,13 +280,14 @@ public class VistasTratamiento extends javax.swing.JInternalFrame {
 
         if (numero.isEmpty()) {
             JOptionPane.showMessageDialog(this, "El campo precio no debe estar vacio!");
-            valido = false;
+            return false;
         } else if (!valido) {
             JOptionPane.showMessageDialog(this, "Precio: solo se permiten digitos y puntos (0-9)");
             txtPrecio.setText("");
+            return false;
         }
 
-        return valido;
+        return true;
     }
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
@@ -392,6 +395,7 @@ public class VistasTratamiento extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnAltaBajaActionPerformed
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+        try {
         TratamientoData tratData = new TratamientoData();
         if (validacionNombre()) {
             Tratamiento tratamiento = tratData.buscarTratramiento(txtNombre.getText());
@@ -408,6 +412,9 @@ public class VistasTratamiento extends javax.swing.JInternalFrame {
             comboEspecialidad.setSelectedIndex(index);
             txtDetalle.setText(tratamiento.getDetalle());
             txtPrecio.setText(tratamiento.getCosto().toString());
+        }
+        } catch (NullPointerException e) {
+            JOptionPane.showMessageDialog(this, "No se encontraron resultados");
         }
     }//GEN-LAST:event_btnBuscarActionPerformed
 

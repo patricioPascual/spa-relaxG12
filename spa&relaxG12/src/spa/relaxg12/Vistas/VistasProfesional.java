@@ -27,7 +27,12 @@ public class VistasProfesional extends javax.swing.JInternalFrame {
         initComponents();
 
         profData = new ProfesionalData();
-        modelo = new DefaultTableModel();
+        modelo = new DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false; // ninguna celda editable
+            }
+        };
         listaProf = new ArrayList<>();
 
         armarCabecera();
@@ -313,11 +318,13 @@ public class VistasProfesional extends javax.swing.JInternalFrame {
         }
         if (apellido.isEmpty()) {
             JOptionPane.showMessageDialog(this, "El campo apellido no debe estar vacio!");
+            return false;
         } else if (valido == false) {
             JOptionPane.showMessageDialog(this, "Apellido: solo se permiten letras y espacios");
             txtApellido.setText("");
+            return false;
         }
-        return valido;
+        return true;
     }
 
     public boolean validacionNombre() {
@@ -332,11 +339,13 @@ public class VistasProfesional extends javax.swing.JInternalFrame {
         }
         if (nombre.isEmpty()) {
             JOptionPane.showMessageDialog(this, "El campo nombre no debe estar vacio!");
+            return false;
         } else if (valido == false) {
             JOptionPane.showMessageDialog(this, "Nombre: solo se permiten letras y espacios");
             txtNombre.setText("");
+            return false;
         }
-        return valido;
+        return true;
     }
 
     public boolean validacionTel() {
@@ -353,16 +362,17 @@ public class VistasProfesional extends javax.swing.JInternalFrame {
 
         if (numero.isEmpty()) {
             JOptionPane.showMessageDialog(this, "El campo telefono no debe estar vacio!");
-            valido = false;
+            return false;
         } else if (!valido) {
             JOptionPane.showMessageDialog(this, "Telefono: solo se permiten digitos (0-9)");
             txtTelefono.setText("");
+            return false;
         } else if (numero.length() < 10) {
             JOptionPane.showMessageDialog(this, "El telefono debe tener al menos 10 caracteres");
-            valido = false;
+            return false;
         }
 
-        return valido;
+        return true;
     }
 
     public void limpiarCampos() {
@@ -425,6 +435,7 @@ public class VistasProfesional extends javax.swing.JInternalFrame {
             Object[] row = {p.getMatricula(), p.getNombre(), p.getApellido(), p.getTelefono(), p.getEspecialidad(), p.isEstado()};
             modelo.addRow(row);
         }
+
     }
 
     public void borrarFila() {
@@ -454,15 +465,22 @@ public class VistasProfesional extends javax.swing.JInternalFrame {
     }
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-        if (!txtMatricula.getText().isEmpty()) {
+        if (!txtBuscar.getText().isEmpty()) {
+            boolean exito = true;
+            String matricula = txtBuscar.getText().trim();
             for (int i = 0; i < tblProfesionales.getRowCount(); i++) {
-                String matricula = txtBuscar.getText().trim();
                 String valorMatricula = tblProfesionales.getValueAt(i, 0).toString();
                 if (valorMatricula.equalsIgnoreCase(matricula)) {
                     tblProfesionales.setRowSelectionInterval(i, i);
                     tblProfesionales.scrollRectToVisible(tblProfesionales.getCellRect(i, 0, true));
+                    exito = true;
                     return;
+                } else {
+                    exito = false;
                 }
+            }
+            if (exito == false) {
+                JOptionPane.showMessageDialog(this, "No se eoncontro profesional con matricula: " + matricula);
             }
         } else {
             JOptionPane.showMessageDialog(this, "El campo matricula no debe estar vacio!");
@@ -493,13 +511,13 @@ public class VistasProfesional extends javax.swing.JInternalFrame {
             } else {
                 profData.darAltaProfesional(matricula);
             }
-            
+
             if (rbtnActivo.isSelected()) {
                 cargarActivos();
             } else {
                 cargarInactivos();
             }
-            
+
         } else {
             JOptionPane.showMessageDialog(this, "Debe seleccionar un profesional de la tabla");
         }

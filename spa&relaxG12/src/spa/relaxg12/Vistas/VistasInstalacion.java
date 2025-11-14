@@ -11,21 +11,23 @@ import spa.relaxg12.Persistencia.*;
  *
  * @author franco-desktop
  */
-
 public class VistasInstalacion extends javax.swing.JInternalFrame {
-    
+
     private DefaultTableModel modelo;
     private InstalacionData instalacionData;
-    
-    
+
     public VistasInstalacion() {
         initComponents();
-       
-       
+
         instalacionData = new InstalacionData();
-        
-        modelo = new DefaultTableModel();
-            
+
+        modelo = new DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false; // ninguna celda editable
+            }
+        };
+
         jSPrecio.setModel(new SpinnerNumberModel(0.0, 0.0, 100000.0, 0.5));
         jTId.setEditable(false);
 
@@ -36,7 +38,7 @@ public class VistasInstalacion extends javax.swing.JInternalFrame {
         armarCabecera();
         cargarTabla();
     }
-    
+
     private void armarCabecera() {
         modelo.addColumn("ID");
         modelo.addColumn("Nombre");
@@ -381,7 +383,7 @@ public class VistasInstalacion extends javax.swing.JInternalFrame {
             String detalle = jTDetalle.getText();
             double precio = (Double) jSPrecio.getValue();
             String estadoSeleccionado = (String) jCEstado.getSelectedItem();
-            boolean estado = estadoSeleccionado.equals("Disponible"); 
+            boolean estado = estadoSeleccionado.equals("Disponible");
 
             if (nombre.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "El nombre no puede estar vacío.");
@@ -389,25 +391,23 @@ public class VistasInstalacion extends javax.swing.JInternalFrame {
             }
 
             Instalacion nuevaInst = new Instalacion(nombre, detalle, precio, estado);
-            
+
             boolean guardadOk = instalacionData.guardarInstalacion(nuevaInst);
-            
-            if(guardadOk) {
+
+            if (guardadOk) {
                 JOptionPane.showMessageDialog(this, "Instalacion guardada con exito!");
             } else {
                 JOptionPane.showMessageDialog(this, "No se pudo guardar la instalacion.");
             }
-            
-            
-            
+
             limpiarCampos();
             cargarTabla(); // Recarga la tabla
 
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, "Error al obtener datos de los campos: " + ex.getMessage());
         }
-    
-    
+
+
     }//GEN-LAST:event_jBGuardarActionPerformed
 
     private void jBActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBActualizarActionPerformed
@@ -498,7 +498,7 @@ public class VistasInstalacion extends javax.swing.JInternalFrame {
             });
         }
     }
-    
+
     private void jTablaMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTablaMousePressed
         int fila = jTabla.getSelectedRow();
         if (fila != -1) {
@@ -530,10 +530,7 @@ public class VistasInstalacion extends javax.swing.JInternalFrame {
         this.dispose();    // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    
 
-    
-    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBActualizar;
     private javax.swing.JButton jBEliminar;
@@ -561,5 +558,3 @@ public class VistasInstalacion extends javax.swing.JInternalFrame {
     private java.awt.Label label5;
     // End of variables declaration//GEN-END:variables
 }
-
-
