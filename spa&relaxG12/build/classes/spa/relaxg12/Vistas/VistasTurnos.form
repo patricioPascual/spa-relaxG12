@@ -204,7 +204,7 @@
     </Component>
     <Component class="javax.swing.JButton" name="btnSesionFinalizada">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Sesion Finalizada"/>
+        <Property name="text" type="java.lang.String" value="Atencion Finalizada"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSesionFinalizadaActionPerformed"/>

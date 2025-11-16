@@ -103,7 +103,7 @@ public class VistasTurnos extends javax.swing.JInternalFrame {
             }
         });
 
-        btnSesionFinalizada.setText("Sesion Finalizada");
+        btnSesionFinalizada.setText("Atencion Finalizada");
         btnSesionFinalizada.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSesionFinalizadaActionPerformed(evt);
