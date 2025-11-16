@@ -310,6 +310,7 @@ public class VistasSesion extends javax.swing.JInternalFrame {
         for (Sesion aux : listado) {
             if (dia.equals(aux.getFechaInicio()) && hora.equalsIgnoreCase(aux.getHora())) {
                 JOptionPane.showMessageDialog(this, "No se puede guardar un mismo dia " + dia + " y hora " + hora);
+                limpiarCampos();
                 return false;
             } else {
                 return true;
@@ -319,7 +320,7 @@ public class VistasSesion extends javax.swing.JInternalFrame {
     }
 
     public void limpiarCampos() {
-        cmbTipo.setSelectedIndex(-1);
+        cmbTipo.setSelectedItem(-1);
         cmbTratamiento.setSelectedIndex(-1);
         cmbEspecialidad.setSelectedIndex(-1);
         cmbHora.setSelectedIndex(-1);

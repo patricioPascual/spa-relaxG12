@@ -464,7 +464,7 @@ public class VistasCliente extends javax.swing.JInternalFrame {
     }
 
     public boolean validacionAfec() {
-        String afec = txtAfecciones.getText().trim();
+        String afec = txtAfecciones.getText();
         boolean valido = true;
         for (int i = 0; i < afec.length(); i++) {
             char c = afec.charAt(i);
