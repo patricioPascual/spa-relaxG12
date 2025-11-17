@@ -42,6 +42,9 @@ public class MenuPrincipal extends javax.swing.JFrame {
      */
     public MenuPrincipal() {
         initComponents();
+        setSize(1280, 820);
+        setLocationRelativeTo(null);
+        setResizable(false);
         miConexion = new Conexion("jdbc:mariadb://localhost:3306/spaentrededos", "root", "");
         clienteData = new ClienteData(miConexion);
         instalacionData = new InstalacionData(miConexion);
@@ -93,7 +96,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
         btnTurnos.setText("Turnos");
         btnTurnos.setBorderPainted(false);
         btnTurnos.setContentAreaFilled(false);
-        btnTurnos.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnTurnos.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btnTurnos.setFocusPainted(false);
         btnTurnos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -106,7 +109,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
         btnAgenda.setText("Agenda");
         btnAgenda.setBorderPainted(false);
         btnAgenda.setContentAreaFilled(false);
-        btnAgenda.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnAgenda.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btnAgenda.setFocusPainted(false);
         btnAgenda.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
