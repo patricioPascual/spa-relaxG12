@@ -328,7 +328,15 @@ public class VistasSesion extends javax.swing.JInternalFrame {
         cmbProfesional.setSelectedIndex(-1);
         cmbInstalaciones.setSelectedIndex(-1);
     }
-
+   public void limpiarCamposSinHora() {
+        cmbTipo.setSelectedItem(-1);
+        cmbTratamiento.setSelectedIndex(-1);
+        cmbEspecialidad.setSelectedIndex(-1);
+        
+        cmbConsultorio.setSelectedIndex(-1);
+        cmbProfesional.setSelectedIndex(-1);
+        cmbInstalaciones.setSelectedIndex(-1);
+    }
     public double calculoMontoTotal() {
         Tratamiento trat;
         Instalacion inst;
@@ -460,6 +468,7 @@ public class VistasSesion extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_cmbEspecialidadActionPerformed
 
     private void cmbHoraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbHoraActionPerformed
+        limpiarCamposSinHora();
         cmbProfesional.removeAllItems();
         SesionData sesionData = new SesionData();
         if (cmbEspecialidad.getSelectedIndex() != -1 && cmbHora.getSelectedIndex() != -1) {
@@ -474,6 +483,7 @@ public class VistasSesion extends javax.swing.JInternalFrame {
 
             }
         }
+        
         cargarComboConsultorios();
     }//GEN-LAST:event_cmbHoraActionPerformed
 
@@ -482,6 +492,7 @@ public class VistasSesion extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnSalirActionPerformed
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
+
         Instalacion instalacion = null;
         SesionData sesionData = new SesionData();
         LocalDate fecha = null;

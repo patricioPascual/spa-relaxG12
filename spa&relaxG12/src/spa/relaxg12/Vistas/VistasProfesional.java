@@ -524,8 +524,10 @@ public class VistasProfesional extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnAltaBajaActionPerformed
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
+      Profesional prof=  profData.buscarProfesionalPorMatricula(txtMatricula.getText());
+      if( prof== null){
         try {
-            Profesional prof = null;
+           
             if (validacionNombre() && validacionApellido() && validacionTel() && !txtMatricula.getText().isEmpty()) {
                 String matricula = txtMatricula.getText();
                 String nombre = txtNombre.getText();
@@ -544,6 +546,9 @@ public class VistasProfesional extends javax.swing.JInternalFrame {
             }
         } catch (NullPointerException e) {
         }
+      }else{
+          JOptionPane.showMessageDialog(this, "Ya existe un profesional con esa matricula");
+      }
     }//GEN-LAST:event_btnAgregarActionPerformed
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
