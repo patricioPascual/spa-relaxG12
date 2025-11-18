@@ -539,8 +539,11 @@ public class VistasCliente extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnSalirActionPerformed
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
+        ClienteData clienteData= new ClienteData();
+        Cliente cliente= clienteData.buscarClienteDni( Integer.parseInt(txtDni.getText()));
+        if(cliente == null){
         try {
-            Cliente cliente = null;
+           
             if (validacionNombre() && validacionApellido() && validacionDni() && validacionEdad() && validacionTel() && validacionAfec()) {
                 int dni = Integer.parseInt(txtDni.getText());
                 String nombre = txtNombre.getText();
@@ -558,6 +561,9 @@ public class VistasCliente extends javax.swing.JInternalFrame {
             }
         } catch (NumberFormatException | NullPointerException e) {
             JOptionPane.showMessageDialog(this, "Debe llenar los campos");
+        }
+        }else{
+            JOptionPane.showMessageDialog(this , "El cliente con ese DNI ya existe");
         }
     }//GEN-LAST:event_btnAgregarActionPerformed
 
