@@ -468,7 +468,7 @@ public class VistasCliente extends javax.swing.JInternalFrame {
         boolean valido = true;
         for (int i = 0; i < afec.length(); i++) {
             char c = afec.charAt(i);
-            if (!Character.isLetter(c)) {
+            if (!Character.isLetter(c) && c!= ' ' && c != '.' && c != ',' && c != ':') {
                 valido = false;
                 break;
             }
