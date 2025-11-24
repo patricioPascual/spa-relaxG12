@@ -113,9 +113,19 @@ public class VistasTurnos extends javax.swing.JInternalFrame {
         groupEstado.add(rbtnEnCurso);
         rbtnEnCurso.setSelected(true);
         rbtnEnCurso.setText("En curso");
+        rbtnEnCurso.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rbtnEnCursoActionPerformed(evt);
+            }
+        });
 
         groupEstado.add(rbtnFinalizadas);
         rbtnFinalizadas.setText("Finalizadas");
+        rbtnFinalizadas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rbtnFinalizadasActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -306,7 +316,16 @@ public class VistasTurnos extends javax.swing.JInternalFrame {
         } else {
             JOptionPane.showMessageDialog(this, "Debe seleccionar una sesion de la tabla");
         }
+        cargarTabla();
     }//GEN-LAST:event_btnSesionFinalizadaActionPerformed
+
+    private void rbtnFinalizadasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbtnFinalizadasActionPerformed
+        cargarTabla();
+    }//GEN-LAST:event_rbtnFinalizadasActionPerformed
+
+    private void rbtnEnCursoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbtnEnCursoActionPerformed
+       cargarTabla();
+    }//GEN-LAST:event_rbtnEnCursoActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -325,4 +344,40 @@ public class VistasTurnos extends javax.swing.JInternalFrame {
     private javax.swing.JTable tblSesiones;
     private javax.swing.JTextField txtDni;
     // End of variables declaration//GEN-END:variables
+
+public void cargarTabla(){
+     if (validacionDni()) {
+            int dni = Integer.parseInt(txtDni.getText());
+            ClienteData clienteData = new ClienteData();
+            DefaultTableModel modelo = (DefaultTableModel) tblSesiones.getModel();
+            modelo.setRowCount(0);
+            DiaDeSpaData diaDeSpaData = new DiaDeSpaData();
+            ArrayList<Sesion> listado = null;
+            Cliente cliente = null;
+            if (rbtnEnCurso.isSelected()) {
+                listado = diaDeSpaData.buscarSesionesActivasPorDni(dni);
+                cliente = clienteData.buscarClienteDni(dni);
+            } else if (rbtnFinalizadas.isSelected()) {
+                listado = diaDeSpaData.buscarSesionesInactivasPorDni(dni);
+                cliente = clienteData.buscarClienteDni(dni);
+            }
+
+            try {
+                for (Sesion aux : listado) {
+
+                    String[] fila = {
+                        String.valueOf(cliente.getDni()),
+                        cliente.getNombre() + " " + cliente.getApellido(),
+                        aux.getFechaInicio().toString(),
+                        aux.getHora().toString(),
+                        aux.getTratamientos().toString(),
+                        String.valueOf(aux.getIdSesion())
+                    };
+                    modelo.addRow(fila);
+                }
+            } catch (NullPointerException e) {
+                JOptionPane.showMessageDialog(this, "No se encontraron sesiones para ese DNI: " + dni);
+            }
+        }
+}
 }
